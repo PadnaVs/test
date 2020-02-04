@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title> ля	 </title>
+		<meta charset="UTF-8">
+		<script src="pixi.min.js"> </script>
+	</head>
+	<body>
+		<script>
+			function browser()
+					{
+						var ua = navigator.userAgent;
+
+						if (ua.search(/MSIE/) > 0) return 'Internet Explorer';
+						if (ua.search(/Firefox/) > 0) return 'Firefox';
+						if (ua.search(/Opera/) > 0) return 'Opera';
+						if (ua.search(/Chrome/) > 0) return 'Google Chrome';
+						if (ua.search(/Safari/) > 0) return 'Safari';
+						if (ua.search(/Konqueror/) > 0) return 'Konqueror';
+						if (ua.search(/Iceweasel/) > 0) return 'Debian Iceweasel';
+						if (ua.search(/SeaMonkey/) > 0) return 'SeaMonkey';
+
+						// Браузеров очень много, все вписывать смысле нет, Gecko почти везде встречается
+						if (ua.search(/Gecko/) > 0) return 'Gecko';
+
+						// а может это вообще поисковый робот
+						return 'Search Bot';
+					}
+				alert(browser());
+			</script>
+	</body>
+</html>
