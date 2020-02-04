@@ -26,3 +26,5 @@
 	
 	pixiApp.stage.interactive = true;
 	pixiApp.stage.on("pointertap", moveBox);
+	
+	alert("gg");
