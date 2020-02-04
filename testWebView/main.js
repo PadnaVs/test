@@ -1,8 +1,8 @@
 
 	
 	const pixiApp = new PIXI.Application({
-		width  : 720,//  * pixiAppScale,
-		height : 1980,// * pixiAppScale,
+		width  : 3000,//  * pixiAppScale,
+		height : 3000,// * pixiAppScale,
 		backgroundColor : 0x1FFFFF,
 		autoResize: true,
 		//resolution : window.devicePixelRatio || 1,
