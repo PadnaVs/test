@@ -18,8 +18,6 @@
 
         this.showNumber();
 		
-		this.group.onEL("pointertap", function() { Handler.jlines._mixingGems() } );
-		
 		return this;
     };    
 	

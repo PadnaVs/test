@@ -106,13 +106,6 @@
 		
 		this.countPoints = 0;
 		
-		
-		this.group.onEL("pointertap", function() { 
-				Handler.jlines.timerHelpColor.tweenHideShowCBox( 0, 8 );
-				Handler.jlines.timerHelpColor.tweenHideShowCBox( 1, 8 );
-				Handler.jlines.timerHelpColor.tweenHideShowCBox( 2, 8 ); 
-			} );
-		
 		return this;
     };  
 	
