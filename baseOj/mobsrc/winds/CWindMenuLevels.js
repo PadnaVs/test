@@ -23,7 +23,7 @@
 		self.maxLevel = ( self.numLocation * self.maxCoutnLevel ) - 1; 
 		self.minNumLevel = self.maxLevel - (self.maxCoutnLevel - 1);
 
-		let numL = ( self.numLocation - 1 ) % 8 + 1;
+		let numL = ( self.numLocation - 1 ) % 4 + 1;
 		
 		let currLoc = Math.floor(self.currentLevel/100) == self.numLocation - 1;
 		
