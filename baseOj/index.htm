@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title> игра Твои Сокровища </title>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="libs/pixi.min.js"> </script>
+		<script src="libs/pixi-sound.js"> </script>
+		<script src="libs/TweenMax.min.js"> </script>
+		<style>
+			html,body {
+				padding: 0px;
+				margin: 0px;
+				overflow: hidden;
+				text-align:center;
+			   /* background: url(https://tidings.su/gems_ok/www/appBackHDTiny.jpg) 100% 100% no-repeat; /
+			   / background: url(https://tidings.su/gems_ok/www/jq_fon2BlurLowQV2.jpg) 100% 100% no-repeat; /
+				background: url(http://tidings.su/jlines/www/jl_mob_bg_sm_tiny.jpg) 100% 100% no-repeat;
+				background-size: cover; 
+				background-color: #FFFFFF;
+				background-position: center;
+			}
+			#gcover {
+				position: relative;
+				height:100%;
+				margin:0; 
+				padding:0; 
+			}
+			#wrapper {
+				position: relative;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
+		<script>
+			const isMobile = true;
+			let pixiAppWidth  = 760;
+			let pixiAppHeight = 610;
+			//if ( isMobile ) pixiAppHeight = window.innerHeight;
+			let visibleWidth = 450;
+			let visibleHeight = 720;
+			let visibleWidth0 = 450;
+			let visibleHeight0 = 720;
+			let pixiAppScaleMobile = 0;
+			const cw = $(window).width();//window.innerWidth  || document.body.clientWidth;
+			const ch = $(window).height();//window.innerHeight || document.body.clientHeight;
+
+			//alert("VER 1.22");
+			console.log("VER 1.22");
+			
+			let ew = Math.floor(10*cw / pixiAppWidth);
+			let scalew = Math.floor( ew / 2 ) * 0.2;
+			let eh = Math.floor(10*ch / pixiAppHeight);
+			let scaleh = Math.floor( eh / 2 ) * 0.2;
+			let scale = Math.min(scalew,scaleh,3);
+		
+			const pixiAppScale  = Math.max(1.0,scale);
+			const pixiApp = new PIXI.Application({
+				width  : pixiAppWidth,//  * pixiAppScale,
+				height : pixiAppHeight,// * pixiAppScale,
+				backgroundColor : 0x1099bb,
+				autoResize: true,
+				//resolution : window.devicePixelRatio || 1,
+				resolution : 1,
+			});
+			 
+			let gcover = document.createElement('div');
+			gcover.id = 'gcover';
+			document.body.appendChild( gcover );
+
+			let wrapper = document.createElement('div');
+			wrapper.id = 'wrapper';
+			gcover.appendChild( wrapper );
+
+			wrapper.appendChild( pixiApp.view );
+			//document.body.appendChild(pixiApp.view);
+			
+			const graphics = new PIXI.Graphics();
+			graphics.beginFill( 0xFF3300, 0.01 );
+			graphics.drawRect( 0, 0, pixiAppWidth, pixiAppHeight );
+			graphics.endFill();
+			pixiApp.stage.addChild( graphics );
+
+			
+			let shScreenX = 0;
+			let shScreenY = 0;
+            if ( isMobile ) {
+			    pixiAppScaleMobile = Math.min( cw/visibleWidth, ch/visibleHeight );
+			    if ( pixiAppScaleMobile*visibleHeight < ch ) {
+			    	visibleHeight = ch / pixiAppScaleMobile;
+			    	pixiAppScaleMobile = Math.min( cw/visibleWidth, ch/visibleHeight );
+			    
+			    }
+			    
+			    if ( cw / visibleWidth > ch / visibleHeight && cw < ch ) {
+			    	visibleWidth = Math.floor( cw * visibleHeight / ch );
+			    }
+			    if ( cw > ch ) {
+			    	visibleWidth = Math.floor( 0.75 * ch * visibleHeight / ch );
+			    }
+			    //pixiApp.renderer.resize( pixiAppWidth  * pixiAppScaleMobile, ch );
+			    pixiApp.renderer.resize( Math.floor(visibleWidth  * pixiAppScaleMobile), ch );
+			    
+			    pixiApp.stage.scale.x = pixiAppScaleMobile;
+			    pixiApp.stage.scale.y = pixiAppScaleMobile;
+			    
+			    //shScreenX = Math.floor( ( pixiAppWidth - visibleWidth ) * pixiAppScaleMobile/2 );
+			    shScreenX = Math.floor( ( pixiAppWidth - visibleWidth ) * pixiAppScaleMobile/2 );
+			    
+			    pixiApp.stage.x = -shScreenX;
+			    shScreenY = Math.floor((ch - pixiApp.stage.height)/2);
+			    pixiApp.stage.y = shScreenY;
+            }
+		</script>
+		
+		<script src="mobsrc/ImageLoader.js"></script>
+		<script src="mobsrc/Head.js"></script>
+		<script src="mobsrc/CWinds.js"></script>	
+		<script src="mobsrc/Actions.js"></script>	
+		<script src="mobsrc/Handler.js"></script>  
+		<script src="mobsrc/Langs.js"></script>
+		<script src="mobsrc/Consts.js"></script>
+		<script src="mobsrc/Log.js"></script>
+		<script src="mobsrc/winds/windMenuLevel/menuLevelPoint.js"></script>
+		<script src="mobsrc/BottomPanel.js"></script>
+	    <script src="mobsrc/BackClient.js"></script>
+		<script src="mobsrc/winds/windBeforeLevel/TaskBeforeLevel.js"></script>
+	    <script src="mobsrc/game/Embeds.js"></script>
+	    <script src="mobsrc/game/EndLevelAnimator.js"></script>
+	    <script src="mobsrc/game/FlyPoints.js"></script>
+	    <script src="mobsrc/game/GameHelper.js"></script>
+	    <script src="mobsrc/winds/windgame/ButBonus.js"></script>
+	    <script src="mobsrc/winds/windgame/StepsPanel.js"></script>
+	    <script src="mobsrc/winds/windgame/PointsPanel.js"></script>
+	    <script src="mobsrc/winds/windgame/TaskPanel.js"></script>
+	    <script src="mobsrc/winds/windgame/PanelUseBonus.js"></script>
+	    <script src="mobsrc/winds/windMyScore/Top100.js"></script>
+	    <script src="mobsrc/winds/windMyScore/MyScore.js"></script>
+	    <script src="mobsrc/winds/windMyScore/FriendRate.js"></script>
+	    <script src="mobsrc/game/JTweenJL.js"></script>
+	    <script src="mobsrc/game/Detonations.js"></script>
+	    <script src="mobsrc/game/CBox.js"></script>
+	    <script src="mobsrc/User.js"></script>
+	    <script src="mobsrc/game/Sounds.js"></script>
+	    <script src="mobsrc/game/GameTypes.js"></script>
+	    <script src="mobsrc/game/Tutorial.js"></script>
+	    <script src="mobsrc/game/JLines.js"></script>
+	    <script src="mobsrc/winds/CWindMenuLevels.js"></script>
+	    <script src="mobsrc/winds/CWindFullScreen.js"></script>
+	    <script src="mobsrc/winds/CWindBuyCoins.js"></script>
+	    <script src="mobsrc/winds/CWindBuyLives.js"></script>
+	    <script src="mobsrc/winds/CWindBuyBooster.js"></script>
+	    <script src="mobsrc/winds/CWindPuzzle.js"></script>
+	    <script src="mobsrc/winds/CWindSmallRating.js"></script>
+	    <script src="mobsrc/winds/CWindBeforeLevel.js"></script>
+	    <script src="mobsrc/winds/CWindEndLevel.js"></script>
+	    <script src="mobsrc/winds/CWindMyScore.js"></script>
+	    <script src="mobsrc/winds/CWindAcBooster.js"></script>
+	    <script src="mobsrc/winds/CWindFrInvited.js"></script>
+	    <script src="mobsrc/winds/CWindAc4.js"></script>
+	    <script src="mobsrc/winds/CWindAc5Steps.js"></script>
+	    <script src="mobsrc/winds/CWindAcFriends.js"></script>
+	    <script src="mobsrc/winds/CWindAddStepsForInvite.js"></script>
+	    <script src="mobsrc/winds/CWindAcInvToGame.js"></script>
+	    <script src="mobsrc/winds/CWindAction0.js"></script>
+	    <script src="mobsrc/winds/CWindAction1.js"></script>
+	    <script src="mobsrc/winds/CWindDailyBonus.js"></script>
+	    <script src="mobsrc/winds/CWindStepsLeft.js"></script>
+	    <script src="mobsrc/winds/CWindAcInvite.js"></script>
+	    <script src="mobsrc/winds/CWindM.js"></script>
+	    <script src="mobsrc/winds/CWindGame.js"></script>
+	    <script src="mobsrc/winds/CWindMsg.js"></script>
+	    <script src="mobsrc/winds/CWindLoader.js"></script>
+		<script src="mobsrc/Config.js"></script>
+		<script src="mobsrc/SocialClient.js"></script>
+		<script src="mobsrc/main.js"></script>
+		
+	</body>
+</html>
