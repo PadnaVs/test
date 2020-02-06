@@ -31,7 +31,7 @@
 			pixiApp.loader.add('bby' +i+'.png',   ImageLoader.baseUrl+'/fonts/bby'+i+'.png');
 			pixiApp.loader.add('ow'  +i+'.png',   ImageLoader.baseUrl+'/fonts/ow'+i+'.png');
 			pixiApp.loader.add('o'   +i+'.png',   ImageLoader.baseUrl+'/fonts/o'+i+'.png');
-			pixiApp.loader.add('owf' +i+'.png',   ImageLoader.urlTiny+'/fonts/owf'+i+'.png');//везде 2ной размер
+			pixiApp.loader.add('owf' +i+'.png',   ImageLoader.baseUrl+'/fonts/owf'+i+'.png');//везде 2ной размер
 		};
 		pixiApp.loader.add('bySl.png',  ImageLoader.baseUrl+'/fonts/bySl.png');
 		pixiApp.loader.add('owfX.png',  ImageLoader.baseUrl+'/fonts/owfX.png');
