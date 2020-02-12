@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>test</title>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="pixi.min.js"> </script>
+	</head>
+	<body>
+		<script>
+			const app = new PIXI.Application({
+				width: 800, 
+				height: 1300, 
+				backgroundColor: 0x1099bb, 
+				resolution: window.devicePixelRatio || 1,
+			});
+			document.body.appendChild(app.view);
+			
+			let img1 = PIXI.Sprite.from('img_48x48.png');
+			let img2 = PIXI.Sprite.from('img_72x72.png');
+			img2.y += 58;
+			let img3 = PIXI.Sprite.from('img_96x96.png');
+			img3.y += 140;
+			let img4 = PIXI.Sprite.from('img_144x144.png');
+			img4.y += 246;
+			let img5 = PIXI.Sprite.from('img_192x192.png');
+			img5.y += 400;
+			let img6 = PIXI.Sprite.from('img_512x512.png');
+			img6.y += 602;
+			app.stage.addChild(img1);
+			app.stage.addChild(img2);
+			app.stage.addChild(img3);
+			app.stage.addChild(img4);
+			app.stage.addChild(img5);
+			app.stage.addChild(img6);
+		</script>
+	</body>
+</html>
