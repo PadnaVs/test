@@ -32,6 +32,14 @@
 			app.stage.addChild(img4);
 			app.stage.addChild(img5);
 			app.stage.addChild(img6);
+			
+			const graphics = new PIXI.Graphics();
+			graphics.lineStyle(6, 0xFF0000, 1);
+			graphics.beginFill(0xDE3249,0);
+			graphics.drawRect( 0, 0, window.innerWidth, window.innerHeight );
+			graphics.endFill();
+			app.stage.addChild(graphics);
+			
 		</script>
 	</body>
 </html>
