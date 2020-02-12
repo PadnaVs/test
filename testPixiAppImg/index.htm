@@ -1,16 +1,15 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 	<head>
 		<title>test</title>
 		<meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src="pixi.min.js"> </script>
 	</head>
 	<body>
 		<script>
 			const app = new PIXI.Application({
-				width: 800, 
-				height: 1300, 
+				width: window.innerWidth, 
+				height: window.innerHeight, 
 				backgroundColor: 0x1099bb, 
 				resolution: window.devicePixelRatio || 1,
 			});
