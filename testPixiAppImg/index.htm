@@ -6,7 +6,21 @@
 		<script src="pixi.min.js"> </script>
 	</head>
 	<body>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	
 		<script>
+		
+			const cw = $(window).width();//window.innerWidth  || document.body.clientWidth;
+			const ch = $(window).height();//window.innerHeight || document.body.clientHeight;
+			
+			alert("cw " + cw);
+			alert("ch " + ch);
+			alert("document.body.clientWidth " + document.body.clientWidth);
+			alert("document.body.clientHeight " + document.body.clientHeight);
+			alert("window.innerWidth " + window.innerWidth);
+			alert("window.innerHeight " + window.innerHeight);
+			
 			const app = new PIXI.Application({
 				width: window.innerWidth, 
 				height: window.innerHeight, 
