@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { display: block; }
+		</style>
+	</head>
+	<body>
+		<script src="libs/three.min.js"></script>
+		<script src="libs/TweenMax.min.js"></script>
+		<script src="threeLoaders/OBJLoader.js"></script>
+		<script src="threeLoaders/MTLLoader.js"></script>		
+		<script src="gameObjects/Player.js"></script>		
+		<script src="gameObjects/Platform.js"></script>		
+		<script src="gameObjects/Sector.js"></script>		
+		<script src="gameObjects/Spire.js"></script>		
+		<script src="mobSrc/LoaderGame.js"></script>		
+		<script src="mobSrc/GameScene.js"></script>		
+		<script src="mobSrc/Consts.js"></script>		
+		
+		<script>
+			
+			Consts = Consts;
+			
+			let gameScene = new GameScene( true );
+			gameScene.create();
+			
+			let urlsObj =   [ "models/sectorPrizm.obj", 
+		                      "models/sectorCircle.obj", 
+							  "models/player.obj"
+							];
+							
+			let urlsMtl =   [ "models/sectorCircle.mtl", 
+			                  "models/sectorPrizm.mtl", 
+							  "models/player.mtl"
+							];
+							
+			let player = null;
+			let platform = null;
+			let spire = null;
+			let finishLoad = function() {
+				showGame();
+			}
+			
+			let gameLoader = new LoaderGame( urlsMtl, urlsObj, finishLoad );
+			gameLoader.startLoad();
+			
+			let showGame = function(){
+				let geometry = new THREE.CylinderGeometry( 2, 2, 30, 36 );
+				let material = new THREE.MeshLambertMaterial( {color: 0xF502F1} );
+				let cylinder = new THREE.Mesh( geometry, material );
+				
+				spire = new Spire( cylinder, 20 );
+				gameScene.spire = spire;
+				console.log(spire);
+				
+				//Create Player
+				player = new Player( gameLoader.objectsLoaded[ Consts.PLAYER_MODEL ] );
+				player.z = 4.3;
+				player.y = 14.5;
+				
+				player.maxDownY = 12.5;
+				
+				collisionCheck = function( cSpire, cPlayer ) {
+					let disBetPlayerAndPlat = cPlayer.y - cPlayer.r - cSpire.upPoint;
+					if ( disBetPlayerAndPlat <= 0 ) { 
+						console.log( "hit" );
+						let scale = new THREE.Vector3( 1, 0.5, 1 );
+						//console.log();
+						//player.model.scale.y = 0.5;
+						let t = 0.04;
+						//TweenMax.to( cPlayer.model.scale, t,{ y: 0.8, ease: Power0.easeNone, onComplete: function() {
+						//	TweenMax.to( cPlayer.model.scale, t,{ y: 1, ease: Power0.easeNone });
+						//} });
+						//self.player.maxDownY -= 0.8;
+						return cSpire.checkSelectSector();
+					}
+					return false;
+				}
+						
+				player.move(  );
+				gameScene.player = player;
+				
+			};
+			
+		</script>
+	</body>
+</html>
