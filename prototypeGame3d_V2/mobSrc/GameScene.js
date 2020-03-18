@@ -16,6 +16,8 @@
 		
 		this.room = null;
 		
+		this.pointOfSightY = 0;
+		
 		Object.defineProperty( this, "player", {
 	       get: function(   ) { return self._player; },
 	       set: function( val ) {
@@ -71,9 +73,12 @@
 		
 		this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 3000 );
 		this.camera.position.x = 0;
-		this.camera.position.y = 18;
+		this.camera.position.y = 0;
 		this.camera.position.z = 40;
-		this.camera.lookAt( this.scene.position );
+		
+		//this.cameraLookToThePoint( 0, this.pointOfSightY, 0 );
+	
+		//this.camera.lookAt( this.scene.position );
 		
 		if( this.axesShow == true ) { 
 			this.axes = new THREE.AxisHelper( 20 );
@@ -155,3 +160,8 @@
         };
         animate();
 	};
+	
+	GameScene.prototype.cameraLookToThePoint = function( x, y, z ) {
+		let pointOfSight = new THREE.Vector3( x, y, z );
+		this.camera.lookAt( pointOfSight );
+	} 

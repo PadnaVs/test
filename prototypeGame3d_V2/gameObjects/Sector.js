@@ -1,14 +1,14 @@
 
 	"use strict";
 	
-	let Sector = function( _type, _countModels = 1 ) {
+	let Sector = function( _type ) {
 		let self = this;
 		
 		this.type = _type;
 		this.r = -4;
 		
-		this.modelOnePart = gameLoader.objectsLoaded[ Consts.SECTOR_CIRCLE_MODEL ].clone();
-		this.countModels = _countModels;
+		this.modelOnePart = gameLoader.objectsLoaded[ this.type.typeSector ].clone();
+		
 		this._rotation = 0;
 		this._position = 0;
 		
@@ -71,7 +71,7 @@
 	       set: function( val ) { 
 				self._color = val;
 				
-				if ( val.r == 0.1 && val.g == 0.1 && val.b == 0.1 ) {
+				if ( val.r == 0.63 && val.g == 0.13 && val.b == 0.53 ) {
 					self.dangerous = true;
 				} else {
 					self.dangerous = false;

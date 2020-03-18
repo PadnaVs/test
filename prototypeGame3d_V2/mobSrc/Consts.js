@@ -2,13 +2,13 @@
 	"use strict";
 	
 	let Consts = {};
+
+	Consts.PLAYER_MODEL = 4;
 	
-	Consts.RED_SECTOR = 0;
-	Consts.GREEN_SECTOR = 1;
+	Consts.TYPE_90 = 0;
+	Consts.TYPE_60 = 1;
+	Consts.TYPE_45 = 2;
+	Consts.TYPE_40 = 3;
 	
-	Consts.SECTOR_QUADRANGLE_MODEL = 0;
-	Consts.SECTOR_CIRCLE_MODEL     = 1;
-	Consts.PLAYER_MODEL            = 2;
-	
-	Consts.SQUARE_TYPE = 0;
-	Consts.CIRCLE_TYPE = 1;
+	Consts.sideTouchRight = 0;
+	Consts.sideTouchLeft  = 1;

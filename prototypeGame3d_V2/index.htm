@@ -22,58 +22,11 @@
 		<script src="mobSrc/Consts.js"></script>		
 		<script src="mobSrc/Handler.js"></script>		
 		<script src="mobSrc/TouchControl.js"></script>		
+		<script src="mobSrc/LevelTypes.js"></script>		
+		<script src="mobSrc/main.js"></script>		
 		
 		<script>
-			Handler = Handler;
-			Consts = Consts;
 			
-			Handler.gameScene = new GameScene( true );
-			Handler.gameScene.create();
-			
-			let urlsObj =   [ "models/sectorPrizm.obj", 
-		                      "models/sectorCircle.obj", 
-							  "models/player.obj"
-							];
-							
-			let urlsMtl =   [ "models/sectorCircle.mtl", 
-			                  "models/sectorPrizm.mtl", 
-							  "models/player.mtl"
-							];
-							
-			Handler.player = null;
-			Handler.spire = null;
-			let finishLoad = function() {
-				showGame();
-			}
-			
-			let gameLoader = new LoaderGame( urlsMtl, urlsObj, finishLoad );
-			gameLoader.startLoad();
-			
-			let showGame = function(){
-				let geometry = new THREE.CylinderGeometry( 2, 2, 30, 36 );
-				let material = new THREE.MeshLambertMaterial( {color: 0xF502F1} );
-				let cylinder = new THREE.Mesh( geometry, material );
-				
-				Handler.spire = new Spire( cylinder, 20 );
-				Handler.gameScene.spire = Handler.spire;
-				console.log( Handler.spire );
-				
-				//Create Player
-				Handler.player = new Player( gameLoader.objectsLoaded[ Consts.PLAYER_MODEL ] );
-				Handler.player.z = 4.3;
-				Handler.player.y = 12.5;
-				
-				Handler.player.maxDownY = 12.5;
-				Handler.player.maxUpY = 13.5;
-				
-				Handler.player.createAnimBounce();
-				
-				
-				//Handler.player.move(  );
-				//Handler.player.moves = true;
-				Handler.gameScene.player = Handler.player;
-				
-			};
 			
 		</script>
 	</body>

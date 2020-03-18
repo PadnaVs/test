@@ -1,19 +1,20 @@
 
 	"use strict";
 	
-	let Spire = function( _modelCylinder, _countPlatform ) {
+	let Spire = function( _modelCylinder, _type ) {
 		let self = this;
 		
+		this.type = _type;
 		
 		this.platforms = [];
-		this.countPlatform = _countPlatform;
+		this.countPlatform = this.type.platforms.length;
 		this._numCurrentPlatform = 0;
 		
 		this.modelCylinder = _modelCylinder;
 		
 		this._rotation = 0;
 		this.step  = 0;
-		this.speed = 0.2;
+		this.speed = 0.18;
 		
 ///////////////////////////////////////////////////////////////////////////
 		this.model = this.createSipe();
@@ -31,11 +32,11 @@
 	Spire.prototype.createSipe = function() {
 		let grSipe = new THREE.Group();
 		grSipe.add( this.modelCylinder );
-		this.startYPl = -4;
+		this.startYPl = 0;
 		for( let i = 0; i < this.countPlatform; i++ ) {
 			/*let rnd = Math.random() * (4 - 1) + 1;*/
-			let platform = new Platform( 6, Consts.SQUARE_TYPE );
-			platform.rotation = 2*i;
+			let platform = new Platform( i, this.type.countSectors, this.type );
+			//platform.rotation = 2*i;
 			platform.name = "name"+i;
 			platform.y = this.startYPl + Math.floor( 0.8*i*10 )/10;
 			this.upPoint = platform.y + 0.5;
@@ -58,8 +59,8 @@
 		let platform = this.platforms[ this._numCurrentPlatform ];
 		
 		let numSector = null;
-		let countRotSpire = Math.floor(this.rotation/360)
-		let angleRot = Math.abs ( ( this.rotation - 180 + platform.rotation ) - 360*countRotSpire);
+		let countRotSpire = Math.floor((this.rotation+ 180 )/360)
+		let angleRot = Math.abs ( ( this.rotation - 180 + platform.rotation ) - 360*countRotSpire) + Handler.player.angle;
 		
 		let angleOneSector = 360/platform.countSectors;// 360°с на количество секторов
 		
@@ -91,6 +92,9 @@
 			this.model.remove( this.model.children[ 1 + this._numCurrentPlatform ] );//one child - cylinder
 			this._numCurrentPlatform--;
 			this.upPoint -= 0.5;
+			if ( this._numCurrentPlatform == -1 ) {
+				Handler.gameWin = true;
+			}
 			return true;
 		} else {
 			return false;

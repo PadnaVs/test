@@ -2,7 +2,7 @@
 	
 	"use strict";
 	
-	let LoaderGame = function( urlsMtl, urlsObj, callBack, scene ) {
+	let LoaderGame = function( urlsMtl, urlsObj, callBack ) {
 		this.urslMtl = urlsMtl;
 		this.urlsObj = urlsObj;
 		this.materialsLoaded = [];

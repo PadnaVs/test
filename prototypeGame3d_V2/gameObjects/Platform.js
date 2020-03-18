@@ -1,17 +1,16 @@
 
 	"use strict";
 	
-	let Platform = function( _countSectors, _type ) {
+	let Platform = function( _num, _countSectors, _type ) {
 		let self = this;
 		
 		this.type = _type;
+		this.num = _num;
 		
 		this.sectors = [];
 		this.countSectors = _countSectors;
 		
 		this.angle = 360/this.countSectors;
-		
-		this.countParts = 90;
 		
 		this.speed = 6;
 		this.step = 0;
@@ -45,8 +44,9 @@
 	Platform.prototype.createPlatform = function() {
 		let self = this;
 		let platformModel = new THREE.Group();
+		
 		for( let i = 0; i < this.countSectors; i++ ) {
-			let sector = new Sector( 0, Consts.SQUARE_TYPE );
+			let sector = new Sector( this.type );
 			
 			sector.minAngle = this.angle*i;
 			sector.maxAngle = this.angle*i+this.angle;
@@ -57,10 +57,13 @@
 					y: 0, 
 					z: sector.r*Math.cos((i*this.angle)/(180/Math.PI))
 			};
-			if ( i%2 == 0 ) {
-				sector.color = { r: 1, g: 1, b: 0 };//let corSh = 0;
-			} else {//
-				sector.color = { r: 0.1, g: 0.1, b: 0.1 };//
+			
+			
+			if ( this.type.platforms[this.num][i] == 0 ) {
+				sector.color = { r: 0.63, g: 0.13, b: 0.53 };
+			} else {
+				//console.log(i);
+				sector.color = { r: 0.98, g: 0.95, b: 0.3 };
 			}
 			
 			this.sectors.push( sector );
