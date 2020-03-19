@@ -110,7 +110,7 @@
 		let distance = self.maxUpY - self.model.position.y;
 		this.speed = distance/0.2;
 		
-		//self.moveSide();
+		self.moveSide();
 		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
 				if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
 					self.moveSide();
@@ -120,8 +120,8 @@
 					, onUpdate: function(){
 						if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
 							//self.moveSide();
-							//this.kill();
-							//self.moveDown();
+							this.kill();
+							self.moveDown();
 						}
 					}
 					,onComplete: function(){
