@@ -109,7 +109,7 @@
 		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
 				if ( Handler.touchControl.touch && !Handler.gameWin ) {
 					self.moveSide();
-					if ( !self.movesSide && !self.movesDown ) {
+					if ( self.xPos != 0 && !self.movesSide && !self.movesDown ) {
 						this.kill();
 						self.moveDown();
 					}
