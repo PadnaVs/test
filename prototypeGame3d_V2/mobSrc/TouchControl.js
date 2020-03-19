@@ -7,7 +7,7 @@
 		
 		this.sideTouch = null;
 		
-		let touchStart = function( evt ) {
+		let touchStartM = function( evt ) {
 			console.log("evt",evt);
 			//Handler.player.jumping = false;
 			self.touch = true;
@@ -18,12 +18,23 @@
 			//Handler.player.createAnimDown();
 		};
 		
+		let touchStart = function( evt ) {
+			console.log("evt",evt);
+			//Handler.player.jumping = false;
+			self.touch = true;
+			
+			self.checkSideTouch( evt.touches[0].clientX );
+			
+			//Handler.player.anim.kill();
+			//Handler.player.createAnimDown();
+		};
+		
 		let touchEnd = function() {
 			self.touch = false;
 			//Handler.player.jumping = true;
 		};
 		
-		domElement.addEventListener( "mousedown", touchStart, false);
+		domElement.addEventListener( "mousedown", touchStartM, false);
 		domElement.addEventListener( "mouseup", touchEnd, false);
 		domElement.addEventListener( "touchstart", touchStart, false);
 		domElement.addEventListener( "touchend", touchEnd, false);

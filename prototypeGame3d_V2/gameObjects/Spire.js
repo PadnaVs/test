@@ -36,7 +36,7 @@
 		for( let i = 0; i < this.countPlatform; i++ ) {
 			/*let rnd = Math.random() * (4 - 1) + 1;*/
 			let platform = new Platform( i, this.type.countSectors, this.type );
-			//platform.rotation = 2*i;
+			platform.rotation = 2*i;
 			platform.name = "name"+i;
 			platform.y = this.startYPl + Math.floor( 0.8*i*10 )/10;
 			this.upPoint = platform.y + 0.5;
