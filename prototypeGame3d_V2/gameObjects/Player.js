@@ -21,7 +21,8 @@
 		this.angle = 3.5;
 		
 		this.anim = null;
-		this.moved = false;
+		this.movesSide = false;
+		this.movesDown = false;
 		this.shY = 0;
 		
 		this.r = 1;//радиус
@@ -53,25 +54,27 @@
 	
 	Player.prototype.moveSide = function() {
 		let self = this;
-		
+		if ( self.currentSide == Handler.touchControl.sideTouch ) return;
 		if ( Handler.touchControl.sideTouch == Consts.sideTouchRight ) {
 			self.angle = 35;
 			self.xPos = self.maxRight;
+			self.currentSide = Consts.sideTouchRight;
 		} else if ( Handler.touchControl.sideTouch == Consts.sideTouchLeft ) { 
 			self.xPos = self.maxLeft;
 			self.angle = -35;
+			self.currentSide = Consts.sideTouchLeft;
 		};
-		
 		let distance = Math.abs( self.xPos - self.model.position.x );
+		
 		let time = (distance/this.speed)/2;
 		
-		this.moved = true;
-		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.moved = false } });
+		this.movesSide = true;
+		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false } });
 	};
 	
 	Player.prototype.moveDown = function() {
 		let self = this;
-		
+		this.movesDown = true;
 		let distance = self.model.position.y - self.maxDownY;
 		let time = 0.035;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
@@ -92,6 +95,7 @@
 				this.kill();
 				self.createAnimBounce();
 			};
+			self.movesDown = false;
 		} });
 	};
 	
@@ -103,20 +107,24 @@
 		
 		self.moveSide();
 		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
-				if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
+				if ( Handler.touchControl.touch && !Handler.gameWin ) {
 					self.moveSide();
+					if ( !self.movesSide && !self.movesDown ) {
+						this.kill();
+						self.moveDown();
+					}
 				}
 			}, onComplete: function() {
 				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 					, onUpdate: function(){
-						if ( Handler.touchControl.touch == true && Handler.gameWin == false && self.moved == false ) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && !self.movesDown) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
 						}
 					}
 					,onComplete: function(){
-						if ( Handler.touchControl.touch == true && Handler.gameWin == false && self.xPos != 0 ) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
