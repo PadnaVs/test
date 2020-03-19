@@ -1,4 +1,7 @@
-     Handler = Handler;
+     
+	 alert( "Version 0.2" );
+	 
+	 Handler = Handler;
      Consts = Consts;
      let levelTypes = LevelTypes;
      
