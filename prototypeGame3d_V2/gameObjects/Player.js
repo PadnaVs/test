@@ -16,6 +16,7 @@
 		this.maxRight =  2.5;
 		this.maxLeft  = -2.5;
 		
+		this.xPos = 0;
 		this.zPos = 3.5;
 		
 		this.anim = null;
@@ -49,20 +50,6 @@
 	    });
 	};
 	
-	Player.prototype.omitted = function() {
-		//let self = this;
-		////let down = 
-		//if ( down ) {
-		//	self.maxDownY -= 0.8;
-		//	//self.move();
-		//} else {
-		//	//TweenMax.to( self.model.position, 0.2, { y: self.maxDownY+1, ease: Power0.easeNone, onComplete: function() { 
-		//	//	self.move(); 
-		//	//}});
-		//}
-		
-	}
-	
 	Player.prototype.move = function(  ) {
 		let self = this;
 		
@@ -76,7 +63,7 @@
 	
 	Player.prototype.moveSide = function() {
 		let self = this;
-		self.xPos = 0;
+		
 		if ( Handler.touchControl.sideTouch == Consts.sideTouchRight ) {
 			self.angle = 35;
 			self.xPos = self.maxRight;
@@ -84,13 +71,18 @@
 			self.xPos = self.maxLeft;
 			self.angle = -35;
 		};
-		TweenMax.to( self.model.position, 0.2, { x: self.xPos, ease: Power0.easeNone });
+		
+		let distance = Math.abs( self.xPos - self.model.position.x );
+		let time = (distance/this.speed)/2;
+		
+		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone });
 	};
 	
 	Player.prototype.moveDown = function() {
 		let self = this;
+		
 		let distance = self.model.position.y - self.maxDownY;
-		let time = distance/this.speed;
+		let time = 0.035;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
 			if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {
@@ -101,9 +93,8 @@
 					if ( Handler.gameWin == true ) {
 						alert("Win");
 					}
-					//setTimeout( Handler.cameraMoveDown( 0.8 ) );
 				} else {
-					//Handler.gameScene.scene.remove( Handler.player.model );
+					//Handler.gameScene.scene.remove( Handler.player.model );//удаление игрока
 					self.createAnimBounce();
 				};
 			} else {
@@ -119,7 +110,7 @@
 		let distance = self.maxUpY - self.model.position.y;
 		this.speed = distance/0.2;
 		
-		self.moveSide();
+		//self.moveSide();
 		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
 				if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
 					self.moveSide();
@@ -128,14 +119,22 @@
 				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 					, onUpdate: function(){
 						if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
-							self.moveSide();
-							this.kill();
-							self.moveDown();
+							//self.moveSide();
+							//this.kill();
+							//self.moveDown();
 						}
 					}
 					,onComplete: function(){
-						self.moveSide();
-						self.createAnimBounce();
+						if ( Handler.touchControl.touch == true && Handler.gameWin == false && self.xPos != 0 ) {
+							//self.moveSide();
+							this.kill();
+							self.moveDown();
+						} else { 
+							self.createAnimBounce();
+						}
+						
+						//self.moveSide();
+						//self.createAnimBounce();
 					}				
 				});
 			}
