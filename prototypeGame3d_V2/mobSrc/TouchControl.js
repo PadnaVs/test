@@ -9,6 +9,7 @@
 		
 		let touchStartM = function( evt ) {
 			console.log("evt",evt);
+			evt.preventDefault();
 			//Handler.player.jumping = false;
 			self.touch = true;
 			
@@ -20,6 +21,7 @@
 		
 		let touchStart = function( evt ) {
 			console.log("evt",evt);
+			evt.preventDefault();
 			//Handler.player.jumping = false;
 			self.touch = true;
 			
@@ -29,7 +31,8 @@
 			//Handler.player.createAnimDown();
 		};
 		
-		let touchEnd = function() {
+		let touchEnd = function( evt ) {
+			evt.preventDefault();
 			self.touch = false;
 			//Handler.player.jumping = true;
 		};

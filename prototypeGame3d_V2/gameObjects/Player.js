@@ -18,9 +18,10 @@
 		
 		this.xPos = 0;
 		this.zPos = 3.5;
+		this.angle = 3.5;
 		
 		this.anim = null;
-		this.jumping = true;
+		this.moved = false;
 		this.shY = 0;
 		
 		this.r = 1;//радиус
@@ -50,17 +51,6 @@
 	    });
 	};
 	
-	Player.prototype.move = function(  ) {
-		let self = this;
-		
-		if (  Handler.touchControl.touch ) {
-			
-		} else if ( !this.jumping ) {
-			this.jumping = true;
-			
-		};
-	};
-	
 	Player.prototype.moveSide = function() {
 		let self = this;
 		
@@ -75,7 +65,8 @@
 		let distance = Math.abs( self.xPos - self.model.position.x );
 		let time = (distance/this.speed)/2;
 		
-		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone });
+		this.moved = true;
+		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.moved = false } });
 	};
 	
 	Player.prototype.moveDown = function() {
@@ -118,7 +109,7 @@
 			}, onComplete: function() {
 				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 					, onUpdate: function(){
-						if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
+						if ( Handler.touchControl.touch == true && Handler.gameWin == false && self.moved == false ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();

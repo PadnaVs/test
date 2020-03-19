@@ -153,7 +153,7 @@
 			self.renderer.render( self.scene, self.camera );
         	//collitionCheck();
         	//setTimeout( movePlayer, 1000 );
-			movePlayer();
+			//movePlayer();
 			//self.player.move();
         	rotationSpire();
 			//console.log(  );
