@@ -52,9 +52,13 @@
 	    });
 	};
 	
+	Player.prototype.checkDirection = function() {
+		if ( self.currentSide == Handler.touchControl.sideTouch ) return true;
+	}
+	
 	Player.prototype.moveSide = function() {
 		let self = this;
-		if ( self.currentSide == Handler.touchControl.sideTouch ) return;
+		if ( this.checkDirection() ) return;
 		if ( Handler.touchControl.sideTouch == Consts.sideTouchRight ) {
 			self.angle = 35;
 			self.xPos = self.maxRight;
@@ -75,8 +79,11 @@
 	Player.prototype.moveDown = function() {
 		let self = this;
 		this.movesDown = true;
+		
+		//if ( self.moveSide ) return;
+		
 		let distance = self.model.position.y - self.maxDownY;
-		let time = 0.035;
+		let time = 0.04;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
 			if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {
@@ -88,8 +95,9 @@
 						alert("Win");
 					}
 				} else {
-					//Handler.gameScene.scene.remove( Handler.player.model );//удаление игрока
+					Handler.gameScene.scene.remove( Handler.player.model );//удаление игрока
 					self.createAnimBounce();
+					//alert("loos");
 				};
 			} else {
 				this.kill();
@@ -117,14 +125,14 @@
 			}, onComplete: function() {
 				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 					, onUpdate: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && !self.movesDown) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && !self.movesDown && self.xPos != 0 && self.checkDirection() ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
 						}
 					}
 					,onComplete: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 ) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 && !self.movesSide && !self.movesDown && self.checkDirection() ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
