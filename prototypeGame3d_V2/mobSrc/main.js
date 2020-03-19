@@ -1,5 +1,5 @@
      
-	 alert( "Version 0.2" );
+	 alert( "Version 0.21" );
 	 
 	 Handler = Handler;
      Consts = Consts;
@@ -59,8 +59,8 @@
 		//down 3.5;
 		
      	Handler.player = new Player( gameLoader.objectsLoaded[ Consts.PLAYER_MODEL ] );
-     	Handler.player.x = 0;
-     	Handler.player.z = 4.3;
+     	Handler.player.x = -2.5;
+     	Handler.player.z = 3.5;
      	Handler.player.y = Handler.spire.countPlatform * 0.8 + 0.5;
      	
      	Handler.player.maxDownY  = Handler.player.y;

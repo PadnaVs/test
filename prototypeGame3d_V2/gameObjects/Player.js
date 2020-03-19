@@ -16,7 +16,7 @@
 		this.maxRight =  2.5;
 		this.maxLeft  = -2.5;
 		
-		this.xPos = 0;
+		this.xPos = -2,5;
 		this.zPos = 3.5;
 		this.angle = 3.5;
 		
@@ -100,10 +100,10 @@
 					//alert("loos");
 				};
 			} else {
+				self.movesDown = false;
 				this.kill();
 				self.createAnimBounce();
 			};
-			self.movesDown = false;
 		} });
 	};
 	
