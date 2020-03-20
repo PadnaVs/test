@@ -32,9 +32,14 @@
 	}
 
 	Handler.cameraMoveDown = function( shY ) {
-		//Handler.gameScene.pointOfSightY     -= shY;
 		let newCY = Handler.gameScene.camera.position.y - shY;
 		TweenMax.to( Handler.gameScene.camera.position, 0.04, { y: newCY, ease: Power0.easeNone } );
-		//Handler.gameScene.camera.position.y -= shY;
-		//Handler.gameScene.cameraLookToThePoint( 0, Handler.gameScene.pointOfSightY, 0 );	
 	}
+	
+	Handler.scaleCurrentPlatform = function() {
+		let numCurPl = Handler.spire.numCurrentPlatform;
+		
+		let platform = Handler.spire.model.children[1 + numCurPl ];
+		
+		TweenMax.to( platform.scale, 0.13, { x: 1.1, z: 1.1, ease: Power0.easeNone, repeat: 1, yoyo: true } );
+	};

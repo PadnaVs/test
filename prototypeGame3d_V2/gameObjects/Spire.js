@@ -8,7 +8,7 @@
 		
 		this.platforms = [];
 		this.countPlatform = this.type.platforms.length;
-		this._numCurrentPlatform = 0;
+		this.numCurrentPlatform = 0;
 		
 		this.modelCylinder = _modelCylinder;
 		
@@ -41,7 +41,7 @@
 			platform.y = this.startYPl + Math.floor( 0.8*i*10 )/10;
 			this.upPoint = platform.y + 0.5;
 			this.platforms.push( platform );
-			this._numCurrentPlatform = i;
+			this.numCurrentPlatform = i;
 			grSipe.add( platform.model );
 		}
  		
@@ -56,7 +56,7 @@
 	Spire.prototype.checkSelectSector = function() {
 		let self = this;
 		
-		let platform = this.platforms[ this._numCurrentPlatform ];
+		let platform = this.platforms[ this.numCurrentPlatform ];
 		
 		let numSector = null;
 		let countRotSpire = Math.floor((this.rotation + 180 + - Handler.player.angle )/360)
@@ -89,10 +89,10 @@
 		if ( !platform.sectors[numSector].dangerous ) {
 			console.log( platform );
 			console.log( numSector );
-			this.model.remove( this.model.children[ 1 + this._numCurrentPlatform ] );//one child - cylinder
-			this._numCurrentPlatform--;
+			this.model.remove( this.model.children[ 1 + this.numCurrentPlatform ] );//one child - cylinder
+			this.numCurrentPlatform--;
 			this.upPoint -= 0.5;
-			if ( this._numCurrentPlatform == -1 ) {
+			if ( this.numCurrentPlatform == -1 ) {
 				Handler.gameWin = true;
 			}
 			return true;

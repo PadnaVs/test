@@ -79,27 +79,33 @@
 	Player.prototype.moveDown = function() {
 		let self = this;
 		this.movesDown = true;
-		
-		//if ( self.moveSide ) return;
-		
+
 		let distance = self.model.position.y - self.maxDownY;
 		let time = 0.04;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
-			if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
+			if ( Handler.touchControl.touch && !Handler.gameWin ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {
 					self.maxUpY   -= self.shY;
 					self.maxDownY -= self.shY;
 					self.moveDown();
 					Handler.cameraMoveDown( 0.9 )
-					if ( Handler.gameWin == true ) {
+					if ( Handler.gameWin ) {
 						alert("Win");
 					}
 				} else {
-					Handler.gameScene.scene.remove( Handler.player.model );//удаление игрока
-					self.createAnimBounce();
-					//alert("loos");
+					Handler.scaleCurrentPlatform();
+					setTimeout( function(){
+						//удаление игрока						
+						if (  Handler.touchControl.touch && !Handler.gameWin ) {
+							Handler.gameScene.scene.remove( Handler.player.model );
+						} else {
+							self.movesDown = false;
+							self.createAnimBounce();
+						}
+					}, 130 );
 				};
 			} else {
+				Handler.scaleCurrentPlatform();
 				self.movesDown = false;
 				this.kill();
 				self.createAnimBounce();
@@ -139,61 +145,11 @@
 						} else { 
 							self.createAnimBounce();
 						}
-						
 						//self.moveSide();
 						//self.createAnimBounce();
 					}				
 				});
 			}
 		});
-		
-		//let speed = distance/0.2;
-		//
-		
-		//
-		//this.anim = TweenMax.to( self.model.position, 0.2, { x: xPos/2, y: self.maxUpY, ease: Power0.easeNone, onComplete: function() {
-		//	if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
-		//		let time = distance/speed;
-		//		TweenMax.to( self.model.position, 0.2, { x: xPos, y: self.maxDownY, ease: Power0.easeNone, onComplete: function() { self.createAnimBounce() } });
-		//	} else {
-		//		TweenMax.to( self.model.position, 0.2, { x: xPos, y: self.maxDownY, ease: Power0.easeNone, onComplete: function() { self.createAnimBounce() } });
-		//	}
-		//}});
-		
-		//this.speed = ( self.maxUpY - self.model.position.y)/0.2;
-		//this.anim = TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, repeat: -1, yoyo: true});
-		//0,2 - скорость подьема шарика
-		//this.anim = TweenMax.fromTo( self.model.position, 0.2, { y: self.maxUpY }, { y: self.maxDownY }/*, ease: Power0.easeNone, repeat: -1, yoyo: true*/ );
-	}
-	
-	Player.prototype.createAnimDown = function() {
-		let self = this;
-		
-		//let xPos = Handler.touchControl.sideTouch ==  Consts.sideTouchRight ? this.maxRight : this.maxLeft;
-		//
-		//let s = this.y - self.maxDownY;
-		//
-		//let time = s/this.speed;
-		//
-		//this.anim = TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone } );
-		
-		//this.anim = TweenMax.to( self.model.position, 0.04, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function() {
-		//	if ( Handler.touchControl.touch == true && Handler.gameWin == false ) {
-		//		if ( Handler.collisionCheck( Handler.spire, self ) ) {
-		//			self.maxUpY   -= self.shY;
-		//			self.maxDownY -= self.shY;
-		//			self.createAnimDown();
-		//			Handler.cameraMoveDown( 0.9 )
-		//			if ( Handler.gameWin == true ) {
-		//				alert("Win");
-		//			}
-		//			//setTimeout( Handler.cameraMoveDown( 0.8 ) );
-		//		} else {
-		//			Handler.gameScene.scene.remove( Handler.player.model );
-		//		};
-		//	} else {
-		//		self.anim.kill();
-		//		self.createAnimBounce();
-		//	};
-		//} });
+
 	}
