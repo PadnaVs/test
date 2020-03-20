@@ -83,6 +83,7 @@
 		let distance = self.model.position.y - self.maxDownY;
 		let time = 0.04;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
+			self.movesDown = false;
 			if ( Handler.touchControl.touch && !Handler.gameWin ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {
 					self.maxUpY   -= self.shY;
@@ -99,14 +100,14 @@
 						if (  Handler.touchControl.touch && !Handler.gameWin ) {
 							Handler.gameScene.scene.remove( Handler.player.model );
 						} else {
-							self.movesDown = false;
+							//self.movesDown = false;
 							self.createAnimBounce();
 						}
 					}, 130 );
 				};
 			} else {
 				Handler.scaleCurrentPlatform();
-				self.movesDown = false;
+				//self.movesDown = false;
 				this.kill();
 				self.createAnimBounce();
 			};
@@ -123,7 +124,7 @@
 		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
 				if ( Handler.touchControl.touch && !Handler.gameWin ) {
 					self.moveSide();
-					if ( self.xPos != 0 && !self.movesSide && !self.movesDown ) {
+					if ( self.xPos != 0 && !self.movesSide /*&& !self.movesDown*/ ) {
 						this.kill();
 						self.moveDown();
 					}
@@ -131,14 +132,14 @@
 			}, onComplete: function() {
 				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 					, onUpdate: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && !self.movesDown && self.xPos != 0 && self.checkDirection() ) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide /*&& !self.movesDown*/ && self.xPos != 0 && self.checkDirection() ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
 						}
 					}
 					,onComplete: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 && !self.movesSide && !self.movesDown && self.checkDirection() ) {
+						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 && !self.movesSide /*&& !self.movesDown*/ && self.checkDirection() ) {
 							//self.moveSide();
 							this.kill();
 							self.moveDown();
