@@ -75,7 +75,7 @@
 	
 	Platform.prototype.destroy = function(  ) {
 		let self = this;
-		
+		let timeAnim = 0.7;
 		for( let i = 0; i < this.sectors.length; i++ ) {
 			if( !this.sectors[i].dangerous ) { 
 				self.sectors[i].opacity = 0;
@@ -83,14 +83,12 @@
 			};
 			
 			let angleSector = this.sectors[i].rotation;
-			let newXPos = 6*Math.sin( angleSector/(180/Math.PI ) );
-			let newZPos = 6*Math.cos( angleSector/(180/Math.PI ) );
+			let newXPos = 10*Math.sin( angleSector/(180/Math.PI ) );
+			let newZPos = 10*Math.cos( angleSector/(180/Math.PI ) );
 
-			TweenMax.to( self.sectors[i].position, 0.3, { x: -newXPos, z: -newZPos, ease: Power0.easeNone } );
-			TweenMax.to( self.sectors[i], 0.3, { opacity: 0, ease: Power0.easeNone } );
+			TweenMax.to( self.sectors[i].position, timeAnim, { x: -newXPos, z: -newZPos, ease: Power0.easeNone } );
+			TweenMax.to( self.sectors[i], timeAnim, { opacity: 0, ease: Power0.easeNone } );
+			//TweenMax.to( self.sectors[i], timeAnim, { opacity: this.sectors[i].rotation+10, ease: Power0.easeNone } );
 		}
-		
-		console.log(  );
-		
-		setTimeout( function(){ Handler.spire.model.remove( this.model ) }, 301  );
+		setTimeout( function(){ Handler.spire.model.remove( this.model ) }, timeAnim*1000+1  );
 	};
