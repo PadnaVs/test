@@ -76,7 +76,7 @@
 		};
 		let distance = Math.abs( self.xPos - self.model.position.x );
 		
-		let time = (distance/this.speed)/2;
+		let time = (distance/(this.speed*1.65))/2;
 		
 		this.movesSide = true;
 		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false } });
@@ -95,7 +95,7 @@
 					self.maxUpY   -= self.shY;
 					self.maxDownY -= self.shY;
 					self.moveDown();
-					Handler.cameraMoveDown( 0.016 )
+					Handler.cameraMoveDown( 0.02 )
 					if ( Handler.gameWin ) {
 						alert("Win");
 					}
