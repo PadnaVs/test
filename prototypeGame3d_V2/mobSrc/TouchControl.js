@@ -5,7 +5,7 @@
 		let self = this;
 		this.touch = false;
 		
-		this.sideTouch = null;
+		this.sideTouch = Consts.sideTouchLeft;
 		
 		let touchStartM = function( evt ) {
 			console.log("evt",evt);

@@ -16,6 +16,8 @@
 		this.maxRight =  2.5;
 		this.maxLeft  = -2.5;
 		
+		this.currentSide = Consts.sideTouchLeft;
+		
 		this.xPos = -2,5;
 		this.zPos = 3.5;
 		this.angle = 3.5;
@@ -53,7 +55,11 @@
 	};
 	
 	Player.prototype.checkDirection = function() {
-		if ( self.currentSide == Handler.touchControl.sideTouch ) return true;
+		if ( this.currentSide == Handler.touchControl.sideTouch ) { 
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	Player.prototype.moveSide = function() {
@@ -89,7 +95,7 @@
 					self.maxUpY   -= self.shY;
 					self.maxDownY -= self.shY;
 					self.moveDown();
-					Handler.cameraMoveDown( 1.35 )
+					Handler.cameraMoveDown( 0.016 )
 					if ( Handler.gameWin ) {
 						alert("Win");
 					}
@@ -100,14 +106,12 @@
 						if (  Handler.touchControl.touch && !Handler.gameWin ) {
 							Handler.gameScene.scene.remove( Handler.player.model );
 						} else {
-							//self.movesDown = false;
 							self.createAnimBounce();
 						}
 					}, 130 );
 				};
 			} else {
 				Handler.scaleCurrentPlatform();
-				//self.movesDown = false;
 				this.kill();
 				self.createAnimBounce();
 			};
@@ -121,36 +125,42 @@
 		this.speed = distance/0.2;
 		
 		self.moveSide();
-		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, onUpdate: function() {
+		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, 
+				onUpdate: function() {
 				if ( Handler.touchControl.touch && !Handler.gameWin ) {
 					self.moveSide();
-					if ( self.xPos != 0 && !self.movesSide /*&& !self.movesDown*/ ) {
+					if ( !self.movesSide ) {
 						this.kill();
 						self.moveDown();
 					}
 				}
-			}, onComplete: function() {
-				TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
-					, onUpdate: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide /*&& !self.movesDown*/ && self.xPos != 0 && self.checkDirection() ) {
-							//self.moveSide();
-							this.kill();
-							self.moveDown();
-						}
-					}
-					,onComplete: function(){
-						if ( Handler.touchControl.touch && !Handler.gameWin && self.xPos != 0 && !self.movesSide /*&& !self.movesDown*/ && self.checkDirection() ) {
-							//self.moveSide();
-							this.kill();
-							self.moveDown();
-						} else { 
-							self.createAnimBounce();
-						}
+			},  onComplete: function() {
+					if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
 						//self.moveSide();
-						//self.createAnimBounce();
-					}				
-				});
-			}
+						this.kill();
+						self.moveDown();
+					}
+					TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
+						, onUpdate: function(){
+							if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
+								//self.moveSide();
+								this.kill();
+								self.moveDown();
+							}
+						}
+						,onComplete: function(){
+							if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
+								//self.moveSide();
+								this.kill();
+								self.moveDown();
+							} else { 
+								self.createAnimBounce();
+							}
+							//self.moveSide();
+							//self.createAnimBounce();
+						}				
+					});
+			   }
 		});
 
 	}

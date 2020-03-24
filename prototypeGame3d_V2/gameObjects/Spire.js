@@ -89,9 +89,15 @@
 		if ( !platform.sectors[numSector].dangerous ) {
 			console.log( platform );
 			console.log( numSector );
-				
+			let platformModel = this.model.children[ 1 + this.numCurrentPlatform ];
 			this.platforms.splice( this.numCurrentPlatform, 1 );
-			this.model.remove( this.model.children[ 1 + this.numCurrentPlatform ] );//one child - cylinder
+			
+			//for( let i = 0; i < platformModel.children.length; i++ ) {
+			//	let materialSector = platformModel.children[i].children[0].material;
+			//	//console.log(materialSector);
+			//	//TweenMax.to( materialSector, 5, { opacity: 0, ease: Power0.easeNone, onComplete: self.model.remove( platformModel ) } );
+			//}
+			this.model.remove( platformModel );//one child - cylinder
 			this.numCurrentPlatform--;
 			this.upPoint -= 0.5;
 			if ( this.numCurrentPlatform == -1 ) {

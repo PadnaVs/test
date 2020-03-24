@@ -31,9 +31,9 @@
 		return false;
 	}
 
-	Handler.cameraMoveDown = function( shY ) {
-		let newCY = Handler.gameScene.camera.position.y - shY;
-		TweenMax.to( Handler.gameScene.camera.position, 0.04, { y: newCY, ease: Power0.easeNone } );
+	Handler.cameraMoveDown = function( time ) {
+		let newCY = Handler.gameScene.camera.position.y - 0.8;
+		TweenMax.to( Handler.gameScene.camera.position, time, { y: newCY, ease: Power0.easeNone } );
 	}
 	
 	Handler.scaleCurrentPlatform = function() {
