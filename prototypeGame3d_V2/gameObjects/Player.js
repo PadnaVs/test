@@ -81,7 +81,7 @@
 		this.movesDown = true;
 
 		let distance = self.model.position.y - self.maxDownY;
-		let time = 0.04;
+		let time = 0.02;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
 			self.movesDown = false;
 			if ( Handler.touchControl.touch && !Handler.gameWin ) {
@@ -89,7 +89,7 @@
 					self.maxUpY   -= self.shY;
 					self.maxDownY -= self.shY;
 					self.moveDown();
-					Handler.cameraMoveDown( 0.9 )
+					Handler.cameraMoveDown( 1.35 )
 					if ( Handler.gameWin ) {
 						alert("Win");
 					}

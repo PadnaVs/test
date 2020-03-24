@@ -14,7 +14,7 @@
 		
 		this._rotation = 0;
 		this.step  = 0;
-		this.speed = 0.16;
+		this.speed = 0.26;
 		
 ///////////////////////////////////////////////////////////////////////////
 		this.model = this.createSipe();
@@ -89,6 +89,8 @@
 		if ( !platform.sectors[numSector].dangerous ) {
 			console.log( platform );
 			console.log( numSector );
+				
+			this.platforms.splice( this.numCurrentPlatform, 1 );
 			this.model.remove( this.model.children[ 1 + this.numCurrentPlatform ] );//one child - cylinder
 			this.numCurrentPlatform--;
 			this.upPoint -= 0.5;
