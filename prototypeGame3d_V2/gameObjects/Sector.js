@@ -19,6 +19,10 @@
 		this.model = this.createSector();
 	
 		this.model.children[0].material =  this.model.children[0].material.clone();
+		this.material = this.model.children[0].material;
+		
+		this._color = self.model.children[0].material.color; 
+		this._opacity = self.model.children[0].material.opacity; 
 		
 		//this.color = _color;
 		
@@ -33,7 +37,7 @@
 	    });
 		
 		Object.defineProperty( this, "position", {
-	       get: function(   ) { return self._position; },
+	       get: function(   ) { return self.model.position; },
 	       set: function( val ) { 
 				self._position = val; 			
                self.model.position.x = self._position.x;
@@ -77,6 +81,17 @@
 					self.dangerous = false;
 				}
                 self.model.children[0].material.color = self._color;
+	    	}
+	    });
+		
+		Object.defineProperty( this, "opacity", {
+	       get: function(   ) { return  self._opacity; },
+	       set: function( val ) { 
+				self._opacity = val;
+				
+				self.model.children[0].material.transparent = val == 1 ? false : true;
+				
+                self.model.children[0].material.opacity = val;
 	    	}
 	    });
 	};

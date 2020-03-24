@@ -72,3 +72,25 @@
 		return platformModel;
 	};
 	
+	
+	Platform.prototype.destroy = function(  ) {
+		let self = this;
+		
+		for( let i = 0; i < this.sectors.length; i++ ) {
+			if( !this.sectors[i].dangerous ) { 
+				self.sectors[i].opacity = 0;
+				continue;
+			};
+			
+			let angleSector = this.sectors[i].rotation;
+			let newXPos = 6*Math.sin( angleSector/(180/Math.PI ) );
+			let newZPos = 6*Math.cos( angleSector/(180/Math.PI ) );
+
+			TweenMax.to( self.sectors[i].position, 0.3, { x: -newXPos, z: -newZPos, ease: Power0.easeNone } );
+			TweenMax.to( self.sectors[i], 0.3, { opacity: 0, ease: Power0.easeNone } );
+		}
+		
+		console.log(  );
+		
+		setTimeout( function(){ Handler.spire.model.remove( this.model ) }, 301  );
+	};
