@@ -51,7 +51,7 @@
 			sector.minAngle = this.angle*i;
 			sector.maxAngle = this.angle*i+this.angle;
 			
-			sector.rotation = this.angle*i;
+			sector.rotation = { x: 0, y: this.angle*i, z: 0 };
 			sector.position = {
 					x: sector.r*Math.sin((i*this.angle)/(180/Math.PI)), 
 					y: 0, 
@@ -82,13 +82,38 @@
 				continue;
 			};
 			
-			let angleSector = this.sectors[i].rotation;
+			let angleSector = this.sectors[i].rotation.y;
 			let newXPos = 10*Math.sin( angleSector/(180/Math.PI ) );
 			let newZPos = 10*Math.cos( angleSector/(180/Math.PI ) );
 
 			TweenMax.to( self.sectors[i].position, timeAnim, { x: -newXPos, z: -newZPos, ease: Power0.easeNone } );
 			TweenMax.to( self.sectors[i], timeAnim, { opacity: 0, ease: Power0.easeNone } );
-			//TweenMax.to( self.sectors[i], timeAnim, { opacity: this.sectors[i].rotation+10, ease: Power0.easeNone } );
+			
+			let rnd = Math.floor(Math.random() * (2 - 0)) + 0;
+			let rndAngleX = 0;
+			let rndAngleY = 0;
+			let rndAngleZ = 0;
+			
+			switch( rnd ) {
+				case 0 :
+					rndAngleX = Math.floor(Math.random() * (30 - 0)) + 0;
+				break;
+				case 1 :
+					rndAngleX = Math.floor(Math.random() * (30 - 0)) + 0;
+					rndAngleY = Math.floor(Math.random() * (30 - 0)) + 0;
+				break;
+				case 2 :
+					rndAngleZ = Math.floor(Math.random() * (30 - 0)) + 0;
+				break;
+			}
+			
+			TweenMax.to( self.sectors[i].rotation, timeAnim, {  x: rndAngleX, y: rndAngleY, z: rndAngleZ, ease: Power0.easeNone } );
+			
+			//self.sectors[i].rotation.z = rndAngleZ;
+			//self.sectors[i].rotation.y = 180;
+			//self.sectors[i].rotation.x = rndAngleX;
+			
+			//TweenMax.to( self.sectors[i], timeAnim, { rotation: 0, ease: Power0.easeNone } );
 		}
 		setTimeout( function(){ Handler.spire.model.remove( this.model ) }, timeAnim*1000+1  );
 	};

@@ -9,8 +9,8 @@
 		
 		this.modelOnePart = gameLoader.objectsLoaded[ this.type.typeSector ].clone();
 		
-		this._rotation = 0;
-		this._position = 0;
+		this._rotation = { x: 0, y: 0, z: 0 };
+		this._position = { x: 0, y: 0, z: 0 };
 		
 		this._x = 0;
 		this._y = 0;
@@ -29,10 +29,18 @@
 		this.model.dangerous = null;
 		
 		Object.defineProperty( this, "rotation", {
-	       get: function(   ) { return self._rotation; },
+	       get: function() { 
+				let newRot = self.model.rotation; 
+				newRot.x = newRot.x*(180/Math.PI);
+				newRot.y = newRot.y*(180/Math.PI);
+				newRot.z = newRot.z*(180/Math.PI);
+				return newRot; 
+			},
 	       set: function( val ) { 
 				self._rotation = val; 			
-               self.model.rotation.y = self._rotation/(180/Math.PI);
+               self.model.rotation.x = self._rotation.x/(180/Math.PI);
+               self.model.rotation.y = self._rotation.y/(180/Math.PI);
+               self.model.rotation.z = self._rotation.z/(180/Math.PI);
 	    	}
 	    });
 		
@@ -94,6 +102,8 @@
                 self.model.children[0].material.opacity = val;
 	    	}
 	    });
+		
+		console.log(this);
 	};
 	
 	Sector.prototype.createSector = function() {
