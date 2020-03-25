@@ -106,7 +106,7 @@
 			}
 			let shRY = Math.floor(Math.random() * (2 - (-2))) + (-2);
 			rndAngleY += shRY;
-			TweenMax.to( self.sectors[i].rotation, 1, {  x: rndAngleX, y: rndAngleY, z: rndAngleZ, ease: Power0.easeNone } );
+			TweenMax.to( self.sectors[i].rotation, timeAnim, {  x: rndAngleX, y: rndAngleY, z: rndAngleZ, ease: Power0.easeNone } );
 		}
 		setTimeout( function(){ Handler.spire.model.remove( this.model ) }, timeAnim*1000+1  );
 	};

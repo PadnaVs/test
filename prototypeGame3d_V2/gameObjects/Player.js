@@ -25,6 +25,7 @@
 		this.anim = null;
 		this.movesSide = false;
 		this.movesDown = false;
+		this.crash = false;
 		this.shY = 0;
 		
 		this.r = 1;//радиус
@@ -62,43 +63,23 @@
 		}
 	}
 	
-	Player.prototype.moveSide = function() {
-		let self = this;
-		if ( this.checkDirection() ) return;
-		if ( Handler.touchControl.sideTouch == Consts.sideTouchRight ) {
-			self.angle = 35;
-			self.xPos = self.maxRight;
-			self.currentSide = Consts.sideTouchRight;
-		} else if ( Handler.touchControl.sideTouch == Consts.sideTouchLeft ) { 
-			self.xPos = self.maxLeft;
-			self.angle = -35;
-			self.currentSide = Consts.sideTouchLeft;
-		};
-		let distance = Math.abs( self.xPos - self.model.position.x );
-		
-		let time = (distance/(this.speed*1.65))/2;
-		
-		this.movesSide = true;
-		TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false } });
-	};
-	
 	Player.prototype.moveDown = function() {
 		let self = this;
-		this.movesDown = true;
 
 		let distance = self.model.position.y - self.maxDownY;
 		let time = 0.02;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
-			self.movesDown = false;
-			if ( Handler.touchControl.touch && !Handler.gameWin ) {
+			if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {
+					this.crash = true;
 					self.maxUpY   -= self.shY;
 					self.maxDownY -= self.shY;
 					self.moveDown();
-					Handler.cameraMoveDown( 0.02 )
+					Handler.cameraMoveDown( time )
 					if ( Handler.gameWin ) {
 						alert("Win");
 					}
+					setTimeout( function(){ self.crash = false }, time*1000+1 );
 				} else {
 					Handler.scaleCurrentPlatform();
 					setTimeout( function(){
@@ -111,51 +92,81 @@
 					}, 130 );
 				};
 			} else {
-				Handler.scaleCurrentPlatform();
+				//Handler.scaleCurrentPlatform();
 				this.kill();
 				self.createAnimBounce();
 			};
 		} });
 	};
 	
+	Player.prototype.move = function() {
+		let self = this;
+		
+		if( this.movesSide ) return;
+		
+		if ( this.checkDirection() ) { 
+			self.moveDown();
+		} else if ( !this.crash ) {
+			if ( this.movesDown ) {
+				this.animBounce.kill();
+				let distance = self.maxUpY - self.model.position.y;
+				let time = distance/self.speed;
+				TweenMax.to( self.model.position, time, { y: self.maxUpY, ease: Power0.easeNone, onComplete: function() {
+					let distance = self.model.position.y - self.maxDownY;
+					let time = distance/self.speed;
+					TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function() {
+						self.createAnimBounce();
+					}}); 
+				}});
+			}
+			if ( Handler.touchControl.sideTouch == Consts.sideTouchRight ) {
+				self.angle = 35;
+				self.xPos = self.maxRight;
+				self.currentSide = Consts.sideTouchRight;
+			} else if ( Handler.touchControl.sideTouch == Consts.sideTouchLeft ) { 
+				self.xPos = self.maxLeft;
+				self.angle = -35;
+				self.currentSide = Consts.sideTouchLeft;
+			};
+			
+			let distance = Math.abs( self.xPos - self.model.position.x );
+			let time = (distance/(this.speed))/2;
+			
+			this.movesSide = true;
+			TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false } });
+		};
+	};
+	
+	
 	Player.prototype.createAnimBounce = function() {
 		let self = this;
 		
 		let distance = self.maxUpY - self.model.position.y;
 		this.speed = distance/0.2;
-		
-		self.moveSide();
-		TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, 
+		self.move();
+		self.animBounce = TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, 
 				onUpdate: function() {
 				if ( Handler.touchControl.touch && !Handler.gameWin ) {
-					self.moveSide();
-					if ( !self.movesSide ) {
-						this.kill();
-						self.moveDown();
-					}
+					self.move();
 				}
 			},  onComplete: function() {
-					if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
-						//self.moveSide();
-						this.kill();
-						self.moveDown();
+					self.movesDown = true;
+					if ( Handler.touchControl.touch && !Handler.gameWin ) {
+						self.move();
 					}
-					TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
+					self.animBounce = TweenMax.to( self.model.position, 0.2, { y: self.maxDownY, ease: Power0.easeNone 
 						, onUpdate: function(){
-							if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
-								//self.moveSide();
-								this.kill();
-								self.moveDown();
+							if ( Handler.touchControl.touch && !Handler.gameWin  ) {
+								self.move();
 							}
 						}
 						,onComplete: function(){
-							if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide && self.checkDirection() ) {
-								//self.moveSide();
-								this.kill();
-								self.moveDown();
-							} else { 
+							//if ( Handler.touchControl.touch && !Handler.gameWin  ) {
+							//	self.move();
+							//} else { 
+								self.movesDown = false;
 								self.createAnimBounce();
-							}
+							//}
 							//self.moveSide();
 							//self.createAnimBounce();
 						}				
