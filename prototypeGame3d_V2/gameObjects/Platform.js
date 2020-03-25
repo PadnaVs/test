@@ -89,7 +89,7 @@
 			TweenMax.to( self.sectors[i].position, timeAnim, { x: -newXPos, z: -newZPos, ease: Power0.easeNone } );
 			TweenMax.to( self.sectors[i], timeAnim, { opacity: 0, ease: Power0.easeNone } );
 			
-			let rnd = Math.floor(Math.random() * 1;
+			let rnd = Math.floor(Math.random() * 1);
 			let rndAngleX = self.sectors[i].rotation.x;
 			let rndAngleY = self.sectors[i].rotation.y;
 			let rndAngleZ = self.sectors[i].rotation.z;
