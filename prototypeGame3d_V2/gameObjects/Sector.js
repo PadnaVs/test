@@ -30,17 +30,19 @@
 		
 		Object.defineProperty( this, "rotation", {
 	       get: function() { 
-				let newRot = self.model.rotation; 
-				newRot.x = newRot.x*(180/Math.PI);
-				newRot.y = newRot.y*(180/Math.PI);
-				newRot.z = newRot.z*(180/Math.PI);
+				let newRot = self.model.rotation;
+				
+				newRot.x = self._rotation.x;
+				newRot.y = self._rotation.y;
+				newRot.z = self._rotation.z;
+			
 				return newRot; 
 			},
 	       set: function( val ) { 
 				self._rotation = val; 			
-               self.model.rotation.x = self._rotation.x/(180/Math.PI);
-               self.model.rotation.y = self._rotation.y/(180/Math.PI);
-               self.model.rotation.z = self._rotation.z/(180/Math.PI);
+                self.model.rotation.x = self._rotation.x/(180/Math.PI);
+                self.model.rotation.y = self._rotation.y/(180/Math.PI);
+                self.model.rotation.z = self._rotation.z/(180/Math.PI);
 	    	}
 	    });
 		
@@ -48,9 +50,9 @@
 	       get: function(   ) { return self.model.position; },
 	       set: function( val ) { 
 				self._position = val; 			
-               self.model.position.x = self._position.x;
-               self.model.position.y = self._position.y;
-               self.model.position.z = self._position.z;
+                self.model.position.x = self._position.x;
+                self.model.position.y = self._position.y;
+                self.model.position.z = self._position.z;
 	    	}
 	    });
 		
@@ -66,7 +68,7 @@
 	       get: function(   ) { return self._y; },
 	       set: function( val ) { 
 				self._y = val; 			
-               self.model.position.y = self._y;
+                self.model.position.y = self._y;
 	    	}
 	    });
 		
@@ -74,7 +76,7 @@
 	       get: function(   ) { return self._z; },
 	       set: function( val ) { 
 				self._z = val; 			
-               self.model.position.z = self._z;
+                self.model.position.z = self._z;
 	    	}
 	    });
 		

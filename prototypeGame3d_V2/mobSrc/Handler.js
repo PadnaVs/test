@@ -43,3 +43,35 @@
 		
 		TweenMax.to( platform.scale, 0.13, { x: 1.1, z: 1.1, ease: Power0.easeNone, repeat: 1, yoyo: true } );
 	};
+	
+	let rot = function(){
+		let self = this;
+		
+		this._x = 0;
+		this._y = 0;
+		this._z = 0;
+		
+		Object.defineProperty( this, "x", {
+	       get: function(   ) { return self._x; },
+	       set: function( val ) { 
+				self._x = val; 			
+	    	}
+	    });
+		
+		Object.defineProperty( this, "y", {
+	       get: function(   ) { return self._y; },
+	       set: function( val ) { 
+				self._y = val; 
+	    	}
+	    });
+		
+		Object.defineProperty( this, "z", {
+	       get: function(   ) { return self._z; },
+	       set: function( val ) { 
+				self._z = val; 			
+	    	}
+	    });
+	}
+	Handler.newRotObj = function() {
+		return new rot();
+	}
