@@ -32,7 +32,7 @@
 	}
 
 	Handler.cameraMoveDown = function( time ) {
-		let newCY = Handler.gameScene.camera.position.y - 0.8;
+		let newCY = Handler.gameScene.camera.position.y - 1;
 		TweenMax.to( Handler.gameScene.camera.position, time, { y: newCY, ease: Power0.easeNone } );
 	}
 	

@@ -1,5 +1,5 @@
      
-	 alert( "Version 0.246" );
+	 alert( "Version 0.247" );
 	 
 	 Handler = Handler;
      Consts = Consts;

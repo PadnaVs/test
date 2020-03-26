@@ -20,7 +20,7 @@
 		
 		this.xPos = -2,5;
 		this.zPos = 3.5;
-		this.angle = 3.5;
+		this.angle = -35;
 		
 		this.anim = null;
 		this.movesSide = false;
@@ -67,37 +67,44 @@
 		let self = this;
 
 		let distance = self.model.position.y - self.maxDownY;
-		let time = 0.024;
-		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
-			if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide ) {
-				if ( Handler.collisionCheck( Handler.spire, self ) ) {
-					this.crash = true;
-					self.maxUpY   -= self.shY;
-					self.maxDownY -= self.shY;
-					self.moveDown();
-					Handler.cameraMoveDown( time )
-					if ( Handler.gameWin ) {
-						alert("Win");
-					}
-					setTimeout( function(){ self.crash = false }, time*1000+1 );
-				} else {
-					Handler.scaleCurrentPlatform();
-					if( this.delayKill != null ) clearTimeout(this.delayKill);
-					this.delayKill = setTimeout( function(){
-						//удаление игрока						
-						if (  Handler.touchControl.touch && !Handler.gameWin ) {
-							Handler.gameScene.scene.remove( Handler.player.model );
-						} else {
-							self.createAnimBounce();
+		let time = 0.029;
+		this.animCrash = TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, 
+			onComplete: function(){
+				if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide ) {
+					//this.complete = true;
+					this.kill();
+					if ( Handler.collisionCheck( Handler.spire, self ) ) {
+						self.crash = true;
+						self.maxUpY   -= self.shY;
+						self.maxDownY -= self.shY;
+						self.moveDown();
+						Handler.cameraMoveDown( time*0.85 )
+						if ( Handler.gameWin ) {
+							alert("Win");
 						}
-					}, 130 );
+						setTimeout( function(){ self.crash = false }, time*1000+1 );
+					} else {
+						Handler.scaleCurrentPlatform();
+						let anim = this;
+						if( this.delayKill != null ) clearTimeout(this.delayKill);
+						this.delayKill = setTimeout( function(){
+							//удаление игрока						
+							if (  Handler.touchControl.touch && !Handler.gameWin ) {
+								Handler.gameScene.scene.remove( Handler.player.model );
+								//anim.kill();
+							} else {
+								//this.kill();
+								self.createAnimBounce();
+							}
+						}, 130 );
+					};
+				} else {
+					//Handler.scaleCurrentPlatform();
+					//this.kill();
+					self.createAnimBounce();
 				};
-			} else {
-				//Handler.scaleCurrentPlatform();
-				this.kill();
-				self.createAnimBounce();
-			};
-		} });
+			} 
+		});
 	};
 	
 	Player.prototype.move = function() {
