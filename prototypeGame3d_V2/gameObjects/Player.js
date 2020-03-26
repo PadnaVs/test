@@ -67,7 +67,7 @@
 		let self = this;
 
 		let distance = self.model.position.y - self.maxDownY;
-		let time = 0.02;
+		let time = 0.024;
 		TweenMax.to( self.model.position, time, { y: self.maxDownY, ease: Power0.easeNone, onComplete: function(){
 			if ( Handler.touchControl.touch && !Handler.gameWin && !self.movesSide ) {
 				if ( Handler.collisionCheck( Handler.spire, self ) ) {

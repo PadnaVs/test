@@ -14,7 +14,7 @@
 		
 		this._rotation = 0;
 		this.step  = 0;
-		this.speed = 0.269;
+		this.speed = 0.268;
 		
 ///////////////////////////////////////////////////////////////////////////
 		this.model = this.createSipe();
