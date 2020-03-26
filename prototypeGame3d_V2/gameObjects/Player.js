@@ -82,7 +82,8 @@
 					setTimeout( function(){ self.crash = false }, time*1000+1 );
 				} else {
 					Handler.scaleCurrentPlatform();
-					setTimeout( function(){
+					if( this.delayKill != null ) clearTimeout(this.delayKill);
+					this.delayKill = setTimeout( function(){
 						//удаление игрока						
 						if (  Handler.touchControl.touch && !Handler.gameWin ) {
 							Handler.gameScene.scene.remove( Handler.player.model );
