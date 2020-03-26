@@ -4,10 +4,12 @@
 	let TouchControl = function( domElement ) {
 		let self = this;
 		this.touch = false;
+		this.clickAllowed = true;
 		
 		this.sideTouch = Consts.sideTouchLeft;
 		
 		let touchStartM = function( evt ) {
+			if( !self.clickAllowed ) return; 
 			console.log("evt",evt);
 			evt.preventDefault();
 			//Handler.player.jumping = false;
@@ -20,6 +22,7 @@
 		};
 		
 		let touchStart = function( evt ) {
+			if( !self.clickAllowed ) return; 
 			console.log("evt",evt);
 			evt.preventDefault();
 			//Handler.player.jumping = false;

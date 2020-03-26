@@ -133,7 +133,8 @@
 			let time = (distance/(this.speed))/2;
 			
 			this.movesSide = true;
-			TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false } });
+			Handler.touchControl.clickAllowed = false;
+			TweenMax.to( self.model.position, time, { x: self.xPos, ease: Power0.easeNone, onComplete: function(){ self.movesSide = false; Handler.touchControl.clickAllowed = true; } });
 		};
 	};
 	
@@ -143,7 +144,7 @@
 		
 		let distance = self.maxUpY - self.model.position.y;
 		this.speed = distance/0.2;
-		self.move();
+		//self.move();
 		self.animBounce = TweenMax.to( self.model.position, 0.2, { y: self.maxUpY, ease: Power0.easeNone, 
 				onUpdate: function() {
 				if ( Handler.touchControl.touch && !Handler.gameWin ) {
