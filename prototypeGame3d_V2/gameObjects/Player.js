@@ -130,7 +130,7 @@
 			};
 			
 			let distance = Math.abs( self.xPos - self.model.position.x );
-			let time = (distance/(this.speed))/3.5;
+			let time = (distance/(this.speed))/3.7;
 			
 			this.movesSide = true;
 			Handler.touchControl.clickAllowed = false;
