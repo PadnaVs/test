@@ -11,20 +11,20 @@
 		
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
-		let pole =  [ 
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-					[0,0,0,0,0,0,0,0,0,0],
-				]
+		let field =  [ 
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,1,0,0,0,0,0],
+						[0,0,0,0,0,1,0,0,0,0],
+						[0,0,0,0,1,0,0,0,0,0],
+						[0,0,0,0,0,1,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+					]
 			
-		this.gameFild = new GameFild( this.group, pole, 20, 230 );
+		this.gameFild = new GameFild( this.group, field, 20, 230 );
 		this.gameFild.show();
 		
 		for( let i = 0; i < 3; i++ ) {
@@ -39,6 +39,69 @@
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
 		self.selectFigure = null;
+		
+		let checkThisLineDel = function( line ) {
+			for( let i = 0; i < 10; i++ ) {
+				if( line[i] == 1 ) continue;
+				if( line[i] != 2 ) {
+					return false;
+				};
+			};
+			return true;
+		}
+		
+		let checkLinesDel = function( field ) {
+			let numsLineDel = [];
+			let numsColumnsDel = [];
+			
+			for( let i = 0; i < 10; i++ ){
+				if( checkThisLineDel( field[i] ) ) {
+					numsLineDel.push(i);
+				}
+				
+				let column = [];
+				for( let j = 0; j < 10; j++ ) {
+				    column.push(field[j][i]);
+				}
+				if( checkThisLineDel( column ) ) {
+					numsColumnsDel.push(i);
+				}
+			}
+			console.log(numsLineDel);
+			console.log(numsColumnsDel);
+			
+			self.gameFild.delLines( numsLineDel, numsColumnsDel );
+		};
+		
+		let checkEndGame = function( fieldGame, fieldsFigures ) {
+			let loosGame = false;
+			console.log(fieldsFigures[0]);
+			console.log(fieldsFigures[1]);
+			console.log(fieldsFigures[2]);
+			
+			let ressChecks = [];
+		
+			for( let i = 0; i < 3; i++ ) {
+				for( let j = 0; j < 10; j++ ) {
+					if( ressChecks[i] ) {
+							break;
+						};
+					for( let k = 0; k < 10; k++ ) {
+						ressChecks[i] = checkInsertFigure( fieldGame, fieldsFigures[i], j, k );
+						if( ressChecks[i] ) {
+							break;
+						};
+					}
+				}
+			}
+			
+			
+			if ( ressChecks[0] == false && ressChecks[1] == false && ressChecks[2] == false ) {
+				loosGame = true;
+			}
+			
+			return loosGame;
+		};
 		
 		let touchDown = function( evt ) { 
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
@@ -64,7 +127,8 @@
 			}
 		};
 		
-		let touchMove = function( evt ) { 
+		let touchMove = function( evt ) {
+			if ( self.selectFigure == null ) return; 
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
 			
@@ -78,22 +142,32 @@
 			Handler.pointerStartY = Handler.pointerY;
 		};
 		
-		let checkInsertFigure = function( gameFildCells, x, y ) { 
-			//for( let i = 0; i < 10; i++ ) {
-			//	for( let j = 0; j < 10; j++ ) {
-			//		let xC = gameFildCells[i][j].x;
-			//		let yC = gameFildCells[i][j].y;
-			//		if ( x >= xC && x <= xC + gameFildCells[i][j].width ) {
-			//			if ( y >= yC && y <= yC + gameFildCells[i][j].height ) {
-			//				console.log("вставилась");
-			//			}
-			//		}
-			//	}
-			//}
+		let checkInsertFigure = function( field, figure, startI, startJ ) { 
+   /*width*/let cj = startJ;
+  /*height*/let ci = startI;
+			let field5x5 = [];
 			
-			
-			let i = Math.floor( ( 20 - x)/(Handler.cellW+6) ) + 1;
-			let j = Math.floor( ( 230 - y)/(Handler.cellW+6) ) + 1;
+			for( let i = 0; i < 5; i++ ) {
+				field5x5[i] = [];
+				for( let j = 0; j < 5; j++ ) {
+					let valOpen = 1;
+					let ri = ci+i;
+					let rj = cj+j;
+					if ( ri < 10 && rj < 10 ) {
+						valOpen = field[ri][rj];
+					}
+					field5x5[i][j] = valOpen;
+				}
+			}
+			let resCheck = true;
+			for( let i = 0; i < field5x5.length; i++ ) {
+				for( let j = 0; j < field5x5[0].length; j++ ) {
+					if ( figure.positionCell[i][j] == 1 && field5x5[i][j] != 0 ) {
+						resCheck = false;
+					}
+				}
+			}
+			return resCheck;
 		}
 		
 		let touchUp = function( evt ) { 
@@ -102,9 +176,7 @@
 			let wGameFild = 686;
 			let hGameFild = 686;
 			
-			//let xGameFild = self.gameFild.background.position.scope.worldTransform.tx;
 			let xGameFild = 20;
-			//let yGameFild = self.gameFild.background.position.scope.worldTransform.ty;
 			let yGameFild = 230;
 			
 			let posFX = self.selectPandel.x + self.selectFigure.position.x;
@@ -112,8 +184,26 @@
 			
 			if ( posFX >= xGameFild && posFX <= xGameFild + wGameFild ){
 				if ( posFY >= yGameFild && posFY <= yGameFild + hGameFild ) {
-					checkInsertFigure( self.gameFild.cells, posFX, posFY );
+					let startJ = Math.abs( Math.ceil( ( 26 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
+					let startI = Math.abs( Math.ceil( ( 236 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
+					
+					if ( checkInsertFigure( self.gameFild.field, self.selectFigure, startI, startJ ) ) {
+						self.gameFild.insertFigure( self.selectFigure.positionCell, startI, startJ );
+						self.selectPandel.removeFigure();
+						checkLinesDel( self.gameFild.field );
+						
+						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
+						if ( checkEndGame( self.gameFild.field, fieldFigure ) ) {
+							alert("You loos");
+						}
+					} else {
+						self.selectFigure.moveStartPos();
+					}
+				} else {
+					self.selectFigure.moveStartPos();
 				}
+			} else {
+				self.selectFigure.moveStartPos();
 			}
 			self.selectFigure = null;
 		};

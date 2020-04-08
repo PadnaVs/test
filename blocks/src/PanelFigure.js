@@ -34,6 +34,8 @@
 		this.figure = this.generationFigore();
 		this.figure.show();
 		this.figure.transition( this.width/2 - this.figure.group.width/2, this.width/2 - this.figure.group.height/2 );
+		this.figure.startX = this.figure.position.x;
+		this.figure.startY = this.figure.position.y;
 	};
 	
 	PanelFigure.prototype.generationFigore = function() {
@@ -49,3 +51,7 @@
 		this.group.y = _y == 0 ? this.group.y : _y;
 	};
 	
+	PanelFigure.prototype.removeFigure = function() {
+		this.figure.remove();
+		this.showFigure();
+	};
