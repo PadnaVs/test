@@ -131,9 +131,19 @@
 		};
 		
 		let touchMove = function( evt ) {
-			if ( self.selectFigure == null ) return; 
+			if ( self.selectFigure == null ) return;
+			
+			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
+			
+			if ( Handler.pointerX > 720 || Handler.pointerX < 0 ||  Handler.pointerY > 1280 ||  Handler.pointerY < 0 ) {
+				self.selectFigure.moveStartPos();
+				self.selectFigure = null;
+				return;
+			}
+			
+			console.log(Handler.pointerX);
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
@@ -205,11 +215,17 @@
 			self.selectFigure = null;
 		};
 		
+		let touchOut = function( evt ) { 
+			self.selectFigure.moveStartPos();
+			self.selectFigure = null;
+		};
+		
 		console.log( "self.gameField", self.gameField );
 		
 		this.touchBlock.onEL( "pointerdown", function( evt ){ touchDown( evt ) } );
 		this.touchBlock.onEL( "pointermove", function( evt ){ touchMove( evt ) } );
 		this.touchBlock.onEL( "pointerup", function( evt ){ touchUp( evt ) } );
+		//this.touchBlock.onEL( "pointerout  ", function( evt ){ touchOut( evt ) } );
 	};
 	
 	
