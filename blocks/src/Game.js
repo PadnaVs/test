@@ -157,8 +157,21 @@
 			let posFX = self.selectPandel.x + self.selectFigure.position.x;
 			let posFY = self.selectPandel.y + self.selectFigure.position.y;
 			
-			if ( posFX >= xgameField && posFX <= xgameField + wgameField ){
-				if ( posFY >= ygameField && posFY <= ygameField + hgameField ) {
+			let maxShBeyondLimits = Handler.cellW / 2;
+			
+			if ( posFX >= xgameField - maxShBeyondLimits && posFX <= xgameField + wgameField + maxShBeyondLimits ){
+				if ( posFY >= ygameField - maxShBeyondLimits && posFY <= ygameField + hgameField + maxShBeyondLimits ) {
+					
+					console.log( xgameField - posFX );
+					
+					//if ( xgameField - posFX < 0 ) {
+					//	posFX = posFX + maxShBeyondLimits;
+					//}
+					//if ( ygameField - posFY < 0 ) {
+					//	posFY = posFY + maxShBeyondLimits;
+					//}
+					
+					
 					let startJ = Math.abs( Math.ceil( ( xgameField+6 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					
