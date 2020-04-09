@@ -120,6 +120,10 @@
 					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
 						self.panelsFigure[i].figure.scale();
 						self.selectFigure = self.panelsFigure[i].figure;
+						self.selectFigure.position = {
+							x: self.selectFigure.position.x,
+							y: self.selectFigure.position.y - 240
+						};
 						self.selectPandel = self.panelsFigure[i];
 					}
 				}
