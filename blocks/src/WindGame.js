@@ -42,12 +42,6 @@
 		this.panelBestScore = new PanelBestScore( this.group, 20, 40, 450, 90 );
 		this.panelBestScore.show();
 		
-		this.butSound = Handler.showRect( this.group, 498, 40, 90, 90, 0xfff00f, 1 );
-		
-		this.butMenu  = Handler.showRect( this.group, 608, 40, 90, 90, 0xff0000, 1 );
-		
-		this.butBonuses  = Handler.showRect( this.group, 498, 170, 200, 90, 0x00ff00, 1 );
-		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
 		let panels = {
@@ -56,7 +50,23 @@
 			touchBlock: this.touchBlock,
 			panelScore: this.panelScore,
 		};
-		this.game = new Game( panels );
+		Handler.game = new Game( panels );
+		
+		this.butSound = Handler.showRect( this.group, 498, 40, 90, 90, 0xfff00f, 1 );
+		
+		this.butMenu  = Handler.showRect( this.group, 608, 40, 90, 90, 0xff0000, 1 );
+		
+		this.butBonuses  = Handler.showRect( this.group, 498, 170, 200, 90, 0x00ff00, 1 );
+		
+		this.panelBonus = new PanelBonus( this.group, 20, 20, 680, 270 );
+		this.panelBonus.show();
+		this.panelBonus.visible = false;
+		
+		this.butBonuses.onEL( "pointerdown", function( evt ) { self.panelBonus.visible = true } );
+		
+		
+		
+		
 		
 
 	};

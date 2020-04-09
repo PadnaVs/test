@@ -76,7 +76,8 @@
 			for( let i = 0; i < numsLine.length; i++ ) {
 				let numLine = numsLine[i];
 				for( let j = 0; j < 10; j++ ) {
-					if( this.cellsFilled[numLine][j] === 1 ) continue;
+					if( this.cellsFilled[numLine][j] == 0 ) continue;
+					if( this.cellsFilled[numLine][j] == 1 ) continue;
 					this.cellsFilled[numLine][j].removeSelf();
 					this.cellsFilled[numLine][j] = 0;
 					this.field[numLine][j] = 0;
@@ -88,7 +89,7 @@
 			for( let i = 0; i < numsCol.length; i++ ) {
 				let numCol = numsCol[i];
 				for( let j = 0; j < 10; j++ ) {
-					if( this.cellsFilled[j][numCol] == 0 ) return;
+					if( this.cellsFilled[j][numCol] == 0 ) continue;
 					if( this.cellsFilled[j][numCol] == 1 ) continue;					
 					this.cellsFilled[j][numCol].removeSelf();
 					this.cellsFilled[j][numCol] = 0;
