@@ -15,17 +15,17 @@
 						[0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0],
-						[0,0,0,0,1,0,0,0,0,0],
-						[0,0,0,0,0,1,0,0,0,0],
-						[0,0,0,0,1,0,0,0,0,0],
-						[0,0,0,0,0,1,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0],
 						[0,0,0,0,0,0,0,0,0,0],
 					]
 			
-		this.gameFild = new GameFild( this.group, field, 20, 230 );
-		this.gameFild.show();
+		this.gameField = new GameField( this.group, field, 20, 300 );
+		this.gameField.show();
 		
 		for( let i = 0; i < 3; i++ ) {
 			this.panelsFigure[i] = new PanelFigure( this.group, 20, 1000 );
@@ -36,181 +36,27 @@
 			this.panelsFigure[i].transition( newX );
 		};
 		
+		this.panelScore = new PanelScore( this.group, 20, 170, 450, 90 );
+		this.panelScore.show();
+		
+		this.panelBestScore = new PanelBestScore( this.group, 20, 40, 450, 90 );
+		this.panelBestScore.show();
+		
+		this.butSound = Handler.showRect( this.group, 498, 40, 90, 90, 0xfff00f, 1 );
+		
+		this.butMenu  = Handler.showRect( this.group, 608, 40, 90, 90, 0xff0000, 1 );
+		
+		this.butBonuses  = Handler.showRect( this.group, 498, 170, 200, 90, 0x00ff00, 1 );
+		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
-		self.selectFigure = null;
-		
-		let checkThisLineDel = function( line ) {
-			for( let i = 0; i < 10; i++ ) {
-				if( line[i] == 1 ) continue;
-				if( line[i] != 2 ) {
-					return false;
-				};
-			};
-			return true;
-		}
-		
-		let checkLinesDel = function( field ) {
-			let numsLineDel = [];
-			let numsColumnsDel = [];
-			
-			for( let i = 0; i < 10; i++ ){
-				if( checkThisLineDel( field[i] ) ) {
-					numsLineDel.push(i);
-				}
-				
-				let column = [];
-				for( let j = 0; j < 10; j++ ) {
-				    column.push(field[j][i]);
-				}
-				if( checkThisLineDel( column ) ) {
-					numsColumnsDel.push(i);
-				}
-			}
-			console.log(numsLineDel);
-			console.log(numsColumnsDel);
-			
-			self.gameFild.delLines( numsLineDel, numsColumnsDel );
+		let panels = {
+			gameField: this.gameField,
+			panelsFigures: this.panelsFigure,
+			touchBlock: this.touchBlock,
+			panelScore: this.panelScore,
 		};
+		this.game = new Game( panels );
 		
-		let checkEndGame = function( fieldGame, fieldsFigures ) {
-			let loosGame = false;
-			console.log(fieldsFigures[0]);
-			console.log(fieldsFigures[1]);
-			console.log(fieldsFigures[2]);
-			
-			let ressChecks = [];
-		
-			for( let i = 0; i < 3; i++ ) {
-				for( let j = 0; j < 10; j++ ) {
-					if( ressChecks[i] ) {
-							break;
-						};
-					for( let k = 0; k < 10; k++ ) {
-						ressChecks[i] = checkInsertFigure( fieldGame, fieldsFigures[i], j, k );
-						if( ressChecks[i] ) {
-							break;
-						};
-					}
-				}
-			}
-			
-			
-			if ( ressChecks[0] == false && ressChecks[1] == false && ressChecks[2] == false ) {
-				loosGame = true;
-			}
-			
-			return loosGame;
-		};
-		
-		let touchDown = function( evt ) { 
-			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
-			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
-			
-			Handler.pointerStartX = Handler.pointerX;
-			Handler.pointerStartY = Handler.pointerY;
-			
-			for( let i = 0; i < 3; i++ ) {
-				let wF = self.panelsFigure[i].figure.group.width;
-				let hF = self.panelsFigure[i].figure.group.height;
-				
-				let posFX = self.panelsFigure[i].x + self.panelsFigure[i].figure.position.x;
-				let posFY = self.panelsFigure[i].y + self.panelsFigure[i].figure.position.y;
-				
-				if ( Handler.pointerX >= posFX && Handler.pointerX <= posFX + wF ){
-					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
-						self.panelsFigure[i].figure.scale();
-						self.selectFigure = self.panelsFigure[i].figure;
-						self.selectPandel = self.panelsFigure[i];
-					}
-				}
-			}
-		};
-		
-		let touchMove = function( evt ) {
-			if ( self.selectFigure == null ) return; 
-			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
-			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
-			
-			let speed = 1;
-			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
-			let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
-			
-			self.selectFigure.transition( self.selectFigure.position.x + shX, self.selectFigure.position.y + shY );
-			
-			Handler.pointerStartX = Handler.pointerX;
-			Handler.pointerStartY = Handler.pointerY;
-		};
-		
-		let checkInsertFigure = function( field, figure, startI, startJ ) { 
-   /*width*/let cj = startJ;
-  /*height*/let ci = startI;
-			let field5x5 = [];
-			
-			for( let i = 0; i < 5; i++ ) {
-				field5x5[i] = [];
-				for( let j = 0; j < 5; j++ ) {
-					let valOpen = 1;
-					let ri = ci+i;
-					let rj = cj+j;
-					if ( ri < 10 && rj < 10 ) {
-						valOpen = field[ri][rj];
-					}
-					field5x5[i][j] = valOpen;
-				}
-			}
-			let resCheck = true;
-			for( let i = 0; i < field5x5.length; i++ ) {
-				for( let j = 0; j < field5x5[0].length; j++ ) {
-					if ( figure.positionCell[i][j] == 1 && field5x5[i][j] != 0 ) {
-						resCheck = false;
-					}
-				}
-			}
-			return resCheck;
-		}
-		
-		let touchUp = function( evt ) { 
-			if ( self.selectFigure == null ) return;
-			
-			let wGameFild = 686;
-			let hGameFild = 686;
-			
-			let xGameFild = 20;
-			let yGameFild = 230;
-			
-			let posFX = self.selectPandel.x + self.selectFigure.position.x;
-			let posFY = self.selectPandel.y + self.selectFigure.position.y;
-			
-			if ( posFX >= xGameFild && posFX <= xGameFild + wGameFild ){
-				if ( posFY >= yGameFild && posFY <= yGameFild + hGameFild ) {
-					let startJ = Math.abs( Math.ceil( ( 26 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
-					let startI = Math.abs( Math.ceil( ( 236 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
-					
-					if ( checkInsertFigure( self.gameFild.field, self.selectFigure, startI, startJ ) ) {
-						self.gameFild.insertFigure( self.selectFigure.positionCell, startI, startJ );
-						self.selectPandel.removeFigure();
-						checkLinesDel( self.gameFild.field );
-						
-						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
-						if ( checkEndGame( self.gameFild.field, fieldFigure ) ) {
-							alert("You loos");
-						}
-					} else {
-						self.selectFigure.moveStartPos();
-					}
-				} else {
-					self.selectFigure.moveStartPos();
-				}
-			} else {
-				self.selectFigure.moveStartPos();
-			}
-			self.selectFigure = null;
-		};
-		
-		console.log( "self.gameFild", self.gameFild );
-		
-		this.touchBlock.onEL( "pointerdown", function( evt ){ touchDown( evt ) } );
-		this.touchBlock.onEL( "pointermove", function( evt ){ touchMove( evt ) } );
-		this.touchBlock.onEL( "pointerup", function( evt ){ touchUp( evt ) } );
+
 	};

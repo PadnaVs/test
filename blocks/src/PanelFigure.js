@@ -22,18 +22,19 @@
 		
 		this.figure = null;
 		
-		this.width = 226-3;
+		this.width  = 223;
+		this.height = this.width;
 	};
 	
 	PanelFigure.prototype.show = function() {
-		this.background = Handler.showRect( this.group, 0, 0, this.width, this.width, 0x9E3E0E, 1, 15 );
+		this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0x9E3E0E, 1, 15 );
 		this.showFigure();
 	};
 	
 	PanelFigure.prototype.showFigure = function() {
 		this.figure = this.generationFigore();
 		this.figure.show();
-		this.figure.transition( this.width/2 - this.figure.group.width/2, this.width/2 - this.figure.group.height/2 );
+		this.figure.transition( this.width/2 - this.figure.group.width/2, this.height/2 - this.figure.group.height/2 );
 		this.figure.startX = this.figure.position.x;
 		this.figure.startY = this.figure.position.y;
 	};
@@ -53,5 +54,5 @@
 	
 	PanelFigure.prototype.removeFigure = function() {
 		this.figure.remove();
-		this.showFigure();
+		this.figure = null;
 	};

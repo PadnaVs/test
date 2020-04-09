@@ -465,16 +465,18 @@
         return res;
     };
     Handler.newText = function( params ) {
-        let mobscale = Handler.isHalfSize() ? 1 : 2;
+        let mobscale = 1;
+        //let mobscale = Handler.isHalfSize() ? 1 : 2;
         //mobscale = 2;
             //self.mainGroup.scale.set(0.98);
         
         params = params || {};
+        params.align      = params.align      || 'left';
         params.fontFamily = params.fontFamily || 'Arial';
         params.fontSize   = params.fontSize   || 22;
         params.lineJoin   = params.lineJoin   || 'round';
         params.fontWeight = params.fontWeight || 'bolder';
-        params.fill       = params.color      || '#ffffff';
+        params.fill       = params.color      || '#000000';
         params.parent     = params.parent     || pixiApp.stage;
         params.fontSize   = params.fontSize * mobscale;
         params.strokeThickness = params.strokeThickness || 0;
