@@ -3,6 +3,9 @@
 		let self = this;
 		this.group = Handler.newGroup( _parent );
 		this.num = _num;
+		
+		console.log( this.num );
+		
 		this.positionCell = [];
 		
 		this._position = this.group.position;
@@ -25,11 +28,13 @@
                 self.group.position.y = self._position.y;
 	    	}
 	    });
+		
 	}
 	
 	Figure.prototype.show = function() {
 		let self = this;
 		this.createFigure();
+		this.setType();
 	};
 	
 	
@@ -82,3 +87,18 @@
 	Figure.prototype.remove = function() {
 		this.group.removeSelf();
 	}
+	
+	Figure.prototype.setType = function() {
+		if( this.num >= 0 && this.num <= 2 ) {
+			this.type = Consts.TYPE_BLOCK;
+		} else if( this.num >= 3 && this.num <= 10 ) {
+			this.type = Consts.TYPE_LINE;
+			if( this.num % 2 ) {
+				this.positionLine = Consts.GORIZONTAL_LINE;
+			} else {
+				this.positionLine = Consts.VERTICAL_LINE;
+			}
+		} else {
+			this.type = Consts.TYPE_ANGLE;
+		}
+	};

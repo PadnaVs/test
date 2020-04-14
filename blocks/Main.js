@@ -1,5 +1,5 @@
 	
-	alert( "version 0.501" );
+	alert( "version 0.502" );
 	
 	const visibleWidth0  = 360;
     const visibleHeight0 = 640;

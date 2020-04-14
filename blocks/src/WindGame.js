@@ -27,10 +27,12 @@
 		this.gameField = new GameField( this.group, field, 20, 300 );
 		this.gameField.show();
 		
+		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
+		
 		for( let i = 0; i < 3; i++ ) {
 			this.panelsFigure[i] = new PanelFigure( this.group, 20, 1000 );
 			this.panelsFigure[i].show();
-			
+			this.panelsFigure[i].num = i;
 			let newX = 20+this.panelsFigure[i].width*i+6*i;
 			
 			this.panelsFigure[i].transition( newX );
@@ -41,8 +43,6 @@
 		
 		this.panelBestScore = new PanelBestScore( this.group, 20, 40, 450, 90 );
 		this.panelBestScore.show();
-		
-		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
 		let panels = {
 			gameField: this.gameField,
@@ -63,10 +63,4 @@
 		this.panelBonus.visible = false;
 		
 		this.butBonuses.onEL( "pointerdown", function( evt ) { self.panelBonus.visible = true } );
-		
-		
-		
-		
-		
-
 	};

@@ -371,12 +371,16 @@
         const graphics = new PIXI.Graphics();
 		graphics.lineStyle( widthLine, colorLine ); // = styleLine;
         graphics.beginFill( resColor, ralpha );
-        graphics.drawRoundedRect ( rx, ry, rwidth, rheight, rrad );//graphics.drawRect( rx, ry, rwidth, rheight );
+        graphics.drawRoundedRect ( 0, 0, rwidth, rheight, rrad );//graphics.drawRect( rx, ry, rwidth, rheight );
         graphics.endFill();
+		graphics.x = rx;  
+		graphics.y = ry;
+		
         if ( typeof rgroup != "number" ) {
             Handler.addChild( rgroup, graphics );
         }
-        Handler.addExtraMethods( graphics );        
+        Handler.addExtraMethods( graphics ); 
+		graphics.zIndex = Handler.zIndex++;			
         return graphics;
     };         
     Handler.showRoundedRect = function ( iparent, ix, iy, iw, ih, color, angle, widthLine, colorLine ){
