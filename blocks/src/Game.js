@@ -268,7 +268,7 @@
 		let self = this;
 		
 		for( let i = 0; i < 3; i++ ) {
-			self.panelsFigure[i].removeFigure();
+			if ( self.panelsFigure[i].figure != null ) self.panelsFigure[i].removeFigure();
 			self.panelsFigure[i].showFigure();
 		};
 		self.selectBonus = null;
