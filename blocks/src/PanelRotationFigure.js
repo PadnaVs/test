@@ -27,7 +27,7 @@
 		this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFF8300, 1, 5 );
 		
 		this.butOk = Handler.showRect( this.group, 20, 20, 200, 60, 0x00FF00, 1, 5 );
-		
+		this.butOk.onEL( "pointertap", function() { self.destroy() } );
 		
 		this.butRotF = Handler.showRect( this.group, 240, 20, 200,60, 0xffff00, 1, 5 );
 		this.butRotF.onEL( "pointertap", function() { self.rotFigure() } );

@@ -11,6 +11,11 @@
 		this.selectBonus = null;
 		
 		let touchDown = function( evt ) { 
+		
+			for( let i = 0; i < 3; i++ ) {
+				if ( self.panelsFigure[i].panelRotation != null ) return;
+			}
+			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
 			

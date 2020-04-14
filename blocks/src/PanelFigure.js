@@ -75,12 +75,11 @@
 	};
 	
 	PanelFigure.prototype.showPanelRotation = function() {
-		let self = this;
-		
 		if( this.panelRotation != null ) {
-			this.panelRotation.destroy();
 			return;
 		}
+		
+		let self = this;
 		
 		let wP = 680;
 		let hP = 100;
