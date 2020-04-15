@@ -283,16 +283,11 @@
 		let self = this;
 		
 		for( let i = 0; i < 3; i++ ) {
-			self.panelsFigure[i].setActiveButPanelRot();
-			if ( self.panelsFigure[i].panelRotation != null ) {
-				
-				for( let j = 0; j < 3; j++ ) {
-					if ( i == j ) continue;
-					self.panelsFigure[j].setNActiveButPanelRot();
-				}
-				
-				break;
+			if ( self.panelsFigure[i].figure.type == Consts.TYPE_BLOCK ) {
+				self.panelsFigure[i].setNActiveButPanelRot();
+				continue;
 			}
+			self.panelsFigure[i].setActiveButPanelRot();
 		}
 		
 		

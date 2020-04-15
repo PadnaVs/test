@@ -108,4 +108,5 @@
 		} else {
 			this.type = Consts.TYPE_ANGLE;
 		}
+		console.log( this.type );
 	};

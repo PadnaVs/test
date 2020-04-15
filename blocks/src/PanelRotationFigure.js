@@ -56,13 +56,13 @@
 		};
 		
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.currentNum );
+		this.parent.figure = new Figure( this.parent.group, 0, 0, this.currentNum );
 		this.parent.showFigure( false );
 	};
 	
 	PanelRotationFigure.prototype.creatStartFigure = function() {
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.startNum );
+		this.parent.figure = new Figure( this.parent.group, 0, 0, this.startNum );
 		this.parent.showFigure( false );
 		this.destroy();
 	};
