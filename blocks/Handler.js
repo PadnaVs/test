@@ -482,6 +482,7 @@
         params.fontWeight = params.fontWeight || 'bolder';
         params.fill       = params.color      || '#000000';
         params.parent     = params.parent     || pixiApp.stage;
+        params.anchor	  = params.anchor	  || 0;
         params.fontSize   = params.fontSize * mobscale;
         params.strokeThickness = params.strokeThickness || 0;
         params.strokeThickness *= mobscale;
@@ -494,7 +495,7 @@
         richText.y = params.y || 0;
 
         //richText.roundPixels = true;
-        richText.anchor.set(0, 0);
+        richText.anchor.set(params.anchor, params.anchor);
         
         params.parent.addChild(richText);
 

@@ -103,6 +103,8 @@
 	Consts.GORIZONTAL_LINE = 0;
 	Consts.VERTICAL_LINE = 1;
 	
+	Consts.NUMS_FIGURES_FOR_BON = [ 0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19 ];
+	
 	Consts.POSITION_CEIL = [    //фигура 1
 								[
 									[ 1, 0, 0, 0, 0 ],

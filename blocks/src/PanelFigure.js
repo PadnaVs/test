@@ -59,7 +59,7 @@
 	PanelFigure.prototype.generationFigure = function() {
 		let rnd = Math.floor( Math.random() * ( 18 - 0 ) + 0 );
 		
-		let res = new Figure( this.group, rnd );
+		let res = new Figure( this.group, 0, 0, rnd );
 		
 		return res;
 	};

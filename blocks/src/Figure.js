@@ -1,7 +1,14 @@
 	
-	let Figure = function( _parent, _num ) {
+	let Figure = function( _parent, _x, _y, _num ) {
 		let self = this;
 		this.group = Handler.newGroup( _parent );
+		
+		this.x = _x;
+		this.y = _y;
+		
+		this.group.x = this.x;
+		this.group.y = this.y;
+		
 		this.num = _num;
 		
 		console.log( this.num );
@@ -38,21 +45,21 @@
 	};
 	
 	
-	Figure.prototype.scale = function() {
+	Figure.prototype.scale = function( persent ) {
 		if ( !this.scales ) {
-			this.group.width  = this.group.width/0.57;
-			this.group.height = this.group.height/0.57;
+			this.group.width  = this.group.width/persent;
+			this.group.height = this.group.height/persent;
 			
-			this.width  = this.width/0.57;
-			this.height = this.height/0.57;
+			this.width  = this.width/persent;
+			this.height = this.height/persent;
 
 			this.scales = true;
 		} else {
-			this.group.width  = this.group.width*0.57;
-			this.group.height = this.group.height*0.57;
+			this.group.width  = this.group.width*persent;
+			this.group.height = this.group.height*persent;
 			
-			this.width  = this.width*0.57;
-			this.height = this.height*0.57;
+			this.width  = this.width*persent;
+			this.height = this.height*persent;
 			
 			this.scales = false;
 		}
@@ -70,7 +77,7 @@
 			};
 		}
 		//Handler.showRect( this.group, 0, 0, this.group.width, this.group.height, 0xff0000, 0.3 );
-		this.scale();
+		this.scale( 0.57 );
  	};  
 	
 	Figure.prototype.transition = function( _x=0, _y=0 ) {
@@ -81,7 +88,7 @@
 	Figure.prototype.moveStartPos = function() {
 		this.group.x = this.startX;
 		this.group.y = this.startY;
-		this.scale();
+		this.scale( 0.57 );
 	}
 	
 	Figure.prototype.remove = function() {

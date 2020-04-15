@@ -18,6 +18,8 @@
 		
 		this.bonuses = [];
 		
+		this.panelSelectFigure = null;
+		
 		Object.defineProperty( this, "visible", {
 	       get: function(   ) { return self._visible; },
 	       set: function( val ) {
@@ -54,8 +56,9 @@
 				Handler.game.bonusRecreateFigures();
 			break;
 				
-			case 3: 
-		
+			case 3:
+				self.panelSelectFigure = new PanelSelectFigure( self, -this.x, 280, 720, 980 );
+				self.panelSelectFigure.show();
 			break;
 		}
 	};
