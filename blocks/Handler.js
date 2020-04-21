@@ -3,6 +3,10 @@
 	Handler.pointerX = null;
 	Handler.pointerY = null;
 	
+	Handler.cooperative = true;
+	
+	Handler.stringForGeneration = "0123456789ABSDEFGHI";
+	
     Handler.isMobile = function() {
         return isMobile != null && isMobile;
     };    
@@ -512,4 +516,44 @@
     Handler.isValidInteger = function( val ) {
        return Number.isInteger( Handler.toNumber( val ) );
     };
+	
+	Handler.createStrForCooperative = function( num ) {
+		switch( num ) {
+			case 0:
+				this.strPlayCooperative = Consts.STR0;
+			break;
+			case 1:
+				this.strPlayCooperative = Consts.STR1;
+			break;
+			case 2:
+				this.strPlayCooperative = Consts.STR2;
+			break;
+			case 3:
+				this.strPlayCooperative = Consts.STR3;
+			break;
+			case 4:
+				this.strPlayCooperative = Consts.STR4;
+			break;
+			case 5:
+				this.strPlayCooperative = Consts.STR5;
+			break;
+			case 6:
+				this.strPlayCooperative = Consts.STR6;
+			break;
+			case 7:
+				this.strPlayCooperative = Consts.STR7;
+			break;
+			case 8:
+				this.strPlayCooperative = Consts.STR8;
+			break;
+			case 9:
+				this.strPlayCooperative = Consts.STR9;
+			break;
+		}
+	};
+	
+	Handler.translationCharToNum = function( _symbol ) {
+		let res = this.stringForGeneration.indexOf( _symbol );
+		return res;
+	};
     

@@ -27,6 +27,8 @@
 		
 		this.panelRotation = null;
 		this.num = null;
+		
+		this.numSibolInStringСooperative = 0;
 	};
 	
 	PanelFigure.prototype.show = function() {
@@ -57,10 +59,28 @@
 	};
 	
 	PanelFigure.prototype.generationFigure = function() {
-		let rnd = Math.floor( Math.random() * ( 18 - 0 ) + 0 );
+		let numF = null;
 		
-		let res = new Figure( this.group, 0, 0, rnd );
 		
+		
+		if ( Handler.coperative == false ) {
+			numF = Math.floor( Math.random() * ( 19 - 0 ) + 0 );
+		} else {
+			if( this.numSibolInStringСooperative == 0 ) {
+				this.numSibolInStringСooperative += this.num;
+			}
+				
+			let ch = Handler.strPlayCooperative.substr( this.numSibolInStringСooperative, 1 );
+			numF = Handler.translationCharToNum( ch );
+			this.numSibolInStringСooperative += 3;
+			
+			if ( this.numSibolInStringСooperative > 249 ) {
+				this.numSibolInStringСooperative = 0;
+			}
+		}
+		
+		
+		let res = new Figure( this.group, 0, 0, numF );
 		return res;
 	};
 	

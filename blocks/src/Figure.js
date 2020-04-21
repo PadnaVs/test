@@ -11,7 +11,7 @@
 		
 		this.num = _num;
 		
-		console.log( this.num );
+		//console.log( this.num );
 		
 		this.positionCell = [];
 		
@@ -108,5 +108,4 @@
 		} else {
 			this.type = Consts.TYPE_ANGLE;
 		}
-		console.log( this.type );
 	};

@@ -2,11 +2,17 @@
 	let Game = function( params ) {
 		let self = this;
 		
+		this.stringForGeneration = "0123456789ABSDEFGHI";
+	
 		this.gameField = params.gameField;
 		this.panelsFigure = params.panelsFigures;
 		this.selectFigure = null;
 		this.touchBlock = params.touchBlock;
 		this.panelScore = params.panelScore;
+		this.panelPlayer2 = params.panelPlayer2;
+		this.gameFieldPlayer2 = params.gameFieldPlayer2;
+		
+		this.netControl = new NetControl();
 		
 		this.selectBonus = null;
 		
@@ -115,7 +121,7 @@
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
-						self.gameField.insertFigure( self.selectFigure.positionCell, startI, startJ );
+						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
 						self.selectPanel.removeFigure();
 						
 						self.panelScore.score += self.selectFigure.points;
@@ -126,7 +132,12 @@
 							self.panelsFigure[2].showFigure();
 						}
 						
-						self.checkLinesDel( self.gameField.field );
+						let numLinesDel = self.checkLinesDel( self.gameField.field );
+						
+						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );
+		
+						self.panelScore.score += numLinesDel[0].length*10;
+						self.panelScore.score += numLinesDel[1].length*10;
 						
 						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
 						if ( self.checkEndGame( self.gameField.field, fieldFigure ) ) {
@@ -209,10 +220,7 @@
 			}
 		}
 	
-		self.gameField.delLines( numsLineDel, numsColumnsDel );
-		
-		self.panelScore.score += numsLineDel.length*10;
-		self.panelScore.score += numsColumnsDel.length*10;
+		return [ numsLineDel, numsColumnsDel ];
 	};
 	
 	Game.prototype.checkEndGame = function( fieldGame, fieldsFigures ) {
@@ -289,7 +297,34 @@
 			}
 			self.panelsFigure[i].setActiveButPanelRot();
 		}
-		
-		
 	};
-		
+	
+	Game.prototype.generateStringsFiguresOfChar = function() {
+		let str = "";
+		for( let i = 0; i < 250; i++ ) {
+			let rndCh = Math.floor(Math.random() * (19 - 0) + 0);
+			str += this.translationNumToChar( rndCh );
+		}
+		console.log( str );
+	};
+	
+	Game.prototype.translationNumToChar = function( _num ) {
+		let res = this.stringForGeneration.substr( _num, 1 );
+		return res;
+	};
+	
+	Game.prototype.generateStringFiguresOfNum = function( _strChars ) {
+		let str = "";
+		for( let i = 0; i < 250; i++ ) {
+			let ch = _strChars[i];
+			str += this.translationCharToNum( ch ) + " ";
+		}
+		return str;
+	};
+	
+	Game.prototype.selectAct = function( obj ) {
+		if ( obj.typeAct == Consts.TYPE_ACT_INSERT_F ) {
+			this.gameFieldPlayer2.insertFigure( obj.numF, obj.i, obj.j );
+		};
+	};
+	
