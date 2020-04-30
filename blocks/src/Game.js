@@ -4,6 +4,8 @@
 		
 		this.stringForGeneration = "0123456789ABSDEFGHI";
 	
+		this.gameStarted = false;
+		
 		this.gameField = params.gameField;
 		this.panelsFigure = params.panelsFigures;
 		this.selectFigure = null;
@@ -12,12 +14,22 @@
 		this.panelPlayer2 = params.panelPlayer2;
 		this.gameFieldPlayer2 = params.gameFieldPlayer2;
 		
-		this.netControl = new NetControl();
+		this.abilityTakeSteps      = true;
+		this.abilityTakeStepsEnemy = true;
+		
+		this.lastSeletPanelF = null;
+		
+		if( Handler.cooperative ) {
+			//window.addEventListener( "load", function() {
+			//	console.log("Завершение загрузки");
+				self.netControl = new NetControl(); 
+			//});
+		};
 		
 		this.selectBonus = null;
 		
 		let touchDown = function( evt ) { 
-		
+			if ( Handler.cooperative && !self.gameStarted ) return;
 			for( let i = 0; i < 3; i++ ) {
 				if ( self.panelsFigure[i].panelRotation != null ) return;
 			}
@@ -60,14 +72,15 @@
 							y: self.selectFigure.position.y - 140
 						};
 						self.selectPanel = self.panelsFigure[i];
+						self.lastSeletPanelF = self.selectPanel;
 					}
 				}
 			}
 		};
 		
 		let touchMove = function( evt ) {
+			if ( Handler.cooperative && !self.gameStarted ) return;
 			if ( self.selectFigure == null ) return;
-			
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
@@ -91,6 +104,7 @@
 		};
 		
 		let touchUp = function( evt ) { 
+			if ( Handler.cooperative && !self.gameStarted ) return;
 			if ( self.selectFigure == null ) return;
 			
 			let wgameField = 686;
@@ -140,8 +154,14 @@
 						self.panelScore.score += numLinesDel[1].length*10;
 						
 						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
-						if ( self.checkEndGame( self.gameField.field, fieldFigure ) ) {
-							alert("You loos");
+						//Обработка окончания возможности ходить
+						if ( self.checkEndSteps( self.gameField.field, fieldFigure ) ) {
+							if( Handler.cooperative ) {
+								self.netControl.sendMsg( { typeAct: Consts.TYPE_ACT_YOU_LOST } );
+								self.abilityTakeSteps = false;
+								self.checkWinner();
+							}
+							alert("You Steps end!");
 						}
 					} else {
 						self.selectFigure.moveStartPos();
@@ -182,24 +202,24 @@
 		let resCheck = true;
 		for( let i = 0; i < 5; i++ ) {
 			for( let j = 0; j < 5; j++ ) {
-				if ( figure.positionCell[i][j] == 1 && field5x5[i][j] != 0 ) {
+				if ( figure.positionCell[i][j] == Consts.FILL_CELLS && field5x5[i][j] != 0 ) {
 					resCheck = false;
 				}
 			}
 		}
 		return resCheck;
-	}
+	};
 	
 	Game.prototype.checkThisLineDel = function( line ) {
 		let self = this;
 		for( let i = 0; i < 10; i++ ) {
-			if( line[i] == 1 ) continue;
-			if( line[i] != 2 ) {
+			if( line[i] == Consts.INACCES_CELLS ) continue;
+			if( line[i] != Consts.FILL_CELLS ) {
 				return false;
 			};
 		};
 		return true;
-	}
+	};
 	
 	Game.prototype.checkLinesDel = function( field ) {
 		let self = this;
@@ -223,7 +243,15 @@
 		return [ numsLineDel, numsColumnsDel ];
 	};
 	
-	Game.prototype.checkEndGame = function( fieldGame, fieldsFigures ) {
+	Game.prototype.delLastInsertFigure = function() {
+		this.gameField.delLastInsertFigure();
+		let numLastFigure = this.gameField.lastInsertFigure.num;
+		let figure = new Figure( this.lastSeletPanelF.group, 0, 0, numLastFigure );
+		this.lastSeletPanelF.figure = figure;
+		this.lastSeletPanelF.showFigure( false );
+	};
+	
+	Game.prototype.checkEndSteps = function( fieldGame, fieldsFigures ) {
 		let self = this;
 		let loosGame = false;
 		
@@ -323,8 +351,76 @@
 	};
 	
 	Game.prototype.selectAct = function( obj ) {
+		let self = this;
 		if ( obj.typeAct == Consts.TYPE_ACT_INSERT_F ) {
 			this.gameFieldPlayer2.insertFigure( obj.numF, obj.i, obj.j );
+		} 
+		else if ( obj.typeAct == Consts.TYPE_ACT_START_GAME ) {
+			this.startGame();
+		}
+		else if ( obj.typeAct == Consts.TYPE_ACT_ENEMY_LOST ) {
+			this.abilityTakeStepsEnemy = false;
+			alert( "Потивник не может ходить!" );
+			self.checkWinner();
+		}
+		else if ( obj.typeAct == Consts.TYPE_ACT_DISCONNECT ) {
+			alert( "Противник вышел из игры! Наберите очков больше чем противник для победы!" );
+			this.abilityTakeStepsEnemy = false;
+			self.checkWinner();
+		}
+	};
+	
+	Game.prototype.checkWinner = function() {
+		let self = this;
+		let yourSc = this.panelScore.score;
+		let enemy = this.panelPlayer2.score;
+		
+		if( !self.abilityTakeStepsEnemy && yourSc > enemy ) {
+			clearInterval(self.timerGame);
+			alert( "Вы победили!" );
+		}
+		
+		if ( !self.abilityTakeSteps && !self.abilityTakeStepsEnemy || self.secToTheEnd == 0 ) {
+			if( yourSc > enemy ) {
+				alert( "Вы победили!" );
+			} else if ( yourSc < enemy ) {
+				alert( "Вы проиграли!" );
+			} else if( yourSc == enemy ) {
+				alert( "Ничья!" );
+			}
+		}
+	};
+	
+	Game.prototype.startGame = function() {
+		let self = this;
+		
+		this.gameStarted = true;
+		
+		this.secToTheEnd = 180;
+		let checkStopGame = function() {
+			console.log( "second", self.secToTheEnd );
+			self.secToTheEnd--;
+			self.checkWinner();
 		};
+		this.timerGame = setInterval( checkStopGame, 1000);
+	};
+	
+	Game.prototype.stPlayerExpectation = function() {
+		let self = this;
+		
+		this.secToTheNextR = 15; //секунд до конца поиска в текущем рейтинге
+		let checkStartGame = function() {
+			self.secToTheNextR--;
+			console.log( "second", self.secToTheNextR );
+			if ( self.gameStarted == true ) {
+				clearInterval( self.tmPlayerExpectation );
+				return;
+			}; 
+			if( self.gameStarted == false && self.secToTheNextR == 0 ) {
+				self.secToTheNextR = 15;
+				self.netControl.sendMsg( { typeAct: Consts.TYPE_ACT_SEARCH_NEXT_RATING } );
+			};
+		};
+		this.tmPlayerExpectation = setInterval( checkStartGame, 1000);
 	};
 	

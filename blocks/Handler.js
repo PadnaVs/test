@@ -3,7 +3,7 @@
 	Handler.pointerX = null;
 	Handler.pointerY = null;
 	
-	Handler.cooperative = true;
+	Handler.cooperative = false;
 	
 	Handler.stringForGeneration = "0123456789ABSDEFGHI";
 	

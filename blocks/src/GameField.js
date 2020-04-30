@@ -38,12 +38,13 @@
 	};
 	
 	GameField.prototype.reWritefield = function( fieldFigure, iStart, jStart ) {
-		 for( let i = 0; i < fieldFigure.length; i++ ) {
-			 for( let j = 0; j < fieldFigure[0].length; j++ ) {
+		 for( let i = 0; i < 5; i++ ) {
+			 for( let j = 0; j < 5; j++ ) {
 				let ri = iStart+i;
 				let rj = jStart+j;
 				if ( ri < 10 && rj < 10 ) {
-					if ( fieldFigure[i][j] == 1 ) this.field[ri][rj] = Consts.ID_FIGURE;
+					if ( fieldFigure[i][j] == Consts.FILL_CELLS ) this.field[ri][rj] = Consts.FILL_CELLS;
+					if ( fieldFigure[i][j] == Consts.DEL_CELLS )  this.field[ri][rj] = Consts.OPEN_CELLS;
 				}
 			 }
 		 }
@@ -52,16 +53,24 @@
 	
 	GameField.prototype.insertFigure = function( num, iStart, jStart ) {
 		let fieldFigure = Consts.POSITION_CEIL[num];
+		
+		this.lastInsertFigure = {
+			num: num,
+			field: fieldFigure,
+			iIn: iStart,
+			jIn: jStart,
+		};
+		
 		this.reWritefield( fieldFigure, iStart, jStart );
 		for( let i = 0; i < 5; i++ ) {
 			 for( let j = 0; j < 5; j++ ) {
 				let ri = iStart+i;
 			    let rj = jStart+j;			
 				if ( ri < 10 && rj < 10 ) {
-					if( this.field[ri][rj] == 2 ) {
+					if( this.field[ri][rj] == Consts.FILL_CELLS ) {
 						let newX = 6+rj*(Handler.cellW+3);
 						let newY = 6+ri*(Handler.cellW+3);
-						if( this.cellsFilled[ri][rj] == 0 ) {
+						if( this.cellsFilled[ri][rj] == Consts.OPEN_CELLS ) {
 							this.cellsFilled[ri][rj] = Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x00ffff, 1, 15 );
 						};
 					};
@@ -69,9 +78,26 @@
 			 }
 		 }
 		 
-		 
-		 Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
+		if( Handler.cooperative ) Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
 	};
+	
+	GameField.prototype.delLastInsertFigure = function() {
+		if( !this.lastInsertFigure ) return;
+		
+		for( let i = 0; i < 5; i++ ) {
+			 for( let j = 0; j < 5; j++ ) {
+				if( this.lastInsertFigure.field[i][j] == Consts.FILL_CELLS ) {
+					this.lastInsertFigure.field[i][j] = Consts.DEL_CELLS;
+					let iDel = this.lastInsertFigure.iIn;
+					let jDel = this.lastInsertFigure.jIn;
+					this.cellsFilled[iDel+i][jDel+j].removeSelf();
+					this.cellsFilled[iDel+i][jDel+j] = Consts.OPEN_CELLS;
+				};
+			 }
+		}
+		this.reWritefield( this.lastInsertFigure.field, this.lastInsertFigure.iIn, this.lastInsertFigure.jIn );
+	};
+	
 	
 	GameField.prototype.delLines = function( numsLine, numsCol ) {
 		//console.log( this.cellsFilled );

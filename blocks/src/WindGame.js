@@ -61,14 +61,16 @@
 		this.panelPlayer2 = null;
 		
 		if( !Handler.cooperative ) { 
-			this.panelScore = new PanelScore( this.group, 20, 170, 450, 90 );
+			this.panelScore = new PanelScore( this.group, 20, 170, 330, 90 );
 			this.panelScore.show();
 		
-			this.panelBestScore = new PanelBestScore( this.group, 20, 40, 450, 90 );
+			this.panelBestScore = new PanelBestScore( this.group, 20, 40, 330, 90 );
 			this.panelBestScore.show();
 			
 			this.butSound = Handler.showRect( this.group, 498, 40, 90, 90, 0xfff00f, 1 );
-		
+			
+			this.butCancelMove = Handler.showRect( this.group, 380, 170, 90, 90, 0xff00ff, 1 );
+			
 			this.butMenu  = Handler.showRect( this.group, 608, 40, 90, 90, 0xff0000, 1 );
 			
 			this.butBonuses  = Handler.showRect( this.group, 498, 170, 200, 90, 0x00ff00, 1 );
@@ -116,6 +118,9 @@
 		};
 		Handler.game = new Game( panels );
 		
+		if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown", function() { 
+				Handler.game.delLastInsertFigure();
+		} );
 		//this.gameFieldPlayer2.insertFigure( 1, 0, 0 );
 		//this.gameFieldPlayer2.insertFigure( 1, 2, 0 );
 		//this.gameFieldPlayer2.insertFigure( 1, 4, 0 );

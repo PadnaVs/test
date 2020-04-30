@@ -1,5 +1,5 @@
 	
-	alert( "version 0.6" );
+	console.log( "version 0.65" );
 	
 	const visibleWidth0  = 360;
     const visibleHeight0 = 640;
@@ -38,11 +38,21 @@
 	
 	pixiApp.stage.addChild(graphics);*/
 	
+	let wOtherG = Handler.newGroup( pixiApp.stage );
+	wOtherG.scale.set( 0.5 );
+	
 	let wg = Handler.newGroup( pixiApp.stage );
 	wg.scale.set( 0.5 );
 	
-	let windGame = new WindGame(  );
-	windGame.show();
+	
+	
+	let windStartGame = new WindStartGame();
+	windStartGame.show();
+	
+	let windGame = new WindGame();
+	//windGame.show();
+	
+	
 	/*const texture = PIXI.Texture.from( "./images/mainBack.jpg" );
 	const mainBack = new PIXI.Sprite(texture);
     wg.addChild(mainBack);*/

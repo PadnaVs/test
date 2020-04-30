@@ -61,9 +61,7 @@
 	PanelFigure.prototype.generationFigure = function() {
 		let numF = null;
 		
-		
-		
-		if ( Handler.coperative == false ) {
+		if ( Handler.cooperative == false ) {
 			numF = Math.floor( Math.random() * ( 19 - 0 ) + 0 );
 		} else {
 			if( this.numSibolInStringСooperative == 0 ) {
