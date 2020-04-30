@@ -84,18 +84,23 @@
 	GameField.prototype.delLastInsertFigure = function() {
 		if( !this.lastInsertFigure ) return;
 		
+		let fieldDel = [];
+		
 		for( let i = 0; i < 5; i++ ) {
+			fieldDel[i] = [];
 			 for( let j = 0; j < 5; j++ ) {
 				if( this.lastInsertFigure.field[i][j] == Consts.FILL_CELLS ) {
-					this.lastInsertFigure.field[i][j] = Consts.DEL_CELLS;
+					fieldDel[i][j] = Consts.DEL_CELLS;
 					let iDel = this.lastInsertFigure.iIn;
 					let jDel = this.lastInsertFigure.jIn;
 					this.cellsFilled[iDel+i][jDel+j].removeSelf();
 					this.cellsFilled[iDel+i][jDel+j] = Consts.OPEN_CELLS;
-				};
+				} else {
+					fieldDel[i][j] = Consts.OPEN_CELLS;
+				}
 			 }
 		}
-		this.reWritefield( this.lastInsertFigure.field, this.lastInsertFigure.iIn, this.lastInsertFigure.jIn );
+		this.reWritefield( fieldDel, this.lastInsertFigure.iIn, this.lastInsertFigure.jIn );
 	};
 	
 	

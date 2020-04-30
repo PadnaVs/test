@@ -247,8 +247,12 @@
 		this.gameField.delLastInsertFigure();
 		let numLastFigure = this.gameField.lastInsertFigure.num;
 		let figure = new Figure( this.lastSeletPanelF.group, 0, 0, numLastFigure );
+		if( this.lastSeletPanelF.figure ) this.lastSeletPanelF.removeFigure();
 		this.lastSeletPanelF.figure = figure;
 		this.lastSeletPanelF.showFigure( false );
+		
+		this.gameField.lastInsertFigure = null;
+		this.lastSeletPanelF = null;
 	};
 	
 	Game.prototype.checkEndSteps = function( fieldGame, fieldsFigures ) {

@@ -71,7 +71,7 @@
 		
 		for( let i = 0; i < this.positionCell.length; i++ ) {
 			for( let j = 0; j < this.positionCell[i].length; j++ ) {
-				if( this.positionCell[i][j] == 0 ) continue;
+				if( this.positionCell[i][j] == Consts.OPEN_CELLS ) continue;
 				this.points++;
 				Handler.showRect( this.group, j*Handler.cellW+j*3, i*Handler.cellW+i*3, Handler.cellW, Handler.cellW, 0x57069E, 1, 5 );
 			};
