@@ -13,7 +13,7 @@
 		
 		//console.log( this.num );
 		
-		this.positionCell = [];
+		this.positionCell = Consts.POSITION_CEIL[ this.num ];
 		
 		this._position = this.group.position;
 		
@@ -67,8 +67,6 @@
 	};
 	
 	Figure.prototype.createFigure = function() {
-		this.positionCell = Consts.POSITION_CEIL[ this.num ];
-		
 		for( let i = 0; i < this.positionCell.length; i++ ) {
 			for( let j = 0; j < this.positionCell[i].length; j++ ) {
 				if( this.positionCell[i][j] == Consts.OPEN_CELLS ) continue;

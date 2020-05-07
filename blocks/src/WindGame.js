@@ -118,6 +118,9 @@
 		};
 		Handler.game = new Game( panels );
 		
+		self.bot = new Bot();
+		self.bot.startGame();
+		
 		if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown", function() { 
 				Handler.game.delLastInsertFigure();
 		} );

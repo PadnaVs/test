@@ -42,7 +42,7 @@
 				let ri = iStart+i;
 				let rj = jStart+j;
 				if ( ri < 10 && rj < 10 ) {
-					if ( fieldFigure[i][j] == 1 ) this.field[ri][rj] = Consts.ID_FIGURE;
+					if ( fieldFigure[i][j] == Consts.FILL_CELLS ) this.field[ri][rj] = Consts.FILL_CELLS;
 				}
 			 }
 		 }
@@ -57,10 +57,10 @@
 				let ri = iStart+i;
 			    let rj = jStart+j;			
 				if ( ri < 10 && rj < 10 ) {
-					if( this.field[ri][rj] == 2 ) {
+					if( this.field[ri][rj] == Consts.FILL_CELLS ) {
 						let newX = 6+rj*(this.cellW+3);
 						let newY = 6+ri*(this.cellW+3);
-						if( this.cellsFilled[ri][rj] == 0 ) {
+						if( this.cellsFilled[ri][rj] == Consts.OPEN_CELLS ) {
 							this.cellsFilled[ri][rj] = Handler.showRect( this.group, newX, newY, this.cellW, this.cellW, 0x0000ff, 1, 5 );
 							 Handler.game.panelPlayer2.score += 1;
 						};
@@ -75,7 +75,7 @@
 	};
 	
 	GameFieldPlayer2.prototype.delLines = function( numsLine, numsCol ) {
-		console.log( this.cellsFilled );
+	//	console.log( this.cellsFilled );
 
 		if( numsLine.length != 0 ) {
 			for( let i = 0; i < numsLine.length; i++ ) {
