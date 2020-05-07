@@ -127,6 +127,7 @@
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
 						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
 						self.selectPanel.removeFigure();
+						self.selectPanel.setNActiveButPanelRot();
 						
 						self.panelScore.score += self.selectFigure.points;
 						
