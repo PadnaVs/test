@@ -133,7 +133,7 @@
 		}
 		
 		if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown", function() { 
-				Handler.game.delLastInsertFigure();
+				if( Handler.game.lastSeletPanelF ) Handler.game.delLastInsertFigure();
 		} );
 		//this.gameFieldPlayer2.insertFigure( 1, 0, 0 );
 		//this.gameFieldPlayer2.insertFigure( 1, 2, 0 );
