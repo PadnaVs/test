@@ -2,7 +2,6 @@
 	let PanelBonus = function( _parent, _x, _y, _width, _height ) {
 		let self = this;
 		this.group = Handler.newGroup( _parent );
-		this.group.toFront();
 		
 		this.numBonus = null;
 		
@@ -35,7 +34,10 @@
 		this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 	
 		this.cross = Handler.showRect( this.group, this.width-80, 20, 60, 60, 0xFF0000 );
-		this.cross.onEL( "pointertap", function(){ self.visible = false; } );
+		this.cross.onEL( "pointertap", function(){
+			Handler.game.selectBonus = null;			
+			self.visible = false; 
+		} );
 		let wBB = 130;
 		let hBB = 130;
 		

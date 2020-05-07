@@ -86,7 +86,10 @@
 			this.panelBonus.show();
 			this.panelBonus.visible = false;
 			
-			this.butBonuses.onEL( "pointerdown", function( evt ) { self.panelBonus.visible = true } );
+			this.butBonuses.onEL( "pointerdown", function( evt ) { 
+				self.panelBonus.visible = true;
+				self.panelBonus.group.toFront();
+			} );
 		} else {
 			
 			let paramsPlayer1 = {
