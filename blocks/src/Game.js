@@ -42,7 +42,6 @@
 			Handler.pointerStartY = Handler.pointerY;
 			
 			if ( self.selectBonus != null ) {
-				
 				switch( self.selectBonus ) {
 					case 0:
 						self.delLineBon( Handler.pointerX, Handler.pointerY );
@@ -67,12 +66,13 @@
 					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
 						self.panelsFigure[i].figure.scale( 0.57 );
 						self.selectFigure = self.panelsFigure[i].figure;
-						self.selectFigure.group.toFront();
+						//self.selectFigure.group.toFront();
 						self.selectFigure.position = {
 							x: self.selectFigure.position.x,
 							y: self.selectFigure.position.y - 140
 						};
 						self.selectPanel = self.panelsFigure[i];
+						self.selectPanel.group.toFront();
 						self.lastSeletPanelF = self.selectPanel;
 					}
 				}

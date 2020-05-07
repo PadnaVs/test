@@ -3,7 +3,7 @@
 		
 		this.parent = _parent;
 		this.group = Handler.newGroup( this.parent.group );
-		
+		this.group.toFront();
 		this.x = _x;
 		this.y = _y;
 		

@@ -7,6 +7,8 @@
 	
 	Handler.stringForGeneration = "0123456789ABSDEFGHI";
 	
+	Handler.zIndex = 0;
+	
     Handler.isMobile = function() {
         return isMobile != null && isMobile;
     };    
@@ -187,14 +189,17 @@
             pixiApp.stage.addChild( child );
         }
     }
+
     Handler.newGroup = function( iparent ) {
         let cont = new PIXI.Container();
         Handler.addChild( iparent, cont );
+		iparent.sortableChildren = true;
+		cont.zIndex = Handler.zIndex++;
         cont.insert = cont.addChild;
         //pixiApp.stage.scale.x = pixiAppScale;
         //pixiApp.stage.scale.y = pixiAppScale;
         Handler.addExtraMethods( cont );
-        
+        //cont.sortableChildren = true;
         return cont;
         
         //const sprite = new PIXI.Sprite(texture);
@@ -230,7 +235,9 @@
         obj.toFront = function() {
             this.parent.sortableChildren = true;
             let maxZIndex = 0;
-            this.parent.children.map( function(n){ maxZIndex = Math.max(n.zIndex,maxZIndex); } );
+            this.parent.children.map( function(n){ 
+				maxZIndex = Math.max(n.zIndex,maxZIndex); 
+			} );
             this.zIndex = maxZIndex + 1; 
         };
     }
@@ -397,6 +404,7 @@
         }
         graphics.endFill();
         Handler.addExtraMethods(graphics);
+		graphics.zIndex = Handler.zIndex++;		
         return graphics;
     }
     Handler.loadedPhotos = {};         
@@ -422,7 +430,7 @@
 
     Handler.showNumber = function( fname, cx, cy, num, nw, nh, gParent, dir, shift=0 ) {
         let gNumber = Handler.newGroup( gParent );
-        gNumber.translate( cx, cy );
+		gNumber.translate( cx, cy );
 
         let str = num+'';
 

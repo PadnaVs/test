@@ -2,6 +2,7 @@
 	let PanelBonus = function( _parent, _x, _y, _width, _height ) {
 		let self = this;
 		this.group = Handler.newGroup( _parent );
+		this.group.toFront();
 		
 		this.numBonus = null;
 		

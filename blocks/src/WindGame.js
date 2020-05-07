@@ -10,6 +10,7 @@
 		let self = this;
 		
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
+		//this.background.toBack();
 		
 		let field =  [ 
 						[0,0,0,0,0,0,0,0,0,0],
@@ -53,6 +54,12 @@
 			
 			this.panelsFigure[i].transition( newX );
 		};
+		
+		console.log( this.background.zIndex );
+		console.log( this.gameField.group.zIndex );
+		console.log( this.panelsFigure[0].group.zIndex );
+		console.log( this.panelsFigure[1].group.zIndex );
+		console.log( this.panelsFigure[2].group.zIndex );
 		
 		this.panelScore = null;
 		this.panelBestScore = null;
@@ -117,9 +124,10 @@
 			panelPlayer2: this.panelPlayer2,
 		};
 		Handler.game = new Game( panels );
-		
-		self.bot = new Bot();
-		self.bot.startGame();
+		if( Handler.cooperative ) {
+			self.bot = new Bot();
+			self.bot.startGame();
+		}
 		
 		if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown", function() { 
 				Handler.game.delLastInsertFigure();
