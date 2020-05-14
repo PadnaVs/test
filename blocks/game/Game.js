@@ -59,6 +59,7 @@
 							y: self.selectFigure.position.y - 140
 						};
 						self.selectPanel = self.panelsFigure[i];
+						self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
 						self.lastSeletPanelF = self.selectPanel;
 					}
@@ -75,6 +76,10 @@
 			
 			if ( Handler.pointerX > 720 || Handler.pointerX < 0 ||  Handler.pointerY > 1280 ||  Handler.pointerY < 0 ) {
 				self.selectFigure.moveStartPos();
+				if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+					self.selectPanel.setActiveButPanelRot();
+				};
+				self.selectPanel = null;
 				self.selectFigure = null;
 				return;
 			}
@@ -158,14 +163,24 @@
 							//alert("You Steps end!");
 						}
 					} else {
+						if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+							self.selectPanel.setActiveButPanelRot();
+						};
 						self.selectFigure.moveStartPos();
 					}
 				} else {
+					if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+						self.selectPanel.setActiveButPanelRot();
+					};
 					self.selectFigure.moveStartPos();
 				}
 			} else {
+				if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+					self.selectPanel.setActiveButPanelRot();
+				};
 				self.selectFigure.moveStartPos();
 			}
+			self.selectPanel = null;
 			self.selectFigure = null;
 		};
 		
@@ -247,7 +262,7 @@
 	Game.prototype.delLastInsertFigure = function() {
 		this.gameField.delLastInsertFigure();
 		let numLastFigure = this.gameField.lastInsertFigure.num;
-		let figure = new Figure( this.lastSeletPanelF.group, 0, 0, numLastFigure );
+		let figure = new Figure( this.lastSeletPanelF.group, this.lastSeletPanelF.group.width/2, this.lastSeletPanelF.group.height/2, numLastFigure );
 		if( this.lastSeletPanelF.figure ) this.lastSeletPanelF.removeFigure();
 		this.lastSeletPanelF.figure = figure;
 		this.lastSeletPanelF.showFigure( false );

@@ -55,12 +55,6 @@
 			this.panelsFigure[i].transition( newX );
 		};
 		
-		console.log( this.background.zIndex );
-		console.log( this.gameField.group.zIndex );
-		console.log( this.panelsFigure[0].group.zIndex );
-		console.log( this.panelsFigure[1].group.zIndex );
-		console.log( this.panelsFigure[2].group.zIndex );
-		
 		this.panelScore = null;
 		this.panelBestScore = null;
 		
@@ -73,16 +67,46 @@
 		
 			this.panelBestScore = new PanelBestScore( this.group, 20, 40, 330, 90 );
 			this.panelBestScore.show();
+/////////////////////////Звук///////////////////////////////			
+			this.butSoundEn = null;
+			this.butSoundDis = null;
 			
-			let tapButSound = function() {
-				
+			let tapButSoundEn = function( evt ) {
+				if( !self.butSoundEn ) return;
+				if( !evt.target.visible ) {
+					evt.target.visible = true;
+					self.butSoundEn.visible = false;
+				} else {
+					evt.target.visible = false;
+					self.butSoundEn.visible = true;
+				}
+			};
+			
+			let tapButSoundDis = function( evt ) {
+				if( !self.butSoundDis ) return;
+				if( !evt.target.visible ) {
+					evt.target.visible = true;
+					self.butSoundDis.visible = false;
+				} else {
+					evt.target.visible = false;
+					self.butSoundDis.visible = true;
+				}
 			};
 			//this.butSound = 
-			Handler.addImg( this.group, "./images/windGame/butSound.png", 498, 40, tapButSound );
+			let onLoadButSoundEn = function(img){
+				self.butSoundEn = img;
+			};
+			let onLoadButSoundDis = function(img){
+				self.butSoundDis = img;
+			};
+			Handler.addImg( this.group, "./images/windGame/butSoundDis.png", 498, 40, tapButSoundEn, onLoadButSoundDis );
+			Handler.addImg( this.group, "./images/windGame/butSoundEn.png", 498, 40, tapButSoundDis, onLoadButSoundEn );
+////////////////////////////////////////////////////////////			
 			
 			let tapButCancelMove = function() { 
 				if( Handler.game.lastSeletPanelF ) Handler.game.delLastInsertFigure();
 			};
+			
 			//this.butCancelMove = 
 			Handler.addImg( this.group, "./images/windGame/butCancelMove.png", 380, 170, tapButCancelMove );
 			

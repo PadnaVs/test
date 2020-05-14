@@ -37,8 +37,10 @@
 		//this.background
 		Handler.addImg( this.group, "./images/windGame/panelFigure/background.png",0,0,null,function(img){ img.toBack(); } );
 		
-		let onLoadButR = function() {
-			if( self.figure.type == Consts.TYPE_BLOCK ) { 
+		let onLoadButR = function(img) {
+			self.butShowPanel = img; 
+			if( self.figure.type == Consts.TYPE_BLOCK ) {
+				self.butShowPanel.interactive = false;
 				self.setNActiveButPanelRot();
 			} else {
 				self.setActiveButPanelRot();
@@ -48,7 +50,7 @@
 		
 		
 		this.blockRect = Handler.showRect( this.group, 10, 10, 42, 42, 0xFF0000, 0.7 );
-		this.blockRect.interactive = true;
+		//this.blockRect.interactive = true;
 		
 		this.showFigure();
 	};
@@ -135,13 +137,13 @@
 	};
 	
 	PanelFigure.prototype.setActiveButPanelRot = function() {
-		//this.butShowPanel.interactive = true;
+		if(this.butShowPanel)this.butShowPanel.interactive = true;
 		//this.blockRect.visible = false;
 		this.blockRect.toBack();
 	};
 	
 	PanelFigure.prototype.setNActiveButPanelRot = function() {
-		//this.butShowPanel.interactive = false;
+		if(this.butShowPanel)this.butShowPanel.interactive = false;
 		//this.blockRect.visible = true;
 		this.blockRect.toFront();
 	};
