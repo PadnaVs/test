@@ -106,7 +106,10 @@
 				return;
 			}
 			if ( Handler.game.panelsFigure[i].figure != null ) Handler.game.panelsFigure[i].removeFigure();
-			Handler.game.panelsFigure[i].figure = new Figure( Handler.game.panelsFigure[i].group, 0, 0, this.selectFigures[i] );
+			let xF = Handler.game.panelsFigure[i].group.width/2;
+			let yF = Handler.game.panelsFigure[i].group.height/2;
+			let grPanel = Handler.game.panelsFigure[i].group;
+			Handler.game.panelsFigure[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
 			Handler.game.panelsFigure[i].showFigure( false );
 		}
 		this.destroy();
