@@ -39,9 +39,6 @@
 	
 	pixiApp.stage.addChild(graphics);*/
 	
-	let wOtherG = Handler.newGroup( pixiApp.stage );
-	wOtherG.scale.set( 0.5 );
-	
 	let wg = Handler.newGroup( pixiApp.stage );
 	wg.scale.set( 0.5 );
 	
@@ -92,12 +89,8 @@
 			let scale = Math.min( scalew,scaleh, 3 );
 
 			window .pixiAppScale  = Math.max( 1.0, scale );
-		    //window .pixiAppScale = pixiAppScaleMobile;
-			
-
 
 			Handler.resizeFlag = null;
-		//}
 	};
 	
     Handler.resizeApp();

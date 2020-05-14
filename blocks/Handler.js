@@ -241,22 +241,38 @@
             this.zIndex = maxZIndex + 1; 
         };
     }
-    Handler.addImg = function( iparent, ipath, ix, iy ) {
+    Handler.addImg = function( iparent, ipath, ix, iy, onTapHandler=null, onTextureLoaded=null, withDraw=true ) {
 	    const texture = PIXI.Texture.from( ipath );
-
-        if ( texture.baseTexture.hasLoaded ) {
-	        const img = new PIXI.Sprite( texture );
+		texture.__zIndex = Handler.zIndex;
+		Handler.zIndex++;
+		
+		let _drawImg = function() {
+            const img = new PIXI.Sprite( texture );
             img.x = ix;    img.y = iy;
+			img.zIndex = texture.__zIndex;
+
             iparent.addChild(img);
+			iparent.sortChildren();
+			
+			Handler.addExtraMethods(img);
+			
+			if ( onTextureLoaded != null ) {
+			    onTextureLoaded(img);	
+			}
+			if ( onTapHandler != null ) {
+				img.interactive = true;
+				img.on( 'pointertap', onTapHandler );
+			}
+		};
+        //if ( texture.baseTexture.hasLoaded ) {
+		if ( texture.valid ) {
+	       if ( withDraw ) _drawImg();
 		} else {
-		    texture.baseTexture.on( "loaded", (evt)=>{
-	            const img = new PIXI.Sprite( texture );
-                img.x = ix;    img.y = iy;
-                iparent.addChild(img);
+		    texture.baseTexture.on( "loaded", (evt)=> {
+                if ( withDraw ) _drawImg();				
 		    } );
 		}
-		//return img;
-	}
+	};
 		
     Handler.showImg = function( iparent, ipath, ix, iy, withAnchor=true  ) {
         const texture = PIXI.Texture.from( ipath );
@@ -510,7 +526,9 @@
         richText.anchor.set(params.anchor, params.anchor);
         
         params.parent.addChild(richText);
-
+		
+		Handler.zIndex++;
+		richText.zIndex = Handler.zIndex;
         return richText;
     };
 
@@ -527,38 +545,6 @@
 	
 	Handler.createStrForCooperative = function( num ) {
 		this.strPlayCooperative = Consts['STR'+num];
-		//switch( num ) {
-		//	case 0:
-		//		this.strPlayCooperative = Consts.STR0;
-		//	break;
-		//	case 1:
-		//		this.strPlayCooperative = Consts.STR1;
-		//	break;
-		//	case 2:
-		//		this.strPlayCooperative = Consts.STR2;
-		//	break;
-		//	case 3:
-		//		this.strPlayCooperative = Consts.STR3;
-		//	break;
-		//	case 4:
-		//		this.strPlayCooperative = Consts.STR4;
-		//	break;
-		//	case 5:
-		//		this.strPlayCooperative = Consts.STR5;
-		//	break;
-		//	case 6:
-		//		this.strPlayCooperative = Consts.STR6;
-		//	break;
-		//	case 7:
-		//		this.strPlayCooperative = Consts.STR7;
-		//	break;
-		//	case 8:
-		//		this.strPlayCooperative = Consts.STR8;
-		//	break;
-		//	case 9:
-		//		this.strPlayCooperative = Consts.STR9;
-		//	break;
-		//}
 	};
 	
 	Handler.translationCharToNum = function( _symbol ) {

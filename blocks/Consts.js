@@ -94,7 +94,9 @@
     Consts.TIME_TRANSITION_LEFT_AC_BEFORE_LEVEL = 800;//sek             
     Consts.TIME_SHOW_SMAL_AC                    = 15000;//sek         
 	
-	
+	Consts.YOU_WIN   = 0;
+	Consts.ENEMY_WIN = 1;
+	Consts.DEAD_HEAT = 2;
 	
 	Consts.TYPE_ACT_INSERT_F            = 0;
 	Consts.TYPE_ACT_DEL_F               = 1;
@@ -104,6 +106,8 @@
 	Consts.TYPE_ACT_FIRST_CONNECT       = 4;
 	Consts.TYPE_ACT_DISCONNECT          = 5;
 	Consts.TYPE_ACT_SEARCH_NEXT_RATING  = 6;
+	Consts.TYPE_ACT_START_GAME_WITH_BOT = 7;
+	
 	
 	Consts.TYPE_BLOCK = 0;
 	Consts.TYPE_LINE  = 1;
