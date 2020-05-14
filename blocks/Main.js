@@ -1,5 +1,5 @@
 	
-	console.log( "version 0.662" );
+	console.log( "version 0.663" );
 	
 	
 	const visibleWidth0  = 360;
@@ -41,8 +41,12 @@
 	
 	let wg = Handler.newGroup( pixiApp.stage );
 	wg.scale.set( 0.5 );
-	
-	
+
+	const Main = {};
+
+	let ud = '{"isNew":false,"user":{"id":"1","outer_id":"514097834586","coins":"7410","exp":"0","ml":"6","day_bonus":"0","visit":"1589454561","noticePromise":"0"},"superGemHelp":0,"ts":1589463069,"ci":0,"openedWords":"100_000_000_0000_0000000","countPayments":0}';
+
+	User.init( JSON.parse( ud ) );
 	
 	let windStartGame = new WindStartGame();
 	windStartGame.show();
