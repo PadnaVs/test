@@ -13,6 +13,8 @@
 			windGame.show();
 		};
 		
+		PanelCoins.init( this.group );
+		
 		//this.butPlaySolo = 
 		Handler.addImg( this.group, "./images/butPlaySolo.png", 160, 160, tapButPlaySolo );
 		

@@ -159,6 +159,8 @@
 			this.gameFieldPlayer2.show();
 		}
 		
+		this.panelCoins = PanelCoins.init( this.group, -240 );
+		
 		Handler.game = new Game();
 		
 		if( Handler.cooperative ) {

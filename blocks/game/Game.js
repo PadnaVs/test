@@ -354,6 +354,7 @@
 		let self = this;
 		
 		for( let i = 0; i < 3; i++ ) {
+			if( self.panelsFigure[i].figure == null ) continue;
 			if ( self.panelsFigure[i].figure.type == Consts.TYPE_BLOCK ) {
 				self.panelsFigure[i].setNActiveButPanelRot();
 				continue;
