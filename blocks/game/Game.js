@@ -53,7 +53,7 @@
 					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
 						self.panelsFigure[i].figure.scale( 0.57 );
 						self.selectFigure = self.panelsFigure[i].figure;
-						//self.selectFigure.group.toFront();
+						self.selectFigure.group.toFront();
 						self.selectFigure.position = {
 							x: self.selectFigure.position.x,
 							y: self.selectFigure.position.y - 140
@@ -143,7 +143,6 @@
 							self.panelsFigure[0].showFigure();
 							self.panelsFigure[1].showFigure();
 							self.panelsFigure[2].showFigure();
-							self.setNActiveButCancelMove();
 						}
 						
 						let numLinesDel = self.checkLinesDel( self.gameField.field );
@@ -274,8 +273,16 @@
 		this.lastSeletPanelF.figure = figure;
 		this.lastSeletPanelF.showFigure( false );
 		
+		if ( this.panelsFigure[0].figure && this.panelsFigure[1].figure && this.panelsFigure[2].figure ) {
+			for( let i = 0; i<3; i++ ) {
+				if( this.panelsFigure[i] == this.lastSeletPanelF ) continue;
+				this.panelsFigure[i].removeFigure();
+			}
+		}
+		
 		this.gameField.lastInsertFigure = null;
 		this.lastSeletPanelF = null;
+		this.setNActiveButCancelMove();
 	};
 	
 	Game.prototype.checkEndSteps = function( fieldGame, fieldsFigures ) {
