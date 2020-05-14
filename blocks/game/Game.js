@@ -5,14 +5,14 @@
 		this.stringForGeneration = "0123456789ABSDEFGHI";
 		
 		this.gameStarted = false;
-		
-		this.gameField = params.gameField;
-		this.panelsFigure = params.panelsFigures;
 		this.selectFigure = null;
-		this.touchBlock = params.touchBlock;
-		this.panelScore = params.panelScore;
-		this.panelPlayer2 = params.panelPlayer2;
-		this.gameFieldPlayer2 = params.gameFieldPlayer2;
+		
+		this.gameField        = windGame.gameField;
+		this.panelsFigure     = windGame.panelsFigures;
+		this.touchBlock       = windGame.touchBlock;
+		this.panelScore       = windGame.panelScore;
+		this.panelPlayer2     = windGame.panelPlayer2;
+		this.gameFieldPlayer2 = windGame.gameFieldPlayer2;
 		
 		this.abilityTakeSteps      = true;
 		this.abilityTakeStepsEnemy = true;
@@ -61,7 +61,6 @@
 						self.selectPanel = self.panelsFigure[i];
 						self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
-						self.lastSeletPanelF = self.selectPanel;
 					}
 				}
 			}
@@ -109,6 +108,7 @@
 						self.delColBon( Handler.pointerX, Handler.pointerY );
 					break;
 				}
+				self.setNActiveButCancelMove();
 				return;
 			};
 			
@@ -132,8 +132,10 @@
 					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
 						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
+						self.lastSeletPanelF = self.selectPanel;
 						self.selectPanel.removeFigure();
 						self.selectPanel.setNActiveButPanelRot();
+						self.setActiveButCancelMove();
 						
 						self.panelScore.score += self.selectFigure.points;
 						
@@ -141,12 +143,17 @@
 							self.panelsFigure[0].showFigure();
 							self.panelsFigure[1].showFigure();
 							self.panelsFigure[2].showFigure();
+							self.setNActiveButCancelMove();
 						}
 						
 						let numLinesDel = self.checkLinesDel( self.gameField.field );
 						
 						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );
-		
+						
+						if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
+							self.setNActiveButCancelMove();
+						}
+						
 						self.panelScore.score += numLinesDel[0].length*10;
 						self.panelScore.score += numLinesDel[1].length*10;
 						
@@ -468,3 +475,16 @@
 		this.tmPlayerExpectation = setInterval( checkStartGame, 1000);
 	};
 	
+	Game.prototype.setActiveButCancelMove = function() {
+		if( windGame.butCancelMove ) {
+			windGame.butCancelMove.filters = [  ];
+			windGame.butCancelMove.interactive = true;
+		}
+	};
+	
+	Game.prototype.setNActiveButCancelMove = function() {
+		if( windGame.butCancelMove ) {
+			windGame.butCancelMove.filters = [ Handler.bwf ];
+			windGame.butCancelMove.interactive = false;
+		}
+	};

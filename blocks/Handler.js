@@ -1,4 +1,7 @@
     const Handler = {};         
+	
+	Handler.bwf = new PIXI.filters.ColorMatrixFilter();
+	Handler.bwf.blackAndWhite( true );
  
 	Handler.pointerX = null;
 	Handler.pointerY = null;

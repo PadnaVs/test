@@ -80,6 +80,7 @@
 				self.panelSelectFigure.show();
 			break;
 		}
+		Handler.game.setNActiveButCancelMove();
 	};
 	
 	

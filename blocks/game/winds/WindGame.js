@@ -3,7 +3,7 @@
 		this.group = wg;
 		this.level = _level;
 		
-		this.panelsFigure = [];
+		this.panelsFigures = [];
 	};
 	
 	WindGame.prototype.show = function() {
@@ -46,13 +46,13 @@
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
 		for( let i = 0; i < 3; i++ ) {
-			this.panelsFigure[i] = new PanelFigure( this.group, 20, 1000 );
-			this.panelsFigure[i].num = i;
+			this.panelsFigures[i] = new PanelFigure( this.group, 20, 1000 );
+			this.panelsFigures[i].num = i;
 			
-			this.panelsFigure[i].show();
-			let newX = 20+this.panelsFigure[i].width*i+6*i;
+			this.panelsFigures[i].show();
+			let newX = 20+this.panelsFigures[i].width*i+6*i;
 			
-			this.panelsFigure[i].transition( newX );
+			this.panelsFigures[i].transition( newX );
 		};
 		
 		this.panelScore = null;
@@ -103,12 +103,17 @@
 			Handler.addImg( this.group, "./images/windGame/butSoundEn.png", 498, 40, tapButSoundDis, onLoadButSoundEn );
 ////////////////////////////////////////////////////////////			
 			
+			
 			let tapButCancelMove = function() { 
 				if( Handler.game.lastSeletPanelF ) Handler.game.delLastInsertFigure();
 			};
 			
-			//this.butCancelMove = 
-			Handler.addImg( this.group, "./images/windGame/butCancelMove.png", 380, 170, tapButCancelMove );
+			let onLoadButCancelMove = function(img) {
+				self.butCancelMove = img;
+				self.butCancelMove.filters = [ Handler.bwf ];
+				self.butCancelMove.interactive = false;
+			}
+			Handler.addImg( this.group, "./images/windGame/butCancelMove.png", 380, 170, tapButCancelMove, onLoadButCancelMove );
 			
 			let tapButMenu = function(){
 				
@@ -154,15 +159,7 @@
 			this.gameFieldPlayer2.show();
 		}
 		
-		let panels = {
-			gameField: this.gameField,
-			gameFieldPlayer2: this.gameFieldPlayer2,
-			panelsFigures: this.panelsFigure,
-			touchBlock: this.touchBlock,
-			panelScore: this.panelScore,
-			panelPlayer2: this.panelPlayer2,
-		};
-		Handler.game = new Game( panels );
+		Handler.game = new Game();
 		
 		if( Handler.cooperative ) {
 			Handler.bot = new Bot();
