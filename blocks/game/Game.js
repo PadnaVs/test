@@ -268,18 +268,20 @@
 	Game.prototype.delLastInsertFigure = function() {
 		this.gameField.delLastInsertFigure();
 		let numLastFigure = this.gameField.lastInsertFigure.num;
-		let figure = new Figure( this.lastSeletPanelF.group, this.lastSeletPanelF.group.width/2, this.lastSeletPanelF.group.height/2, numLastFigure );
-		if( this.lastSeletPanelF.figure ) this.lastSeletPanelF.removeFigure();
-		this.lastSeletPanelF.figure = figure;
-		this.lastSeletPanelF.showFigure( false );
 		
 		if ( this.panelsFigure[0].figure && this.panelsFigure[1].figure && this.panelsFigure[2].figure ) {
 			for( let i = 0; i<3; i++ ) {
 				if( this.panelsFigure[i] == this.lastSeletPanelF ) continue;
+				this.panelsFigure[i].setNActiveButPanelRot();
 				this.panelsFigure[i].removeFigure();
 			}
 		}
 		
+		let figure = new Figure( this.lastSeletPanelF.group, this.lastSeletPanelF.group.width/2, this.lastSeletPanelF.group.height/2, numLastFigure );
+		if( this.lastSeletPanelF.figure ) this.lastSeletPanelF.removeFigure();
+		this.lastSeletPanelF.figure = figure;
+		this.lastSeletPanelF.showFigure( false );
+	
 		this.gameField.lastInsertFigure = null;
 		this.lastSeletPanelF = null;
 		this.setNActiveButCancelMove();
@@ -308,7 +310,6 @@
 				}
 			}
 		}
-		
 		
 		if ( ressChecks[0] == false && ressChecks[1] == false && ressChecks[2] == false ) {
 			loosGame = true;
