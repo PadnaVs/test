@@ -2,6 +2,8 @@
 	let GameField = function( _parent, _x, _y, _field ) {
 		this.field = _field;
 		
+		this.lastChangeFieled = [];
+		
 		this.group = Handler.newGroup( _parent );
 		
 		this.x = _x; 
@@ -61,7 +63,16 @@
 			jIn: jStart,
 		};
 		
+		for( let i = 0; i < 10; i++ ) {
+			this.lastChangeFieled[i] = [];
+			for( let j = 0; j < 10; j++ ) {
+				if( this.field[i][j] == Consts.FILL_CELLS ) this.lastChangeFieled[i][j] = Consts.FILL_CELLS;
+				if( this.field[i][j] == Consts.OPEN_CELLS ) this.lastChangeFieled[i][j] = Consts.OPEN_CELLS;
+			}
+		}
+		
 		this.reWritefield( fieldFigure, iStart, jStart );
+		
 		for( let i = 0; i < 5; i++ ) {
 			 for( let j = 0; j < 5; j++ ) {
 				let ri = iStart+i;
@@ -87,25 +98,31 @@
 	};
 	
 	GameField.prototype.delLastInsertFigure = function() {
+		let self = this;
 		if( !this.lastInsertFigure ) return;
 		
-		let fieldDel = [];
-		
-		for( let i = 0; i < 5; i++ ) {
-			fieldDel[i] = [];
-			 for( let j = 0; j < 5; j++ ) {
-				if( this.lastInsertFigure.field[i][j] == Consts.FILL_CELLS ) {
-					fieldDel[i][j] = Consts.DEL_CELLS;
-					let iDel = this.lastInsertFigure.iIn;
-					let jDel = this.lastInsertFigure.jIn;
-					this.cellsFilled[iDel+i][jDel+j].removeSelf();
-					this.cellsFilled[iDel+i][jDel+j] = Consts.OPEN_CELLS;
-				} else {
-					fieldDel[i][j] = Consts.OPEN_CELLS;
+		for( let i = 0; i < 10; i++ ) {
+			for( let j = 0; j < 10; j++ ) {
+				if( this.lastChangeFieled[i][j] == Consts.FILL_CELLS ) {
+					if( this.field[i][j] == Consts.OPEN_CELLS ) {
+						let newX = 6+j*(Handler.cellW+3);
+						let newY = 6+i*(Handler.cellW+3);
+						let onLoad = function( _img, _i, _j ) {
+							self.cellsFilled[_i][_j] = _img;
+						}
+						Handler.addImg( this.group, "./images/windGame/fillCell.png",newX, newY, null,function(img){ let _ri = i; let _rj = j; onLoad(img, _ri, _rj) } );
+						this.field[i][j] = Consts.FILL_CELLS;
+					}
 				}
-			 }
+				if( this.lastChangeFieled[i][j] == Consts.OPEN_CELLS ) {
+					this.field[i][j] = Consts.OPEN_CELLS;
+					if( this.cellsFilled[i][j] != Consts.OPEN_CELLS ) {
+						this.cellsFilled[i][j].removeSelf();
+						this.cellsFilled[i][j] = Consts.OPEN_CELLS;
+					}
+				}
+			}
 		}
-		this.reWritefield( fieldDel, this.lastInsertFigure.iIn, this.lastInsertFigure.jIn );
 	};
 	
 	

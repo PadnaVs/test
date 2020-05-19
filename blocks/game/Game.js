@@ -149,9 +149,9 @@
 						
 						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );
 						
-						if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
-							self.setNActiveButCancelMove();
-						}
+						//if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
+						//	self.setNActiveButCancelMove();
+						//}
 						
 						self.panelScore.score += numLinesDel[0].length*10;
 						self.panelScore.score += numLinesDel[1].length*10;
