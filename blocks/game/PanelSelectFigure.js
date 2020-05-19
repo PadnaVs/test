@@ -112,7 +112,8 @@
 			Handler.game.panelsFigure[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
 			Handler.game.panelsFigure[i].showFigure( false );
 		}
-		this.destroy();
+		PanelCoins.countCoins -= Consts.COINT_REDUCT_BON4;
+ 		this.destroy();
 	};
 	
 	PanelSelectFigure.prototype.destroy = function() {

@@ -138,16 +138,20 @@
 						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
 						self.lastSeletPanelF = self.selectPanel;
 						self.selectPanel.removeFigure();
-						self.selectPanel.setNActiveButPanelRot();
+						//self.selectPanel.setNActiveButPanelRot();
 						self.setActiveButCancelMove();
 						
 						self.panelScore.score += self.selectFigure.points;
 						self.lastScore += self.selectFigure.points; 
 						
 						if ( self.panelsFigure[0].figure == null && self.panelsFigure[1].figure == null && self.panelsFigure[2].figure == null ) {
-							self.panelsFigure[0].showFigure();
-							self.panelsFigure[1].showFigure();
-							self.panelsFigure[2].showFigure();
+							for( let i = 0; i<3; i++ ){
+								self.panelsFigure[i].showFigure();
+							}
+							
+							//self.panelsFigure[0].showFigure();
+							//self.panelsFigure[1].showFigure();
+							//self.panelsFigure[2].showFigure();
 						}
 						
 						let numLinesDel = self.checkLinesDel( self.gameField.field );

@@ -57,6 +57,23 @@
 		}
 		Handler.addImg( this.group, "./images/windGame/panelFigure/butShowPRotF.png", 10, 10, tapButRotF, onLoadButR );
 		
+		let onLoadButAddF = function( img ) {
+			self.butAddF = img;
+			self.butAddF.toBack();
+		}
+		
+		let tapButAddF = function() {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ADD_F;
+			if( res <= 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
+				self.showFigure();
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_ADD_F;
+			}
+		}
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butAddF.png", 10, 10, tapButAddF, onLoadButAddF );
+		
+		
 		
 		this.blockRect = Handler.showRect( this.group, 10, 10, 42, 42, 0xFF0000, 0.7 );
 		//this.blockRect.interactive = true;
@@ -67,6 +84,7 @@
 	PanelFigure.prototype.showFigure = function( needGeneratF = true ) {
 		if ( needGeneratF ) this.figure = this.generationFigure();
 		this.figure.show();
+		if(this.butAddF) this.butAddF.toBack();
 		//this.figure.transition(this.width/2,this.height/2);
 		//this.figure.transition( this.width/2 - this.figure.group.width/2, this.height/2 - this.figure.group.height/2 );
 		//this.figure.startX = this.figure.position.x;
@@ -112,6 +130,7 @@
 	PanelFigure.prototype.removeFigure = function() {
 		this.figure.remove();
 		this.figure = null;
+		if(this.butAddF) this.butAddF.toFront();
 	};
 	
 	PanelFigure.prototype.showPanelRotation = function() {
