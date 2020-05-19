@@ -58,7 +58,7 @@
 	PanelBonus.prototype.touchBonus = function( evt ) {
 		let self = this;
 		this.numBonus = evt.target.num;
-		
+		this.group.toFront();
 		Handler.game.selectBonus = this.numBonus;
 		
 		switch( this.numBonus ) {
