@@ -61,24 +61,32 @@
 		this.group.toFront();
 		Handler.game.selectBonus = this.numBonus;
 		
-		switch( this.numBonus ) {
-			//обрабатываются в game touchUp
-			//case 0:
-			//	Handler.game.delLineBon( Handler.pointerX, Handler.pointerY );
-			//break;
-			//	
-			//case 1: 
-			//	Handler.game.delColBon( Handler.pointerX, Handler.pointerY );
-			//break;
-			
-			case 2:
+		if( this.numBonus == 0 || this.numBonus == 1 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON1;
+			if( res <= 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
+			}
+		}
+		
+		if( this.numBonus == 2 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON3;
+			if( res <= 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
 				Handler.game.bonusRecreateFigures();
-			break;
-				
-			case 3:
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_BON3;
+			}
+		}
+		
+		if( this.numBonus == 3 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON4;
+			if( res <= 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
 				self.panelSelectFigure = new PanelSelectFigure( self, -this.x, 280, 720, 980 );
 				self.panelSelectFigure.show();
-			break;
+			}   
 		}
 		Handler.game.setNActiveButCancelMove();
 	};

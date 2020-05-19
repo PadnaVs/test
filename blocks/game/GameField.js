@@ -128,7 +128,7 @@
 	
 	GameField.prototype.delLines = function( numsLine, numsCol ) {
 		//console.log( this.cellsFilled );
-
+	
 		if( numsLine.length != 0 ) {
 			for( let i = 0; i < numsLine.length; i++ ) {
 				let numLine = numsLine[i];

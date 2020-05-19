@@ -6,6 +6,8 @@
 		
 		this.group = Handler.newGroup( this.parent.group );
 		
+		this.fRotated = false;
+		
 		this.x = _x;
 		this.y = _y;
 		
@@ -39,9 +41,11 @@
 		this.group.removeSelf();
 		this.parent.panelRotation = null;
 		Handler.game.checkActiveButRotF();
+		if( this.fRotated ) PanelCoins.countCoins -= Consts.COINT_REDUCT_ROT_F;
 	};
 	
-	PanelRotationFigure.prototype.rotFigure = function() {	
+	PanelRotationFigure.prototype.rotFigure = function() {
+		this.fRotated = true;		
 		if ( this.parent.figure.type == Consts.TYPE_LINE ) {
 			if( this.parent.figure.positionLine == Consts.GORIZONTAL_LINE ) this.currentNum++;
 			if( this.parent.figure.positionLine == Consts.VERTICAL_LINE ) this.currentNum--;
@@ -54,12 +58,17 @@
 			}
 		};
 		
+		if( this.startNum == this.currentNum ) {
+			this.fRotated = false;
+		}
+		
 		this.parent.removeFigure();
 		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.currentNum );
 		this.parent.showFigure( false );
 	};
 	
 	PanelRotationFigure.prototype.creatStartFigure = function() {
+		this.fRotated = false;
 		this.parent.removeFigure();
 		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.startNum );
 		this.parent.showFigure( false );

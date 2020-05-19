@@ -105,7 +105,14 @@
 			
 			
 			let tapButCancelMove = function() { 
-				if( Handler.game.lastSeletPanelF ) Handler.game.delLastInsertFigure();
+				if( Handler.game.lastSeletPanelF ) {
+					let res = PanelCoins.countCoins - Consts.COINT_REDUCT_CANCEL_M;
+					if( res <= 0 ) {
+						Main.wbc = new WindBuyCoins( wg );
+					} else {
+						Handler.game.delLastInsertFigure();
+					}
+				}
 			};
 			
 			let onLoadButCancelMove = function(img) {
@@ -159,7 +166,9 @@
 			this.gameFieldPlayer2.show();
 		}
 		
-		this.panelCoins = PanelCoins.init( this.group, -240 );
+		PanelCoins.init( this.group, -240 );
+		PanelCoins.countCoins = 500;
+		
 		
 		Handler.game = new Game();
 		

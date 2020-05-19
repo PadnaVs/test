@@ -46,7 +46,16 @@
 				self.setActiveButPanelRot();
 			};
 		};
-		Handler.addImg( this.group, "./images/windGame/panelFigure/butShowPRotF.png", 10, 10, function() { self.showPanelRotation(); }, onLoadButR );
+		
+		let tapButRotF = function() {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ROT_F;
+			if( res <= 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
+				self.showPanelRotation();
+			}
+		}
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butShowPRotF.png", 10, 10, tapButRotF, onLoadButR );
 		
 		
 		this.blockRect = Handler.showRect( this.group, 10, 10, 42, 42, 0xFF0000, 0.7 );

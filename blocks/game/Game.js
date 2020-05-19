@@ -19,6 +19,8 @@
 		
 		this.lastSeletPanelF = null;
 		
+		this.lastScore = 0;//последние набронные очки
+		
 		if( Handler.cooperative ) {
 			//window.addEventListener( "load", function() {
 			//	console.log("Завершение загрузки");
@@ -109,6 +111,7 @@
 					break;
 				}
 				self.setNActiveButCancelMove();
+		
 				return;
 			};
 			
@@ -131,6 +134,7 @@
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
+						self.lastScore = 0;
 						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
 						self.lastSeletPanelF = self.selectPanel;
 						self.selectPanel.removeFigure();
@@ -138,6 +142,7 @@
 						self.setActiveButCancelMove();
 						
 						self.panelScore.score += self.selectFigure.points;
+						self.lastScore += self.selectFigure.points; 
 						
 						if ( self.panelsFigure[0].figure == null && self.panelsFigure[1].figure == null && self.panelsFigure[2].figure == null ) {
 							self.panelsFigure[0].showFigure();
@@ -148,13 +153,11 @@
 						let numLinesDel = self.checkLinesDel( self.gameField.field );
 						
 						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );
-						
-						//if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
-						//	self.setNActiveButCancelMove();
-						//}
-						
+
 						self.panelScore.score += numLinesDel[0].length*10;
 						self.panelScore.score += numLinesDel[1].length*10;
+						
+						self.lastScore += numLinesDel[0].length*10 + numLinesDel[1].length*10;
 						
 						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
 						//Обработка нет возможности ходить
@@ -267,6 +270,10 @@
 	
 	Game.prototype.delLastInsertFigure = function() {
 		this.gameField.delLastInsertFigure();
+			
+		this.panelScore.score -= this.lastScore;
+		PanelCoins.countCoins -= Consts.COINT_REDUCT_CANCEL_M;
+		
 		let numLastFigure = this.gameField.lastInsertFigure.num;
 		
 		if ( this.panelsFigure[0].figure && this.panelsFigure[1].figure && this.panelsFigure[2].figure ) {
@@ -325,8 +332,20 @@
 		
 		//let i = Math.abs( Math.ceil( ( xgameField+6 - Handler.pointerX ) / (Handler.cellW+3) ) );
 		let j = Math.abs( Math.ceil( ( ygameField+6 - Handler.pointerY ) / (Handler.cellW+3) ) );
-		self.gameField.delLines( [ j ], [] );
-		self.selectBonus = null;
+		
+		for( let i = 0; i < 10; i++ ) {
+			if( self.gameField.field[j][i] == Consts.FILL_CELLS ) {
+				
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_BON1;
+				
+				self.gameField.delLines( [ j ], [] );
+				self.selectBonus = null;
+				
+				break;
+			};
+		};
+		
+		
 	};
 
 	Game.prototype.delColBon = function() {
@@ -336,7 +355,19 @@
 		
 		let i = Math.abs( Math.ceil( ( xgameField+6 - Handler.pointerX ) / (Handler.cellW+3) ) );
 		//let j = Math.abs( Math.ceil( ( ygameField+6 - Handler.pointerY ) / (Handler.cellW+3) ) );
-		self.gameField.delLines( [  ], [i] );
+		
+		for( let j = 0; j < 10; j++ ) {
+			if( self.gameField.field[j][i] == Consts.FILL_CELLS ) {
+				
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_BON1;
+				
+				self.gameField.delLines( [], [i] );
+				self.selectBonus = null;
+				
+				break;
+			};
+		};
+		
 		self.selectBonus = null;
 	};
 	
