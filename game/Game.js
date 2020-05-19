@@ -149,9 +149,9 @@
 						
 						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );
 						
-						if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
-							self.setNActiveButCancelMove();
-						}
+						//if( numLinesDel[0].length > 0 || numLinesDel[1].length > 0 ) {
+						//	self.setNActiveButCancelMove();
+						//}
 						
 						self.panelScore.score += numLinesDel[0].length*10;
 						self.panelScore.score += numLinesDel[1].length*10;
@@ -354,6 +354,7 @@
 		let self = this;
 		
 		for( let i = 0; i < 3; i++ ) {
+			if( self.panelsFigure[i].figure == null ) continue;
 			if ( self.panelsFigure[i].figure.type == Consts.TYPE_BLOCK ) {
 				self.panelsFigure[i].setNActiveButPanelRot();
 				continue;
