@@ -76,8 +76,7 @@
     Consts.TOP_FRENDS               = 1;         
     Consts.TOP_ALL                  = 2;         
     Consts.TOP_MONEYS               = 3;         
-    
-
+  
     
 	Consts.TIME_WINDOW_MOVE         = 150;
     //Time//         
@@ -93,6 +92,20 @@
     Consts.TIME_TRANSITION_LEFT_AC              = 500;//sek             
     Consts.TIME_TRANSITION_LEFT_AC_BEFORE_LEVEL = 800;//sek             
     Consts.TIME_SHOW_SMAL_AC                    = 15000;//sek         
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////
+	
+	Consts.COINT_REDUCT_BON1     = 40;
+	//Consts.COINT_REDUCT_BON2     = 40;
+	Consts.COINT_REDUCT_BON3     = 40;
+	Consts.COINT_REDUCT_BON4     = 40;
+	
+	Consts.COINT_REDUCT_ROT_F    = 40;
+	Consts.COINT_REDUCT_CANCEL_M = 40;
+	Consts.COINT_REDUCT_ADD_F    = 40;
+	
 	
 	Consts.YOU_WIN   = 0;
 	Consts.ENEMY_WIN = 1;
