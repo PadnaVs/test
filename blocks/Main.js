@@ -1,5 +1,5 @@
 	
-	console.log( "version 0.669" );
+	console.log( "version 0.670" );
 	
 	
 	const visibleWidth0  = 360;

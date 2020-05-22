@@ -5,6 +5,7 @@
 	};
 	
 	WindEndGameSolo.prototype.show = function( _points ) {
+		let self = this;
 		this.group = Handler.newGroup(wg);
 		Handler.addImg( this.group, "./images/windEndGameSolo/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
 		
@@ -23,7 +24,8 @@
 		Handler.newText( paramsText );
 		
 		let tapContinue = function(){
-			
+			self.group.removeSelf();
+			Main.windStartGame.show();
 		};
 		Handler.addImg( this.group, "./images/windEndGameSolo/butContinue.png", 160, 780, tapContinue );
 	};

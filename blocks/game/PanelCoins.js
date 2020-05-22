@@ -9,7 +9,7 @@
 		if ( this.group == null ) {
 		    let group = Handler.newGroup(parent);
 			this.group = group;
-			this.group.x += shx;
+			this.group.x = shx;
 			
             let onCoinPLus = function() { Main.wbc = new WindBuyCoins( self.parent ); };
             Handler.addImg( group, "./images/coinsBack.png",  478, 20 );

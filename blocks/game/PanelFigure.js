@@ -39,6 +39,7 @@
 		
 		let onLoadButR = function(img) {
 			self.butShowPanel = img; 
+			if( self.figure == null ) return;
 			if( self.figure.type == Consts.TYPE_BLOCK ) {
 				self.butShowPanel.interactive = false;
 				self.setNActiveButPanelRot();

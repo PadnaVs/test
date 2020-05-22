@@ -170,6 +170,7 @@
 								self.abilityTakeSteps = false;
 								self.checkWinner();
 							}
+							Main.windGame.group.removeSelf();
 							Main.windContinueGame.show();
 						}
 					} else {
@@ -513,6 +514,7 @@
 				//windEndGameOnline = new WindEndGameOnline( Consts.DEAD_HEAT, yourSc, enemySc );
 				//alert( "Ничья!" );
 			}
+			Maim.windGame.group.removeSelf();
 			windEndGameOnline.show( resW, yourSc, enemySc );
 		}
 	};
