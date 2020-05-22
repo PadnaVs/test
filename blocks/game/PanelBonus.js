@@ -63,7 +63,7 @@
 		
 		if( this.numBonus == 0 || this.numBonus == 1 ) {
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON1;
-			if( res <= 0 ) {
+			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
 				Handler.game.selectBonus = null;
 			}
@@ -71,8 +71,9 @@
 		
 		if( this.numBonus == 2 ) {
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON3;
-			if( res <= 0 ) {
+			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
 			} else {
 				Handler.game.bonusRecreateFigures();
 				PanelCoins.countCoins -= Consts.COINT_REDUCT_BON3;
@@ -81,8 +82,9 @@
 		
 		if( this.numBonus == 3 ) {
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON4;
-			if( res <= 0 ) {
+			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
 			} else {
 				self.panelSelectFigure = new PanelSelectFigure( self, -this.x, 280, 720, 980 );
 				self.panelSelectFigure.show();

@@ -1,11 +1,14 @@
 
-	let WindEndGameSolo = function( _points ) {
-		this.group = Handler.newGroup(wg);
-		this.points = _points;
+	let WindEndGameSolo = function(  ) {
+		
+		this.points = 0;
 	};
 	
-	WindEndGameSolo.prototype.show = function() {
+	WindEndGameSolo.prototype.show = function( _points ) {
+		this.group = Handler.newGroup(wg);
 		Handler.addImg( this.group, "./images/windEndGameSolo/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
+		
+		this.points = _points;
 		
 		let paramsText = {
 			fontWeight: 'bold',

@@ -1,14 +1,18 @@
 
-	let WindEndGameOnline = function( _win, _points, _pointsEnemy  ) {
+	let WindEndGameOnline = function(   ) {
+		this.points = 0;
+		this.pointsEnemy = 0;
+		this.youWin = null;
+	};
+	
+	WindEndGameOnline.prototype.show = function( _win, _points, _pointsEnemy ) {
 		this.group = Handler.newGroup(wg);
+		
+		Handler.addImg( this.group, "./images/windEndGameOnline/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
+		
 		this.points = _points;
 		this.pointsEnemy = _pointsEnemy;
 		this.youWin = _win;
-	};
-	
-	WindEndGameOnline.prototype.show = function() {
-		Handler.addImg( this.group, "./images/windEndGameOnline/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
-		
 		
 		let paramsText = {
 			fontWeight: 'bold',

@@ -49,7 +49,7 @@
 		
 		let tapButRotF = function() {
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ROT_F;
-			if( res <= 0 ) {
+			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
 			} else {
 				self.showPanelRotation();
@@ -64,7 +64,7 @@
 		
 		let tapButAddF = function() {
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ADD_F;
-			if( res <= 0 ) {
+			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
 			} else {
 				self.showFigure();

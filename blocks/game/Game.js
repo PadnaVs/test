@@ -1,5 +1,5 @@
 
-	let Game = function( params ) {
+	let Game = function() {
 		let self = this;
 		
 		this.stringForGeneration = "0123456789ABSDEFGHI";
@@ -7,12 +7,12 @@
 		this.gameStarted = false;
 		this.selectFigure = null;
 		
-		this.gameField        = windGame.gameField;
-		this.panelsFigure     = windGame.panelsFigures;
-		this.touchBlock       = windGame.touchBlock;
-		this.panelScore       = windGame.panelScore;
-		this.panelPlayer2     = windGame.panelPlayer2;
-		this.gameFieldPlayer2 = windGame.gameFieldPlayer2;
+		this.gameField        = Main.windGame.gameField;
+		this.panelsFigures    = Main.windGame.panelsFigures;
+		this.touchBlock       = Main.windGame.touchBlock;
+		this.panelScore       = Main.windGame.panelScore;
+		this.panelPlayer2     = Main.windGame.panelPlayer2;
+		this.gameFieldPlayer2 = Main.windGame.gameFieldPlayer2;
 		
 		this.abilityTakeSteps      = true;
 		this.abilityTakeStepsEnemy = true;
@@ -34,7 +34,7 @@
 		let touchDown = function( evt ) { 
 			if ( Handler.cooperative && !self.gameStarted ) return;
 			for( let i = 0; i < 3; i++ ) {
-				if ( self.panelsFigure[i].panelRotation != null ) return;
+				if ( self.panelsFigures[i].panelRotation != null ) return;
 			}
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
@@ -44,23 +44,25 @@
 			Handler.pointerStartY = Handler.pointerY;
 			
 			for( let i = 0; i < 3; i++ ) {
-				if( self.panelsFigure[i].figure == null ) continue;
- 				let wF = self.panelsFigure[i].width;
-				let hF = self.panelsFigure[i].height;
+				if( self.panelsFigures[i].figure == null ) continue;
+ 				let wF = self.panelsFigures[i].width;
+				let hF = self.panelsFigures[i].height;
 				
-				let posFX = self.panelsFigure[i].x;
-				let posFY = self.panelsFigure[i].y;
+				let posFX = self.panelsFigures[i].x;
+				let posFY = self.panelsFigures[i].y;
+				
+				self.panelsFigures[i].butAddF.interactive = false;
 				
 				if ( Handler.pointerX >= posFX && Handler.pointerX <= posFX + wF ){
 					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
-						self.panelsFigure[i].figure.scale( 0.57 );
-						self.selectFigure = self.panelsFigure[i].figure;
+						self.panelsFigures[i].figure.scale( 0.57 );
+						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
 						self.selectFigure.position = {
 							x: self.selectFigure.position.x,
 							y: self.selectFigure.position.y - 140
 						};
-						self.selectPanel = self.panelsFigure[i];
+						self.selectPanel = self.panelsFigures[i];
 						self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
 					}
@@ -140,18 +142,15 @@
 						self.selectPanel.removeFigure();
 						//self.selectPanel.setNActiveButPanelRot();
 						self.setActiveButCancelMove();
+						self.selectPanel.butAddF.interactive = true;
 						
 						self.panelScore.score += self.selectFigure.points;
 						self.lastScore += self.selectFigure.points; 
 						
-						if ( self.panelsFigure[0].figure == null && self.panelsFigure[1].figure == null && self.panelsFigure[2].figure == null ) {
+						if ( self.panelsFigures[0].figure == null && self.panelsFigures[1].figure == null && self.panelsFigures[2].figure == null ) {
 							for( let i = 0; i<3; i++ ){
-								self.panelsFigure[i].showFigure();
+								self.panelsFigures[i].showFigure();
 							}
-							
-							//self.panelsFigure[0].showFigure();
-							//self.panelsFigure[1].showFigure();
-							//self.panelsFigure[2].showFigure();
 						}
 						
 						let numLinesDel = self.checkLinesDel( self.gameField.field );
@@ -163,7 +162,7 @@
 						
 						self.lastScore += numLinesDel[0].length*10 + numLinesDel[1].length*10;
 						
-						let fieldFigure = [ self.panelsFigure[0].figure, self.panelsFigure[1].figure, self.panelsFigure[2].figure ];	
+						let fieldFigure = [ self.panelsFigures[0].figure, self.panelsFigures[1].figure, self.panelsFigures[2].figure ];	
 						//Обработка нет возможности ходить
 						if ( self.checkEndSteps( self.gameField.field, fieldFigure ) ) {
 							if( Handler.cooperative ) {
@@ -171,9 +170,7 @@
 								self.abilityTakeSteps = false;
 								self.checkWinner();
 							}
-							let windEndGameSolo = new WindEndGameSolo( self.panelScore.score );
-							windEndGameSolo.show();
-							//alert("You Steps end!");
+							Main.windContinueGame.show();
 						}
 					} else {
 						if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
@@ -204,9 +201,9 @@
 	
 	Game.prototype.fillPanelsWithF = function(){
 		for( let i = 0; i < 3; i++ ) {
-			if( this.panelsFigure[i] != null ) this.panelsFigure[i].removeFigure();
-			this.panelsFigure[i].numSibolInStringСooperative = this.panelsFigure[i].num;
-			this.panelsFigure[i].showFigure();
+			if( this.panelsFigures[i] != null ) this.panelsFigures[i].removeFigure();
+			this.panelsFigures[i].numSibolInStringСooperative = this.panelsFigures[i].num;
+			this.panelsFigures[i].showFigure();
 		};
 	};
 	
@@ -280,11 +277,11 @@
 		
 		let numLastFigure = this.gameField.lastInsertFigure.num;
 		
-		if ( this.panelsFigure[0].figure && this.panelsFigure[1].figure && this.panelsFigure[2].figure ) {
+		if ( this.panelsFigures[0].figure && this.panelsFigures[1].figure && this.panelsFigures[2].figure ) {
 			for( let i = 0; i<3; i++ ) {
-				if( this.panelsFigure[i] == this.lastSeletPanelF ) continue;
-				this.panelsFigure[i].setNActiveButPanelRot();
-				this.panelsFigure[i].removeFigure();
+				if( this.panelsFigures[i] == this.lastSeletPanelF ) continue;
+				this.panelsFigures[i].setNActiveButPanelRot();
+				this.panelsFigures[i].removeFigure();
 			}
 		}
 		
@@ -348,8 +345,6 @@
 				break;
 			};
 		};
-		
-		
 	};
 
 	Game.prototype.delColBon = function() {
@@ -375,12 +370,58 @@
 		self.selectBonus = null;
 	};
 	
+	Game.prototype.recreateFForContinueG = function() {
+		let numsF = [ 0,1,3,4,11,12,13,14 ];
+		
+		this.gameField.delLines( [5,6], [] );
+		
+		for( let i = 0; i<3; i++ ) {
+			if( this.panelsFigures[i].figure != null ) this.panelsFigures[i].removeFigure();
+			
+			let rndNumF = Math.floor( Math.random() * ( numsF.length - 0 ) + 0 );
+			
+			let xF = this.panelsFigures[i].group.width/2;
+			let yF = this.panelsFigures[i].group.height/2;
+			
+			this.panelsFigures[i].figure = new Figure( this.panelsFigures[i].group, xF, yF, numsF[rndNumF] );
+			this.panelsFigures[i].showFigure( false );
+		}
+	};
+	
 	Game.prototype.bonusRecreateFigures = function() {
 		let self = this;
 		
-		for( let i = 0; i < 3; i++ ) {
-			if ( self.panelsFigure[i].figure != null ) self.panelsFigure[i].removeFigure();
-			self.panelsFigure[i].showFigure();
+		for( let i = 0; i < 3; i++ ) {//по полям фигур
+			if ( self.panelsFigures[i].figure != null ) self.panelsFigures[i].removeFigure();
+			
+			let posF = [];
+			
+			for( let pc = 0; pc < 19; pc++ ) {
+				posF[pc] = pc;
+			}
+			let insF = false;
+			do {
+				let rndNumF =  Math.floor( Math.random() * ( posF.length - 0 ) + 0 );
+				
+				let xF = self.panelsFigures[i].group.width/2;
+				let yF = self.panelsFigures[i].group.height/2;
+				let f = new Figure( self.panelsFigures[i].group, xF, yF, posF[rndNumF] )
+				
+				for( let j = 0; j < 10; j++ ) {//по полю
+					for( let k = 0; k < 10; k++ ) {
+						insF = this.checkInsertFigure( this.gameField.field, f, j, k );
+						if( insF ) break;
+					}
+					if( insF ) break;
+				}
+				
+				if( insF ) {
+					self.panelsFigures[i].figure = f;
+					self.panelsFigures[i].showFigure( false );
+				} else {
+					posF.splice( rndNumF, 1 );
+				}
+			} while( insF != true && posF.length>0 );
 		};
 		self.selectBonus = null;
 	};
@@ -389,12 +430,12 @@
 		let self = this;
 		
 		for( let i = 0; i < 3; i++ ) {
-			if( self.panelsFigure[i].figure == null ) continue;
-			if ( self.panelsFigure[i].figure.type == Consts.TYPE_BLOCK ) {
-				self.panelsFigure[i].setNActiveButPanelRot();
+			if( self.panelsFigures[i].figure == null ) continue;
+			if ( self.panelsFigures[i].figure.type == Consts.TYPE_BLOCK ) {
+				self.panelsFigures[i].setNActiveButPanelRot();
 				continue;
 			}
-			self.panelsFigure[i].setActiveButPanelRot();
+			self.panelsFigures[i].setActiveButPanelRot();
 		}
 	};
 	
@@ -458,18 +499,21 @@
 		}
 		
 		if ( !self.abilityTakeSteps && !self.abilityTakeStepsEnemy || self.secToTheEnd == 0 ) {
-			let windEndGameOnline = null;
+			let resW = null;
 			if( yourSc > enemySc ) {
-				windEndGameOnline = new WindEndGameOnline( Consts.YOU_WIN, yourSc, enemySc );
+				resW = Consts.YOU_WIN;
+				//windEndGameOnline = new WindEndGameOnline( Consts.YOU_WIN, yourSc, enemySc );
 				//alert( "Вы победили!" );
 			} else if ( yourSc < enemySc ) {
-				windEndGameOnline = new WindEndGameOnline( Consts.ENEMY_WIN, yourSc, enemySc );
+				resW = Consts.ENEMY_WIN;
+				//windEndGameOnline = new WindEndGameOnline( Consts.ENEMY_WIN, yourSc, enemySc );
 				//alert( "Вы проиграли!" );
 			} else if( yourSc == enemySc ) {
-				windEndGameOnline = new WindEndGameOnline( Consts.DEAD_HEAT, yourSc, enemySc );
+				resW = Consts.DEAD_HEAT;
+				//windEndGameOnline = new WindEndGameOnline( Consts.DEAD_HEAT, yourSc, enemySc );
 				//alert( "Ничья!" );
 			}
-			windEndGameOnline.show();
+			windEndGameOnline.show( resW, yourSc, enemySc );
 		}
 	};
 	
@@ -520,15 +564,15 @@
 	};
 	
 	Game.prototype.setActiveButCancelMove = function() {
-		if( windGame.butCancelMove ) {
-			windGame.butCancelMove.filters = [  ];
-			windGame.butCancelMove.interactive = true;
+		if( Main.windGame.butCancelMove ) {
+			Main.windGame.butCancelMove.filters = [  ];
+			Main.windGame.butCancelMove.interactive = true;
 		}
 	};
 	
 	Game.prototype.setNActiveButCancelMove = function() {
-		if( windGame.butCancelMove ) {
-			windGame.butCancelMove.filters = [ Handler.bwf ];
-			windGame.butCancelMove.interactive = false;
+		if( Main.windGame.butCancelMove ) {
+			Main.windGame.butCancelMove.filters = [ Handler.bwf ];
+			Main.windGame.butCancelMove.interactive = false;
 		}
 	};

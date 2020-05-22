@@ -51,24 +51,6 @@
 		} else {
 			this.group.scale.set(persent);
 		}
-		//if ( !this.scales ) {
-		//	this.group.width  = this.group.width/persent;
-		//	this.group.height = this.group.height/persent;
-		//	
-		//	this.width  = this.width/persent;
-		//	this.height = this.height/persent;
-		//
-		//	this.scales = true;
-		//} else {
-		//	this.group.width  = this.group.width*persent;
-		//	this.group.height = this.group.height*persent;
-		//	
-		//	this.width  = this.width*persent;
-		//	this.height = this.height*persent;
-		//	
-		//	this.scales = false;
-		//}
-	//	console.log( "this.group.width", this.group.width  );
 	};
 	
 	Figure.prototype.createFigure = function() {

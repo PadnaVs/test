@@ -48,13 +48,13 @@
 
 	User.init( JSON.parse( ud ) );
 	
-	let windStartGame = new WindStartGame();
-	windStartGame.show();
+	Main.windStartGame = new WindStartGame();
+	Main.windStartGame.show();
 	
-	let windGame = new WindGame();
-	//windGame.show();
-	
-	
+	Main.windGame          = new WindGame();
+	Main.windContinueGame  = new WindContinueGame();
+	Main.windEndGameSolo   = new WindEndGameSolo();
+	Main.windEndGameOnline = new WindEndGameOnline();
 	/*const texture = PIXI.Texture.from( "./images/mainBack.jpg" );
 	const mainBack = new PIXI.Sprite(texture);
     wg.addChild(mainBack);*/

@@ -1,6 +1,5 @@
 
 	let WindGame = function ( _level ) {
-		this.group = wg;
 		this.level = _level;
 		
 		this.panelsFigures = [];
@@ -8,6 +7,7 @@
 	
 	WindGame.prototype.show = function() {
 		let self = this;
+		this.group = Handler.newGroup(wg);
 		
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		//this.background.toBack();
@@ -107,7 +107,7 @@
 			let tapButCancelMove = function() { 
 				if( Handler.game.lastSeletPanelF ) {
 					let res = PanelCoins.countCoins - Consts.COINT_REDUCT_CANCEL_M;
-					if( res <= 0 ) {
+					if( res < 0 ) {
 						Main.wbc = new WindBuyCoins( wg );
 					} else {
 						Handler.game.delLastInsertFigure();
@@ -176,11 +176,4 @@
 			Handler.bot = new Bot();
 			//Handler.bot.startGame();
 		}
-		
-		//if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown",  );
-		//this.gameFieldPlayer2.insertFigure( 1, 0, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 2, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 4, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 6, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 8, 0 );
 	};
