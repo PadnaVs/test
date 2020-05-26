@@ -92,14 +92,19 @@
 		let speedX = disX/tLast;
 		let speedY = disY/tLast;
 		
-		let impX = 755*speedX;
-		let impY = 755*speedY;
+		let maxSpeed = 0.016;
+		
+		if( speedX > maxSpeed ) speedX = maxSpeed;
+		if( speedY > maxSpeed ) speedY = maxSpeed;
+		
+		let impX = 800*speedX;
+		let impY = 800*speedY;
 		
 		let kDelImpY = impY*0.001;
 		let kDelImpX = impX*0.001;
 		
-		let impStopY = impY*0.96;
-		let impStopX = impX*0.96;
+		let impStopY = impY*0.90;
+		let impStopX = impX*0.90;
 		
 		let internalMove = function() {
 			gMap.x -= impX*directionX;
