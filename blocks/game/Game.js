@@ -200,7 +200,7 @@
 				if( self.panelsFigures[j].figure != null ) {
 					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK ) {
 						self.panelsFigures[j].setActiveButPanelRot();
-						//self.panelsFigures[j].butAddF.interactive = false;
+						self.panelsFigures[j].butAddF.interactive = true;
 						//self.panelsFigures[j].setNActiveButPanelRot();
 					}
 				}
