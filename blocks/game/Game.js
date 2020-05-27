@@ -48,23 +48,22 @@
  				let wF = self.panelsFigures[i].width;
 				let hF = self.panelsFigures[i].height;
 				
-				let posFX = self.panelsFigures[i].x;
-				let posFY = self.panelsFigures[i].y;
+				let posPX = self.panelsFigures[i].x;
+				let posPY = self.panelsFigures[i].y;
 				
 				self.panelsFigures[i].butAddF.interactive = false;
 				
-				if ( Handler.pointerX >= posFX && Handler.pointerX <= posFX + wF ){
-					if ( Handler.pointerY >= posFY && Handler.pointerY <= posFY + hF ) {
+				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
+					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
 						self.panelsFigures[i].figure.scale( 0.57 );
 						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
-						self.selectFigure.position = {
-							x: self.selectFigure.position.x,
-							y: self.selectFigure.position.y - 140
-						};
 						self.selectPanel = self.panelsFigures[i];
 						self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
+						
+						let shUp = 140;
+						self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
 					}
 				}
 			}
