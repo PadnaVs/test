@@ -177,24 +177,9 @@
 							}
 							Main.windContinueGame.show();
 						}
-					} else {
-						//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-						//	self.selectPanel.setActiveButPanelRot();
-						//};
-						//self.selectFigure.moveStartPos();
 					}
-				} else {
-					//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-					//	self.selectPanel.setActiveButPanelRot();
-					//};
-					//self.selectFigure.moveStartPos();
-				}
-			} else {
-				//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-				//	self.selectPanel.setActiveButPanelRot();
-				//};
-				//self.selectFigure.moveStartPos();
-			}
+				} 
+			} 
 			
 			for( let j = 0; j<3; j++  ) {
 				if( self.panelsFigures[j].figure != null ) {

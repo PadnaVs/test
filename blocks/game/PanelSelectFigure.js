@@ -20,7 +20,11 @@
 		let self = this;
 		//this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/backgrFigures.png", 0,0,null, function(img){ img.toBack(); } );
+		let onloadBackgr = function( img ) {
+			img.interactive = true;
+			img.toBack();
+		};
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/backgrFigures.png", 0,0,null, onloadBackgr );
 		
 		let paramsText = {
 			fontWeight: 'bold',
@@ -105,12 +109,12 @@
 				alert("вы не 3 выбрали фигуры");
 				return;
 			}
-			if ( Handler.game.panelsFigure[i].figure != null ) Handler.game.panelsFigure[i].removeFigure();
-			let xF = Handler.game.panelsFigure[i].group.width/2;
-			let yF = Handler.game.panelsFigure[i].group.height/2;
-			let grPanel = Handler.game.panelsFigure[i].group;
-			Handler.game.panelsFigure[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
-			Handler.game.panelsFigure[i].showFigure( false );
+			if ( Handler.game.panelsFigures[i].figure != null ) Handler.game.panelsFigures[i].removeFigure();
+			let xF = Handler.game.panelsFigures[i].group.width/2;
+			let yF = Handler.game.panelsFigures[i].group.height/2;
+			let grPanel = Handler.game.panelsFigures[i].group;
+			Handler.game.panelsFigures[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
+			Handler.game.panelsFigures[i].showFigure( false );
 		}
 		PanelCoins.countCoins -= Consts.COINT_REDUCT_BON4;
  		this.destroy();
