@@ -88,7 +88,7 @@
 			
 			//console.log(Handler.pointerX);
 			
-			let speed = 1;
+			let speed = 2;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
 			let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
 			
