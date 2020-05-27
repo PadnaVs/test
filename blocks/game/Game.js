@@ -51,7 +51,10 @@
 				let posPX = self.panelsFigures[i].x;
 				let posPY = self.panelsFigures[i].y;
 				
-				self.panelsFigures[i].butAddF.interactive = false;
+				for( let j = 0; j<3; j++  ) {
+					self.panelsFigures[j].butAddF.interactive = false;
+					self.panelsFigures[j].setNActiveButPanelRot();
+				}
 				
 				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
 					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
@@ -59,7 +62,7 @@
 						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
 						self.selectPanel = self.panelsFigures[i];
-						self.selectPanel.setNActiveButPanelRot();
+						//self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
 						
 						let shUp = 140;
@@ -88,7 +91,7 @@
 			
 			//console.log(Handler.pointerX);
 			
-			let speed = 2;
+			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
 			let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
 			
@@ -161,6 +164,8 @@
 						
 						self.lastScore += numLinesDel[0].length*10 + numLinesDel[1].length*10;
 						
+						self.selectFigure = null;
+						
 						let fieldFigure = [ self.panelsFigures[0].figure, self.panelsFigures[1].figure, self.panelsFigures[2].figure ];	
 						//Обработка нет возможности ходить
 						if ( self.checkEndSteps( self.gameField.field, fieldFigure ) ) {
@@ -173,25 +178,39 @@
 							Main.windContinueGame.show();
 						}
 					} else {
-						if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-							self.selectPanel.setActiveButPanelRot();
-						};
-						self.selectFigure.moveStartPos();
+						//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+						//	self.selectPanel.setActiveButPanelRot();
+						//};
+						//self.selectFigure.moveStartPos();
 					}
 				} else {
-					if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-						self.selectPanel.setActiveButPanelRot();
-					};
-					self.selectFigure.moveStartPos();
+					//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+					//	self.selectPanel.setActiveButPanelRot();
+					//};
+					//self.selectFigure.moveStartPos();
 				}
 			} else {
-				if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
-					self.selectPanel.setActiveButPanelRot();
-				};
+				//if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
+				//	self.selectPanel.setActiveButPanelRot();
+				//};
+				//self.selectFigure.moveStartPos();
+			}
+			
+			for( let j = 0; j<3; j++  ) {
+				if( self.panelsFigures[j].figure != null ) {
+					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK ) {
+						self.panelsFigures[j].setActiveButPanelRot();
+						//self.panelsFigures[j].butAddF.interactive = false;
+						//self.panelsFigures[j].setNActiveButPanelRot();
+					}
+				}
+			}
+			
+			if( self.selectFigure ) {
 				self.selectFigure.moveStartPos();
+				self.selectFigure = null;
 			}
 			self.selectPanel = null;
-			self.selectFigure = null;
 		};
 		
 		this.touchBlock.onEL( "pointerdown", function( evt ){ touchDown( evt ) } );
