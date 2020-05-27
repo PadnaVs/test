@@ -166,11 +166,11 @@
 						//Обработка нет возможности ходить
 						if ( self.checkEndSteps( self.gameField.field, fieldFigure ) ) {
 							if( Handler.cooperative ) {
+								Main.windGame.group.removeSelf();
 								self.netControl.sendMsg( { typeAct: Consts.TYPE_ACT_YOU_LOST } );
 								self.abilityTakeSteps = false;
 								self.checkWinner();
 							}
-							Main.windGame.group.removeSelf();
 							Main.windContinueGame.show();
 						}
 					} else {

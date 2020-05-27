@@ -10,6 +10,7 @@
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
 		let tapButClose = function() {
+			Main.windGame.group.removeSelf();
 			self.group.removeSelf();
 			Main.windEndGameSolo.show( Handler.game.panelScore.score );
 		};
