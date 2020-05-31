@@ -128,30 +128,52 @@
 	
 	GameField.prototype.delLines = function( numsLine, numsCol ) {
 		//console.log( this.cellsFilled );
-	
+		let self = this;
+		let numDelCel = 0;
 		if( numsLine.length != 0 ) {
 			for( let i = 0; i < numsLine.length; i++ ) {
 				let numLine = numsLine[i];
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[numLine][j] == 0 ) continue;
 					if( this.cellsFilled[numLine][j] == 1 ) continue;
-					this.cellsFilled[numLine][j].removeSelf();
+					//this.cellsFilled[numLine][j].removeSelf();//animka
+					
+					let img = self.cellsFilled[numLine][j];
+					setTimeout( self.animDelCell, 100*numDelCel, img );
+					numDelCel++;
+					
 					this.cellsFilled[numLine][j] = 0;
 					this.field[numLine][j] = 0;
 				};
 			};
 		} 
 		
+		numDelCel = 0;
 		if( numsCol.length != 0 ) {
 			for( let i = 0; i < numsCol.length; i++ ) {
 				let numCol = numsCol[i];
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[j][numCol] == 0 ) continue;
 					if( this.cellsFilled[j][numCol] == 1 ) continue;					
-					this.cellsFilled[j][numCol].removeSelf();
+					//this.cellsFilled[j][numCol].removeSelf();
+					
+					let img = self.cellsFilled[j][numCol];
+					setTimeout( self.animDelCell, 100*numDelCel, img );
+					numDelCel++;
+					
 					this.cellsFilled[j][numCol] = 0;
 					this.field[j][numCol] = 0;
 				};
 			};
 		}
+	};
+	
+	GameField.prototype.animDelCell = function( img ) {
+		let newX = img.x + 10;
+		let newY = img.y + 10;
+		
+		let remImgOnC = function( img ) {
+			img.removeSelf();
+		}
+		gsap.to(img,{ duration: 0.3, x: newX, y: newY, alpha: 0, onComplete: remImgOnC, onCompleteParams: [img] });
 	};

@@ -133,7 +133,10 @@
 	PanelFigure.prototype.removeFigure = function() {
 		this.figure.remove();
 		this.figure = null;
-		if(this.butAddF) this.butAddF.toFront();
+		if(this.butAddF) {
+			this.butAddF.toFront();
+			this.butAddF.interactive = true;
+		}
 	};
 	
 	PanelFigure.prototype.showPanelRotation = function() {
@@ -170,13 +173,13 @@
 	PanelFigure.prototype.setActiveButPanelRot = function() {
 		if(this.butShowPanel)this.butShowPanel.interactive = true;
 		//this.blockRect.visible = false;
-		//this.blockRect.toBack();
+		this.blockRect.toBack();
 	};
 	
 	PanelFigure.prototype.setNActiveButPanelRot = function() {
 		if(this.butShowPanel)this.butShowPanel.interactive = false;
 		//this.blockRect.visible = true;
-		//this.blockRect.toFront();
+		this.blockRect.toFront();
 	};
 
 	

@@ -51,11 +51,6 @@
 				let posPX = self.panelsFigures[i].x;
 				let posPY = self.panelsFigures[i].y;
 				
-				for( let j = 0; j<3; j++  ) {
-					self.panelsFigures[j].butAddF.interactive = false;
-					self.panelsFigures[j].setNActiveButPanelRot();
-				}
-				
 				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
 					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
 						self.panelsFigures[i].figure.scale( 0.57 );
@@ -67,6 +62,13 @@
 						
 						let shUp = 140;
 						self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
+						
+						for( let j = 0; j < 3; j++ ) {
+							if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
+							self.panelsFigures[j].butAddF.interactive = false;
+						}
+						
+						break;
 					}
 				}
 			}
@@ -81,6 +83,9 @@
 			
 			if ( Handler.pointerX > 720 || Handler.pointerX < 0 ||  Handler.pointerY > 1280 ||  Handler.pointerY < 0 ) {
 				self.selectFigure.moveStartPos();
+				for( let j = 0; j < 3; j++ ) {
+					self.panelsFigures[j].butAddF.interactive = true;
+				}
 				if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
 					self.selectPanel.setActiveButPanelRot();
 				};
@@ -114,8 +119,7 @@
 						self.delColBon( Handler.pointerX, Handler.pointerY );
 					break;
 				}
-				self.setNActiveButCancelMove();
-		
+			
 				return;
 			};
 			
@@ -142,10 +146,7 @@
 						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
 						self.lastSeletPanelF = self.selectPanel;
 						self.selectPanel.removeFigure();
-						//self.selectPanel.setNActiveButPanelRot();
-						self.setActiveButCancelMove();
-						self.selectPanel.butAddF.interactive = true;
-						
+					
 						self.panelScore.score += self.selectFigure.points;
 						self.lastScore += self.selectFigure.points; 
 						
@@ -180,13 +181,12 @@
 					}
 				} 
 			} 
-			
+
 			for( let j = 0; j<3; j++  ) {
+				self.panelsFigures[j].butAddF.interactive = true;
 				if( self.panelsFigures[j].figure != null ) {
-					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK ) {
+					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK  ) {
 						self.panelsFigures[j].setActiveButPanelRot();
-						self.panelsFigures[j].butAddF.interactive = true;
-						//self.panelsFigures[j].setNActiveButPanelRot();
 					}
 				}
 			}
