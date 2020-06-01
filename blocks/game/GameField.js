@@ -82,8 +82,8 @@
 			    let rj = jStart+j;			
 				if ( ri < 10 && rj < 10 ) {
 					if( this.field[ri][rj] == Consts.FILL_CELLS ) {
-						let newX = 6+rj*(Handler.cellW+3);
-						let newY = 6+ri*(Handler.cellW+3);
+						let newX = rj*(Handler.cellW+4);
+						let newY = ri*(Handler.cellW+4);
 						if( this.cellsFilled[ri][rj] == Consts.OPEN_CELLS ) {		
 							
 							let onLoad = function( _img, _i, _j ) {
