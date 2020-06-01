@@ -74,12 +74,13 @@
 		this.selIndec = Handler.showRect( this.groupF, 0, 0, 165, 165, 0x00ff00, 0.5, 5 );
 		this.selIndec.visible = false;
 		
-		let figure = new Figure( this.groupF, 0, 0, num );
+		let newXf = Math.floor( 165/2 );
+		let figure = new Figure( this.groupF, newXf, newXf, num );
 		figure.show();
 		
-		let newXF = 165/2 - figure.group.width/2;
-		let newYF = 165/2 - figure.group.height/2;
-		figure.transition( newXF, newYF );
+		//let newXF = 165/2 - figure.group.width/2;
+		//let newYF = 165/2 - figure.group.height/2;
+		//figure.transition( newXF, newYF );
 		
 	};
 	

@@ -40,7 +40,7 @@
 					
 		if ( Handler.cooperative ) Handler.createStrForCooperative( 5 );
 			
-		this.gameField = new GameField( this.group, 20, 300, field );
+		this.gameField = new GameField( this.group, 12, 290, field );
 		this.gameField.show();
 		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
