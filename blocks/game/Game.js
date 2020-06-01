@@ -53,7 +53,7 @@
 				
 				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
 					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
-						self.panelsFigures[i].figure.scale( 0.57 );
+						self.panelsFigures[i].figure.scale( 1 );
 						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
 						self.selectPanel = self.panelsFigures[i];
