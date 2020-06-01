@@ -22,7 +22,7 @@
 		//this.background = Handler.showRect( this.group, 0, 0, 680, 680, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		//Handler.addImg( this.group, "./images/windGame/backgrGameField.png", 0,0,null, function(img){ img.toBack(); } );
 		
-		Handler.cellW = 66;//Math.floor( this.background.width/10 - 4 );
+		Handler.cellW = 68;//Math.floor( this.background.width/10 - 4 );
 
 		for( let i = 0; i < 10; i++ ) {
 			this.cellsFilled[i] = [];
@@ -30,8 +30,11 @@
 				this.cellsFilled[i][j] = this.field[i][j];
 				if( this.field[i][j] != 0 ) continue;
 
-				let newX = Math.floor( j*(Handler.cellW+4) );
-				let newY = Math.floor( i*(Handler.cellW+4) );
+				//let newX = Math.floor( j*(Handler.cellW+4) );
+				
+				let newX = 2 + j*(Handler.cellW+4);
+				
+				let newY = 2 + i*(Handler.cellW+4);
 				
 				console.log("newX",newX);
 				console.log("newY",newY);

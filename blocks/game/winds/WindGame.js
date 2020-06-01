@@ -9,7 +9,7 @@
 		let self = this;
 		this.group = Handler.newGroup(wg);
 		
-		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
+		//this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		//this.background.toBack();
 		
 		let field =  [ 
@@ -40,7 +40,7 @@
 					
 		if ( Handler.cooperative ) Handler.createStrForCooperative( 5 );
 			
-		this.gameField = new GameField( this.group, 12, 290, field );
+		this.gameField = new GameField( this.group, 0, 280, field );
 		this.gameField.show();
 		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
