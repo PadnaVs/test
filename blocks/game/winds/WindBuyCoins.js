@@ -34,11 +34,11 @@
 			alert('buy '+coins[num]+' for '+costs[num]+' oks');
 		};
 		
-        Handler.addImg( group, "./images/WindBuyCoins/buy550.png",   364, 928, _onBut1, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy1950.png",    6, 928, _onBut2, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy3950.png",  364, 558, _onBut3, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy6150.png",    6, 558, _onBut4, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy25250.png", 100,   0, _onBut5, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy550.png",   364, 928, _onBut1, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy1950.png",    6, 928, _onBut2, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy3950.png",  364, 558, _onBut3, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy6150.png",    6, 558, _onBut4, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy25250.png", 100,   0, _onBut5, _onLoad );
 		
 		let _onButClose = function() {
 			images.forEach( im=>{ gsap.to( im, { duration: 0.2, scaleX: 0, scaleY: 0, ease: "none" }) } );
