@@ -1,5 +1,5 @@
 ﻿    const WindBuyCoins = function( parent ) {
-		Sounds.openwind();
+		Sounds.openWind();
 		let self = this;
 		this.fparent = parent;
 

@@ -7,7 +7,7 @@
 	
 	WindEndGameOnline.prototype.show = function( _win, _points, _pointsEnemy ) {
 		this.group = Handler.newGroup(wg);
-		Sounds.openwind();
+		Sounds.openWind();
 		Handler.addImg( this.group, "./images/windEndGameOnline/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
 		
 		this.points = _points;

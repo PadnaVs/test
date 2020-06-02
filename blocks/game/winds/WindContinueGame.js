@@ -4,7 +4,7 @@
 	};
 	
 	WindContinueGame.prototype.show = function() {
-		Sounds.openwind();
+		Sounds.openWind();
 		this.group = Handler.newGroup(wg);
 		let self = this;
 		

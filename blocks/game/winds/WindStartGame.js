@@ -7,7 +7,7 @@
 		let self = this;
 		this.group = Handler.newGroup( wg );
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
-		Sounds.openwind();
+		Sounds.openWind();
 		let tapButPlaySolo = function() {
 			Sounds.click();
 			self.group.visible = false;

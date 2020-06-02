@@ -8,7 +8,7 @@
 	WindGame.prototype.show = function() {
 		let self = this;
 		this.group = Handler.newGroup(wg);
-		Sounds.openwind();
+		Sounds.openWind();
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		this.background.toBack();
 		
