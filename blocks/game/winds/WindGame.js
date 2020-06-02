@@ -39,9 +39,12 @@
 					]
 					
 		if ( Handler.cooperative ) Handler.createStrForCooperative( 5 );
+		
+		Handler.addImg( this.group, "./images/windGame/bg.png", 0, 278, null, function(img){ /*img.toBack();*/ } );
 			
 		this.gameField = new GameField( this.group, 2, 280, field );
 		this.gameField.show();
+		
 		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		

@@ -41,7 +41,8 @@
 				console.log("newX",newX);
 				console.log("newY",newY);
 				
-				Handler.addImg( this.group, "./images/windGame/place68.png",newX, newY );
+				Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x111111, 0, 1, 2, 0x3C1B0C );
+				//Handler.addImg( this.group, "./images/windGame/place68.png",newX, newY );
 			}
 		}
 	};
