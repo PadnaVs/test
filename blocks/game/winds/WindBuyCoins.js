@@ -1,4 +1,5 @@
 ﻿    const WindBuyCoins = function( parent ) {
+		Sounds.openwind();
 		let self = this;
 		this.fparent = parent;
 
@@ -45,7 +46,6 @@
 			setTimeout( ()=>{ Handler.destroy( self.group ) }, 200 );
 		};
 		setTimeout( ()=>{ Handler.addImg( group, "./images/butClose.png", 604, 6, _onButClose, _onLoad ); }, 400 );
-        
     };
 	
     

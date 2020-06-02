@@ -6,6 +6,7 @@
 	
 	WindEndGameSolo.prototype.show = function( _points ) {
 		let self = this;
+		Sounds.openwind();
 		this.group = Handler.newGroup(wg);
 		Handler.addImg( this.group, "./images/windEndGameSolo/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
 		
