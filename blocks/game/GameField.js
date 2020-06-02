@@ -24,7 +24,7 @@
 		//this.background = Handler.showRect( this.group, 0, 0, 680, 680, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		//Handler.addImg( this.group, "./images/windGame/backgrGameField.png", 0,0,null, function(img){ img.toBack(); } );
 		
-		Handler.cellW = 68;//Math.floor( this.background.width/10 - 4 );
+		Handler.cellW = 70;//Math.floor( this.background.width/10 - 4 );
 
 		for( let i = 0; i < 10; i++ ) {
 			this.cellsFilled[i] = [];
@@ -34,14 +34,14 @@
 
 				//let newX = Math.floor( j*(Handler.cellW+4) );
 				
-				let newX = j*(Handler.cellW+4);
+				let newX = j*(Handler.cellW+2);
 				
-				let newY = i*(Handler.cellW+4);
+				let newY = i*(Handler.cellW+2);
 				
 				console.log("newX",newX);
 				console.log("newY",newY);
 				
-				Handler.addImg( this.group, "./images/windGame/openCell.png",newX, newY );
+				Handler.addImg( this.group, "./images/windGame/block70.png",newX, newY );
 			}
 		}
 	};
