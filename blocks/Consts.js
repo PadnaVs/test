@@ -48,7 +48,8 @@
     }
 
     Consts.ALF = ["А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ъ","Ы","Ь","Э","Ю","Я"];         
-      
+     
+	
   
 	Consts.CRYPT_KEY = '335e096de9a7f799573df689a6757f69';
 
@@ -96,6 +97,9 @@
 	
 	
 	/////////////////////////////////////////////////////////////////////
+	
+	Consts.DIR_B_CELL = "./images/windGame/fillCellB.png";
+	Consts.DIR_S_CELL = "./images/windGame/fillCellS.png";
 	
 	Consts.COINT_REDUCT_BON1             = 40;
 	//Consts.COINT_REDUCT_BON2             = 40;

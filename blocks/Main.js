@@ -1,5 +1,5 @@
 	
-	console.log( "version 0.671" );
+	console.log( "version 0.672" );
 	
 	
 	const visibleWidth0  = 360;
@@ -55,6 +55,10 @@
 	Main.windContinueGame  = new WindContinueGame();
 	Main.windEndGameSolo   = new WindEndGameSolo();
 	Main.windEndGameOnline = new WindEndGameOnline();
+	
+	Sounds.init();
+	Sounds.Play();
+	
 	/*const texture = PIXI.Texture.from( "./images/mainBack.jpg" );
 	const mainBack = new PIXI.Sprite(texture);
     wg.addChild(mainBack);*/

@@ -534,7 +534,13 @@
 		richText.zIndex = Handler.zIndex;
         return richText;
     };
-
+	
+	Handler.disableButton = function( img, milliseconds=800 ) {
+		if ( img == null ) return;
+		img.interactive = false;
+		setTimeout( ()=>{ img.interactive = true; }, 800 );
+	};
+	
     Handler.toNumber = function( val ) {
         let tmpVal = ''+val;
         return Number( tmpVal.replace(',', '.') );
