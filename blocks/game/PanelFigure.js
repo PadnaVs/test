@@ -49,6 +49,7 @@
 		};
 		
 		let tapButRotF = function() {
+			Sounds.click();
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ROT_F;
 			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );
@@ -64,6 +65,7 @@
 		}
 		
 		let tapButAddF = function() {
+			Sounds.click();
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ADD_F;
 			if( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );

@@ -29,11 +29,11 @@
 		this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFF8300, 1, 5 );
 		
 		//this.butOk
-		Handler.addImg( this.group, "./images/windGame/panelFigure/butApplyRot.png", 20, 20, function() { self.destroy() } );
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butApplyRot.png", 20, 20, function() { Sounds.click(); self.destroy() } );
 		//this.butRotF
-		Handler.addImg( this.group, "./images/windGame/panelFigure/butRotF.png", 240, 20, function() { self.rotFigure() } );
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butRotF.png", 240, 20, function() { Sounds.click(); self.rotFigure() } );
 		//this.butCancel
-		Handler.addImg( this.group, "./images/windGame/panelFigure/butCancelRot.png", 460, 20, function() { self.creatStartFigure() } );
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butCancelRot.png", 460, 20, function() { Sounds.click(); self.creatStartFigure() } );
 		
 	}
 	

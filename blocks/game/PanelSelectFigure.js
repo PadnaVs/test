@@ -50,9 +50,9 @@
 		};
 		
 		//this.butOK
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/butOk.png", 543, 808,function(){ self.touchOK(); } );
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/butOk.png", 543, 808,function(){ Sounds.click(); self.touchOK(); } );
 		//this.butCancel
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/butCancel.png", 543, 895, function(){ self.destroy(); });
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/butCancel.png", 543, 895, function(){ Sounds.click(); self.destroy(); });
 		
 	};
 	
@@ -85,6 +85,7 @@
 	};
 	
 	PanelSelectFigure.prototype.selectFigure = function( evt ) {
+		Sounds.click();
 		if ( evt.target.children[1].visible == true ) {
 			evt.target.children[1].visible = false;
 			//удаление выбранной фигуры

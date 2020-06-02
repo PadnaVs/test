@@ -61,7 +61,7 @@
 		Handler.newText( paramsText3 );
 		
 		let tapContinue = function(){
-			
+			Sounds.click();
 		};
 		Handler.addImg( this.group, "./images/windEndGameOnline/butContinue.png", 160, 780, tapContinue );
 	};

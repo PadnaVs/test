@@ -15,6 +15,8 @@
 		this.cells       = [];
 		this.cellsFilled = [];
 		this.countS = 0;
+		
+		this.onSoundDelL = false;
 	};
 	
 	GameField.prototype.show = function() {
@@ -32,9 +34,9 @@
 
 				//let newX = Math.floor( j*(Handler.cellW+4) );
 				
-				let newX = 2 + j*(Handler.cellW+4);
+				let newX = j*(Handler.cellW+4);
 				
-				let newY = 2 + i*(Handler.cellW+4);
+				let newY = i*(Handler.cellW+4);
 				
 				console.log("newX",newX);
 				console.log("newY",newY);
@@ -99,8 +101,7 @@
 				}
 			 }
 		 }
-		 
-		if( Handler.cooperative ) Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
+		 if( Handler.cooperative ) Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
 	};
 	
 	GameField.prototype.delLastInsertFigure = function() {
@@ -131,6 +132,14 @@
 		}
 	};
 	
+	GameField.prototype.startSoundDelLine = function() {
+		let self = this;
+		if( this.onSoundDelL == false ) {
+			this.onSoundDelL = true;
+			Sounds.removeLine();
+			setTimeout( function() { self.onSoundDelL = false; }, 100 );
+		}
+	};
 	
 	GameField.prototype.delLines = function( numsLine, numsCol ) {
 		//console.log( this.cellsFilled );
@@ -139,13 +148,14 @@
 		if( numsLine.length != 0 ) {
 			for( let i = 0; i < numsLine.length; i++ ) {
 				let numLine = numsLine[i];
+				setTimeout( function() { self.startSoundDelLine() }, i*700 )
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[numLine][j] == 0 ) continue;
 					if( this.cellsFilled[numLine][j] == 1 ) continue;
 					//this.cellsFilled[numLine][j].removeSelf();//animka
 					
 					let img = self.cellsFilled[numLine][j];
-					setTimeout( self.animDelCell, 100*numDelCel, img );
+					setTimeout( self.animDelCell, 70*numDelCel, img );
 					numDelCel++;
 					
 					this.cellsFilled[numLine][j] = 0;
@@ -158,13 +168,15 @@
 		if( numsCol.length != 0 ) {
 			for( let i = 0; i < numsCol.length; i++ ) {
 				let numCol = numsCol[i];
+				setTimeout( function() { self.startSoundDelLine() }, i*700 )
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[j][numCol] == 0 ) continue;
 					if( this.cellsFilled[j][numCol] == 1 ) continue;					
 					//this.cellsFilled[j][numCol].removeSelf();
+					Sounds.removeLine();
 					
 					let img = self.cellsFilled[j][numCol];
-					setTimeout( self.animDelCell, 100*numDelCel, img );
+					setTimeout( self.animDelCell, 70*numDelCel, img );
 					numDelCel++;
 					
 					this.cellsFilled[j][numCol] = 0;

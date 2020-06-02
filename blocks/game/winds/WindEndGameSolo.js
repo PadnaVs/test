@@ -24,6 +24,7 @@
 		Handler.newText( paramsText );
 		
 		let tapContinue = function(){
+			Sounds.click();
 			self.group.removeSelf();
 			Main.windStartGame.show();
 		};

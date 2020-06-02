@@ -9,8 +9,8 @@
 		let self = this;
 		this.group = Handler.newGroup(wg);
 		
-		//this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
-		//this.background.toBack();
+		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
+		this.background.toBack();
 		
 		let field =  [ 
 						[0,0,0,0,0,0,0,0,0,0],
@@ -40,7 +40,7 @@
 					
 		if ( Handler.cooperative ) Handler.createStrForCooperative( 5 );
 			
-		this.gameField = new GameField( this.group, 0, 280, field );
+		this.gameField = new GameField( this.group, 3, 280, field );
 		this.gameField.show();
 		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
@@ -73,6 +73,7 @@
 			
 			let tapButSoundEn = function( evt ) {
 				if( !self.butSoundEn ) return;
+				Sounds.Play();
 				if( !evt.target.visible ) {
 					evt.target.visible = true;
 					self.butSoundEn.visible = false;
@@ -84,6 +85,7 @@
 			
 			let tapButSoundDis = function( evt ) {
 				if( !self.butSoundDis ) return;
+				Sounds.Stop();
 				if( !evt.target.visible ) {
 					evt.target.visible = true;
 					self.butSoundDis.visible = false;
@@ -104,7 +106,8 @@
 ////////////////////////////////////////////////////////////			
 			
 			
-			let tapButCancelMove = function() { 
+			let tapButCancelMove = function() {
+				Sounds.click();				
 				if( Handler.game.lastSeletPanelF ) {
 					let res = PanelCoins.countCoins - Consts.COINT_REDUCT_CANCEL_M;
 					if( res < 0 ) {
@@ -123,12 +126,13 @@
 			Handler.addImg( this.group, "./images/windGame/butCancelMove.png", 380, 170, tapButCancelMove, onLoadButCancelMove );
 			
 			let tapButMenu = function(){
-				
+				Sounds.click();
 			};
 			//this.butMenu
 			Handler.addImg( this.group, "./images/windGame/butMenu.png", 608, 40, tapButMenu );
 			
 			let tapButBonuses = function(){
+				Sounds.click();
 				self.panelBonus.visible = true;
 				self.panelBonus.group.toFront();
 			};

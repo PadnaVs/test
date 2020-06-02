@@ -27,6 +27,7 @@
 		let _onBut4 = ()=>{ _onButBase(3) };
 		let _onBut5 = ()=>{ _onButBase(4) };
 		let _onButBase = function( num ) {
+			Sounds.click();
 			//disable buttons on 800 milliseconds
 			images.forEach( im=>{ Handler.disableButton(im,800); } );
 			//buy handler

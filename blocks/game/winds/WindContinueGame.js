@@ -10,6 +10,7 @@
 		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
 		let tapButClose = function() {
+			Sounds.click();
 			Main.windGame.group.removeSelf();
 			self.group.removeSelf();
 			Main.windEndGameSolo.show( Handler.game.panelScore.score );
@@ -36,6 +37,7 @@
 		Handler.newText( paramsText2 );
 		
 		let tapButContinue = function() {
+			Sounds.click();
 			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_CONTINUE_GAME;
 			if ( res < 0 ) {
 				Main.wbc = new WindBuyCoins( wg );

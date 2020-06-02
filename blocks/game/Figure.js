@@ -67,6 +67,19 @@
 		let self = this;
 		this.group.removeChild();
 		
+		for( let i = 0; i < this.positionCell.length; i++ ) {
+			for( let j = 0; j < this.positionCell[i].length; j++ ) {
+				if( this.positionCell[i][j] == Consts.OPEN_CELLS ) continue;
+				this.points++;
+				
+				//let data = {
+				//	i: i,
+				//	j: j,
+				//}
+				//imgsData.push( data );
+			}
+		}
+			
 		let onLoadF = function( img ) {
 			self.scale(0.6);
 			self.group.x = Math.floor(self.x - self.group.width/2);
@@ -80,18 +93,18 @@
 		
 		//let imgsData = [];
 		//
-		//for( let i = 0; i < this.positionCell.length; i++ ) {
-		//	for( let j = 0; j < this.positionCell[i].length; j++ ) {
-		//		if( this.positionCell[i][j] == Consts.OPEN_CELLS ) continue;
-		//		this.points++;
-		//		
-		//		let data = {
-		//			i: i,
-		//			j: j,
-		//		}
-		//		imgsData.push( data );
-		//	}
-		//}
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
 		//
 		//let onLoadCell = function(numF) {
 		//	if( numF == imgsData.length-1) {

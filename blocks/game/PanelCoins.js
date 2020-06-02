@@ -11,7 +11,10 @@
 			this.group = group;
 			this.group.x = shx;
 			
-            let onCoinPLus = function() { Main.wbc = new WindBuyCoins( self.parent ); };
+            let onCoinPLus = function() {
+				Sounds.click();				
+				Main.wbc = new WindBuyCoins( self.parent ); 
+			};
             Handler.addImg( group, "./images/coinsBack.png",  478, 20 );
             Handler.addImg( group, "./images/coin.png",       460, 14 );
             Handler.addImg( group, "./images/coinPlus.png",   644, 26, onCoinPLus );

@@ -36,6 +36,7 @@
 		Handler.addImg( this.group, "./images/windGame/panelBonuses/background.png", 0,0,null, function(img){ img.toBack(); } );
 		
 		let tapButClose = function() {
+			Sounds.click();
 			if( self.panelSelectFigure )self.panelSelectFigure.destroy();
 			Handler.game.selectBonus = null;			
 			self.visible = false; 
@@ -57,6 +58,7 @@
 	
 	PanelBonus.prototype.touchBonus = function( evt ) {
 		let self = this;
+		Sounds.click();
 		this.numBonus = evt.target.num;
 		this.group.toFront();
 		Handler.game.selectBonus = this.numBonus;
