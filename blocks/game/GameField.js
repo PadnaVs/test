@@ -61,9 +61,12 @@
 		// console.log("gamefield", this.field);
 	};
 	
-	GameField.prototype.insertFigure = function( num, iStart, jStart ) {
+	GameField.prototype.insertFigure = function( figure, iStart, jStart ) {
 		let self = this;
-		let fieldFigure = Consts.POSITION_CEIL[num];
+		
+		let num = figure.num;
+		
+		let fieldFigure = figure.positionCell;
 		
 		this.lastInsertFigure = {
 			num: num,
@@ -82,6 +85,7 @@
 		
 		this.reWritefield( fieldFigure, iStart, jStart );
 		
+		let numCell = 0;
 		for( let i = 0; i < 5; i++ ) {
 			 for( let j = 0; j < 5; j++ ) {
 				let ri = iStart+i;
@@ -91,13 +95,13 @@
 						let newX = rj*(Handler.cellW+4);
 						let newY = ri*(Handler.cellW+4);
 						if( this.cellsFilled[ri][rj] == Consts.OPEN_CELLS ) {		
-							
 							let onLoad = function( _img, _i, _j ) {
 								self.cellsFilled[_i][_j] = _img;
 							}
 							
-							let rndB = Math.floor(Math.random() * (22 - 1) + 1);
-							Handler.addImg( this.group, "./images/windGame/blocks/block_l"+rndB+".png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							let numImg = figure.imgsData[numCell].numImg;
+							Handler.addImg( this.group, "./images/windGame/blocks/block_l"+numImg+".png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							numCell++;
 							//Handler.addImg( this.group, "./images/windGame/block68.png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
 							//this.cellsFilled[ri][rj] = Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x00ffff, 1, 15 );
 						};

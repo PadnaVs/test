@@ -63,84 +63,68 @@
 		//};
 	};
 	
+	Figure.prototype.onLoadCell = function( numF, imgsData) {
+		let self = this;
+		
+		this.loadCellCount++;
+		
+		if( this.loadCellCount == imgsData.length) {
+			self.stWidthG = self.group.width;
+			self.stHeightG = self.group.height;
+			self.scale(0.56);
+			
+			self.group.x = Math.floor(self.x - self.group.width/2);
+			self.group.y = Math.floor(self.y - self.group.height/2);
+			
+			self.startX = self.group.x;
+			self.startY = self.group.y;
+			
+			self.group.cacheAsBitmap = true;
+		}
+	};
+	
 	Figure.prototype.createFigure = function() {
 		let self = this;
 		this.group.removeChild();
+		
+		this.loadCellCount = 0;
+		
+		this.imgsData = [];
 		
 		for( let i = 0; i < this.positionCell.length; i++ ) {
 			for( let j = 0; j < this.positionCell[i].length; j++ ) {
 				if( this.positionCell[i][j] == Consts.OPEN_CELLS ) continue;
 				this.points++;
 				
-				//let data = {
-				//	i: i,
-				//	j: j,
-				//}
-				//imgsData.push( data );
+				let rndNumImg = Math.floor(Math.random() * (22 - 1) + 1);
+				
+				let data = {
+					i: i,
+					j: j,
+					numImg: rndNumImg
+				}
+				this.imgsData.push( data );
 			}
 		}
 			
-		let onLoadF = function( img ) {
-			self.scale(0.6);
-			self.group.x = Math.floor(self.x - self.group.width/2);
-			self.group.y = Math.floor(self.y - self.group.height/2);
-			
-			self.startX = self.group.x;
-			self.startY = self.group.y;
-		}
-		
-		Handler.addImg( this.group, "./images/windGame/figures/f"+ this.num +".png", 0, 0, null, function(img){ onLoadF(img); });
-		
-		//let imgsData = [];
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//let onLoadCell = function(numF) {
-		//	if( numF == imgsData.length-1) {
-		//		self.stWidthG = self.group.width;
-		//		self.stHeightG = self.group.height;
-		//		self.scale(0.56);
-		//		
-		//		self.group.x = Math.floor(self.x - self.group.width/2);
-		//		self.group.y = Math.floor(self.y - self.group.height/2);
-		//		
-		//		console.log( "self.group.x", self.group.x );
-		//		console.log( "self.group.y", self.group.y );
-		//		
-		//		self.startX = self.group.x;
-		//		self.startY = self.group.y;
-		//		
-		//		
-		//	}
-		//};
-		//
-		//for( let i = 0; i < imgsData.length; i++ ) {
-		//	let yf = imgsData[i].i * Handler.cellW + imgsData[i].i*4;
-		//	let xf = imgsData[i].j * Handler.cellW + imgsData[i].j*4;
+		//let onLoadF = function( img ) {
+		//	self.scale(0.6);
+		//	self.group.x = Math.floor(self.x - self.group.width/2);
+		//	self.group.y = Math.floor(self.y - self.group.height/2);
 		//	
-		//	if( xf%2 != 0 ) {
-		//		xf++;
-		//	}
-		//	
-		//	if( yf%2 != 0 ) {
-		//		yf++;
-		//	}
-		//	
-		//	Handler.addImg( this.group, "./images/windGame/fillCell.png", xf, yf, null, function(img){ onLoadCell(i); });
-		//	console.log( "xf",xf );
-		//	console.log( "yf",yf );
+		//	self.startX = self.group.x;
+		//	self.startY = self.group.y;
 		//}
+		//
+		//Handler.addImg( this.group, "./images/windGame/figures/f"+ this.num +".png", 0, 0, null, function(img){ onLoadF(img); });
+
+		for( let i = 0; i < this.imgsData.length; i++ ) {
+			let yf = this.imgsData[i].i * Handler.cellW + this.imgsData[i].i*4;
+			let xf = this.imgsData[i].j * Handler.cellW + this.imgsData[i].j*4;
+			Handler.addImg( this.group, "./images/windGame/blocks/block_l"+this.imgsData[i].numImg+".png", xf, yf, null, function(img){ self.onLoadCell( i, self.imgsData ); });
+			//console.log( "xf",xf );
+			//console.log( "yf",yf );
+		}
  	};  
 	
 	Figure.prototype.transition = function( _x=0, _y=0 ) {

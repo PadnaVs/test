@@ -120,6 +120,14 @@
 		if ( !Sounds.msOn ) return;
 		this.playBody( 'removeLine', 'removeLine.mp3', 1, 3 );
 	}
+	Sounds.figureGetUp = function() {
+		if ( !Sounds.msOn ) return;
+		this.playBody( 'figureGetUp', 'figureGetUp.mp3', 2.5, 3 );
+	}
+	Sounds.figureDown = function() {
+		if ( !Sounds.msOn ) return;
+		this.playBody( 'figureDown', 'figureDown.mp3', 1, 3 );
+	}
 	//https://www.freesoundeffects.com/searches/win/3/20/
 	//https://www.zapsplat.com/music/game-sound-retro-digital-fanfare-level-complete-or-achievement-tone-5/
 		

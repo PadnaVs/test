@@ -53,6 +53,7 @@
 				
 				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
 					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
+						Sounds.figureGetUp();
 						self.panelsFigures[i].figure.scale( 1 );
 						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
@@ -142,8 +143,9 @@
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
+						Sounds.figureDown();
 						self.lastScore = 0;
-						self.gameField.insertFigure( self.selectFigure.num, startI, startJ );
+						self.gameField.insertFigure( self.selectFigure, startI, startJ );
 						self.lastSeletPanelF = self.selectPanel;
 						self.selectPanel.removeFigure();
 					
