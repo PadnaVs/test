@@ -95,7 +95,10 @@
 							let onLoad = function( _img, _i, _j ) {
 								self.cellsFilled[_i][_j] = _img;
 							}
-							Handler.addImg( this.group, "./images/windGame/block68.png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							
+							let rndB = Math.floor(Math.random() * (22 - 1) + 1);
+							Handler.addImg( this.group, "./images/windGame/blocks/block_l"+rndB+".png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							//Handler.addImg( this.group, "./images/windGame/block68.png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
 							//this.cellsFilled[ri][rj] = Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x00ffff, 1, 15 );
 						};
 					};
