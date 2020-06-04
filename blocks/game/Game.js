@@ -153,7 +153,34 @@
 						self.lastScore += self.selectFigure.points; 
 						
 						if ( self.panelsFigures[0].figure == null && self.panelsFigures[1].figure == null && self.panelsFigures[2].figure == null ) {
-							for( let i = 0; i<3; i++ ){
+							
+							
+							let countBigBox   = 3;
+							let countBigLineW = 3;
+							let countBigLineH = 3;
+							
+							let iF = 0;
+							let reCreate = false;
+							do {
+								for( let i = 0; i<3; i++ ) {
+									let newF = self.panelsFigures[i].generationFigure();
+									self.panelsFigures[i].figure = newF;
+									
+									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[2] ) {
+										countBigBox--;
+									}
+									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[9] ) {
+										countBigLineH--;
+									}
+									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[9] ) {
+										countBigLineW--;
+									}
+								}
+								
+								if( countBigBox > 1 || countBigLineW > 1 || countBigLineH > 1) reCreate = true;
+							} while( reCreate );
+							
+							for( let i = 0; i<3; i++ ) {
 								self.panelsFigures[i].showFigure();
 							}
 						}
@@ -204,6 +231,7 @@
 		this.touchBlock.onEL( "pointermove", function( evt ){ touchMove( evt ) } );
 		this.touchBlock.onEL( "pointerup", function( evt ){ touchUp( evt ) } );
 	};
+	
 	
 	Game.prototype.fillPanelsWithF = function(){
 		for( let i = 0; i < 3; i++ ) {
