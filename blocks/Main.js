@@ -1,6 +1,6 @@
 	
-	console.log( "version 0.677" );
-	      alert( "version 0.677" );
+	console.log( "version 0.678" );
+	      alert( "version 0.678" );
 	
 	
 	const visibleWidth0  = 360;
@@ -46,7 +46,6 @@
 	
     DataLoader.load = function( ) {//called in WindGame
         //load Images
-        Handler.addImg( null, "./images/windGame/blocks/block_l0.png",0,0,null,null,false );
         Handler.addImg( null, "./images/windGame/blocks/block_l1.png",0,0,null,null,false );
         Handler.addImg( null, "./images/windGame/blocks/block_l2.png",0,0,null,null,false );
         Handler.addImg( null, "./images/windGame/blocks/block_l3.png",0,0,null,null,false );
