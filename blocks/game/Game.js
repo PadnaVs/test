@@ -21,7 +21,7 @@
 		
 		this.lastScore = 0;//последние набронные очки
 		
-		this.touchDilForPRot = 600;
+		this.touchDilForPRot = 400;
 		
 		if( Handler.cooperative ) {
 			//window.addEventListener( "load", function() {

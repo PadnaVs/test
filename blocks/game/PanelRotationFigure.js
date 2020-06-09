@@ -20,6 +20,7 @@
 		this.startNum = this.parent.startNumFigure;
 		
 		this.currentNum = this.startNum;
+		this.numTouch = 0;
 		if ( this.parent.figure.num >= 11 && this.parent.figure.num <= 14 ) this.lastNumFigure = 14;
 		if (this. parent.figure.num >= 15 && this.parent.figure.num <= 18 ) this.lastNumFigure = 18;
 	};
@@ -35,6 +36,7 @@
 		//this.butCancel
 		Handler.addImg( this.group, "./images/windGame/panelFigure/butCancelRot.png", 460, 20, function() { Sounds.click(); self.creatStartFigure() } );
 		
+		this.startFigure = this.parent.figure;
 	}
 	
 	PanelRotationFigure.prototype.destroy = function() {
@@ -45,7 +47,8 @@
 	};
 	
 	PanelRotationFigure.prototype.rotFigure = function() {
-		this.fRotated = true;		
+		this.fRotated = true;
+		
 		if ( this.parent.figure.type == Consts.TYPE_LINE ) {
 			if( this.parent.figure.positionLine == Consts.GORIZONTAL_LINE ) this.currentNum++;
 			if( this.parent.figure.positionLine == Consts.VERTICAL_LINE ) this.currentNum--;
@@ -53,6 +56,9 @@
 		
 		if ( this.parent.figure.type == Consts.TYPE_ANGLE ) {
 			this.currentNum++;
+			
+			
+			
 			if ( this.currentNum > this.lastNumFigure ) {
 				this.currentNum = this.lastNumFigure-3;
 			}
@@ -62,15 +68,31 @@
 			this.fRotated = false;
 		}
 		
+		let numImgsCell = [];
+		let positionCell = Consts.POSITION_CEIL[this.currentNum];
+		let numImgCell = 0;
+		for( let i = 0; i < 5; i++ ) {
+			for( let j = 0; j < 5; j++ ) {
+				if(positionCell[i][j] == Consts.OPEN_CELLS ) continue;
+				let data = {
+					i: i,
+					j: j,
+					numImg: this.startFigure.imgsData[numImgCell].numImg,
+				}
+				numImgsCell.push( data );
+				numImgCell++;
+			}
+		}
+		
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.currentNum );
+		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.currentNum, numImgsCell );
 		this.parent.showFigure( false );
 	};
 	
 	PanelRotationFigure.prototype.creatStartFigure = function() {
 		this.fRotated = false;
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.startNum );
+		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.startNum, this.startFigure.imgsData );
 		this.parent.showFigure( false );
 		this.destroy();
 	};
