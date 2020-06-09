@@ -21,6 +21,8 @@
 		
 		this.lastScore = 0;//последние набронные очки
 		
+		this.touchDilForPRot = 400;
+		
 		if( Handler.cooperative ) {
 			//window.addEventListener( "load", function() {
 			//	console.log("Завершение загрузки");
@@ -52,7 +54,7 @@
 			self.onPRotF = true;
 			self.tTouch += 16;
 			
-			if( self.tTouch > 250 ) {
+			if( self.tTouch > self.touchDilForPRot ) {
 				Sounds.figureGetUp();
 				selFigure(posF);
 				self.tTouch = 0;
@@ -149,7 +151,7 @@
 				return;
 			};
 			
-			if( self.tTouch < 250 && self.onPRotF ) {
+			if( self.tTouch < self.touchDilForPRot && self.onPRotF ) {
 				if( self.selectPanel ) {
 					self.selectPanel.showPanelRotation();
 					self.selectPanel = null;
