@@ -40,6 +40,37 @@
 	
 	pixiApp.stage.addChild(graphics);*/
 	
+	
+	const DataLoader = {};         
+    window.DataLoader = DataLoader;
+	
+    DataLoader.load = function( ) {//called in WindGame
+        //load Images
+        Handler.addImg( null, "./images/windGame/blocks/block_l0.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l1.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l2.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l3.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l4.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l5.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l6.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l7.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l8.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l9.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l10.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l11.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l12.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l13.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l14.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l15.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l16.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l17.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l18.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l19.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l20.png",0,0,null,null,false );
+        Handler.addImg( null, "./images/windGame/blocks/block_l21.png",0,0,null,null,false );
+	};
+	DataLoader.load();
+	
 	let wg = Handler.newGroup( pixiApp.stage );
 	wg.scale.set( 0.5 );
 
