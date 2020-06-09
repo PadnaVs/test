@@ -98,8 +98,17 @@
 	
 	/////////////////////////////////////////////////////////////////////
 	
-	Consts.DIR_B_CELL = "./images/windGame/fillCellB.png";
-	Consts.DIR_S_CELL = "./images/windGame/fillCellS.png";
+	//Consts.DIR_B_CELL = "./images/windGame/fillCellB.png";
+	//Consts.DIR_S_CELL = "./images/windGame/fillCellS.png";
+	Consts.DIR_BACKGROUNDS = [
+		"./images/backgrounds/back0.jpg",
+		"./images/backgrounds/back1.jpg",
+		"./images/backgrounds/back2.jpg",
+		"./images/backgrounds/back3.jpg",
+		"./images/backgrounds/back4.jpg",
+		"./images/backgrounds/back5.jpg",
+	];
+	
 	
 	Consts.COINT_REDUCT_BON1             = 40;
 	//Consts.COINT_REDUCT_BON2             = 40;

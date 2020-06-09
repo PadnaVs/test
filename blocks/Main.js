@@ -43,10 +43,16 @@
 	wg.scale.set( 0.5 );
 
 	const Main = {};
-
+	
+	Main.createBig2Figure = false;
+	Main.createBig2Block  = false;
+	Main.createBig2Lines  = false;
+	
 	let ud = '{"isNew":false,"user":{"id":"1","outer_id":"514097834586","coins":"7410","exp":"0","ml":"6","day_bonus":"0","visit":"1589454561","noticePromise":"0"},"superGemHelp":0,"ts":1589463069,"ci":0,"openedWords":"100_000_000_0000_0000000","countPayments":0}';
 
 	User.init( JSON.parse( ud ) );
+	
+	Main.numShowBackgr = 0;
 	
 	Main.windStartGame = new WindStartGame();
 	Main.windStartGame.show();
@@ -55,6 +61,9 @@
 	Main.windContinueGame  = new WindContinueGame();
 	Main.windEndGameSolo   = new WindEndGameSolo();
 	Main.windEndGameOnline = new WindEndGameOnline();
+	Main.WindSelectBackgr  = new WindSelectBackgr();
+	
+	
 	
 	Sounds.init();
 	Sounds.Play();
