@@ -55,7 +55,7 @@
 			self.onPRotF = true;
 			self.tTouch += 16;
 			
-			if( self.tTouch > self.touchDilForPRot ) {
+			if( self.tTouch >= self.touchDilForPRot ) {
 				Sounds.figureGetUp();
 				selFigure(posF);
 				self.tTouch = 0;
