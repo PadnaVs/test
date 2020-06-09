@@ -39,6 +39,7 @@
 		
 		let onLoadButR = function(img) {
 			self.butShowPanel = img; 
+			if( self.figure == null ) return;
 			if( self.figure.type == Consts.TYPE_BLOCK ) {
 				self.butShowPanel.interactive = false;
 				self.setNActiveButPanelRot();
@@ -46,7 +47,35 @@
 				self.setActiveButPanelRot();
 			};
 		};
-		Handler.addImg( this.group, "./images/windGame/panelFigure/butShowPRotF.png", 10, 10, function() { self.showPanelRotation(); }, onLoadButR );
+		
+		let tapButRotF = function() {
+			Sounds.click();
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ROT_F;
+			if( res < 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
+				self.showPanelRotation();
+			}
+		}
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butShowPRotF.png", 10, 10, tapButRotF, onLoadButR );
+		
+		let onLoadButAddF = function( img ) {
+			self.butAddF = img;
+			self.butAddF.toBack();
+		}
+		
+		let tapButAddF = function() {
+			Sounds.click();
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_ADD_F;
+			if( res < 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+			} else {
+				self.showFigure();
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_ADD_F;
+			}
+		}
+		Handler.addImg( this.group, "./images/windGame/panelFigure/butAddF.png", 10, 10, tapButAddF, onLoadButAddF );
+		
 		
 		
 		this.blockRect = Handler.showRect( this.group, 10, 10, 42, 42, 0xFF0000, 0.7 );
@@ -58,6 +87,7 @@
 	PanelFigure.prototype.showFigure = function( needGeneratF = true ) {
 		if ( needGeneratF ) this.figure = this.generationFigure();
 		this.figure.show();
+		if(this.butAddF) this.butAddF.toBack();
 		//this.figure.transition(this.width/2,this.height/2);
 		//this.figure.transition( this.width/2 - this.figure.group.width/2, this.height/2 - this.figure.group.height/2 );
 		//this.figure.startX = this.figure.position.x;
@@ -66,8 +96,10 @@
 		this.startNumFigure = this.figure.num;
 		if( this.figure.type == Consts.TYPE_BLOCK ) { 
 			this.setNActiveButPanelRot();
+			this.blockRect.toFront();
 		} else {
 			this.setActiveButPanelRot();
+			this.blockRect.toBack();
 		};
 	};
 	
@@ -103,6 +135,10 @@
 	PanelFigure.prototype.removeFigure = function() {
 		this.figure.remove();
 		this.figure = null;
+		if(this.butAddF) {
+			this.butAddF.toFront();
+			this.butAddF.interactive = true;
+		}
 	};
 	
 	PanelFigure.prototype.showPanelRotation = function() {

@@ -15,14 +15,16 @@
 		this.cells       = [];
 		this.cellsFilled = [];
 		this.countS = 0;
+		
+		this.onSoundDelL = false;
 	};
 	
 	GameField.prototype.show = function() {
 		let self = this;
 		//this.background = Handler.showRect( this.group, 0, 0, 680, 680, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
-		Handler.addImg( this.group, "./images/windGame/backgrGameField.png", 0,0,null, function(img){ img.toBack(); } );
+		//Handler.addImg( this.group, "./images/windGame/backgrGameField.png", 0,0,null, function(img){ img.toBack(); } );
 		
-		Handler.cellW = 64;//Math.floor( this.background.width/10 - 4 );
+		Handler.cellW = 68;//Math.floor( this.background.width/10 - 4 );
 
 		for( let i = 0; i < 10; i++ ) {
 			this.cellsFilled[i] = [];
@@ -30,10 +32,17 @@
 				this.cellsFilled[i][j] = this.field[i][j];
 				if( this.field[i][j] != 0 ) continue;
 
-				let newX = 6+j*(Handler.cellW+3);
-				let newY = 6+i*(Handler.cellW+3);
+				//let newX = Math.floor( j*(Handler.cellW+4) );
 				
-				Handler.addImg( this.group, "./images/windGame/openCell.png",newX, newY );
+				let newX = j*(Handler.cellW+4);
+				
+				let newY = i*(Handler.cellW+4);
+				
+				console.log("newX",newX);
+				console.log("newY",newY);
+				
+				Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x111111, 0, 1, 4, 0x3C1B0C );
+				//Handler.addImg( this.group, "./images/windGame/place68.png",newX, newY );
 			}
 		}
 	};
@@ -52,9 +61,12 @@
 		// console.log("gamefield", this.field);
 	};
 	
-	GameField.prototype.insertFigure = function( num, iStart, jStart ) {
+	GameField.prototype.insertFigure = function( figure, iStart, jStart ) {
 		let self = this;
-		let fieldFigure = Consts.POSITION_CEIL[num];
+		
+		let num = figure.num;
+		
+		let fieldFigure = figure.positionCell;
 		
 		this.lastInsertFigure = {
 			num: num,
@@ -73,28 +85,31 @@
 		
 		this.reWritefield( fieldFigure, iStart, jStart );
 		
+		let numCell = 0;
 		for( let i = 0; i < 5; i++ ) {
 			 for( let j = 0; j < 5; j++ ) {
 				let ri = iStart+i;
 			    let rj = jStart+j;			
 				if ( ri < 10 && rj < 10 ) {
 					if( this.field[ri][rj] == Consts.FILL_CELLS ) {
-						let newX = 6+rj*(Handler.cellW+3);
-						let newY = 6+ri*(Handler.cellW+3);
+						let newX = rj*(Handler.cellW+4);
+						let newY = ri*(Handler.cellW+4);
 						if( this.cellsFilled[ri][rj] == Consts.OPEN_CELLS ) {		
-							
 							let onLoad = function( _img, _i, _j ) {
 								self.cellsFilled[_i][_j] = _img;
 							}
-							Handler.addImg( this.group, "./images/windGame/fillCell.png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							
+							let numImg = figure.imgsData[numCell].numImg;
+							Handler.addImg( this.group, "./images/windGame/blocks/block_l"+numImg+".png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
+							numCell++;
+							//Handler.addImg( this.group, "./images/windGame/block68.png",newX, newY, null,function(img){ let _ri = ri; let _rj = rj; onLoad(img, _ri, _rj) } );
 							//this.cellsFilled[ri][rj] = Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x00ffff, 1, 15 );
 						};
 					};
 				}
 			 }
 		 }
-		 
-		if( Handler.cooperative ) Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
+		 if( Handler.cooperative ) Handler.game.netControl.sendMsg(  { typeAct: Consts.TYPE_ACT_INSERT_F, numF: num, i: iStart, j: jStart }  );
 	};
 	
 	GameField.prototype.delLastInsertFigure = function() {
@@ -125,33 +140,66 @@
 		}
 	};
 	
+	GameField.prototype.startSoundDelLine = function() {
+		let self = this;
+		if( this.onSoundDelL == false ) {
+			this.onSoundDelL = true;
+			Sounds.removeLine();
+			setTimeout( function() { self.onSoundDelL = false; }, 100 );
+		}
+	};
 	
 	GameField.prototype.delLines = function( numsLine, numsCol ) {
 		//console.log( this.cellsFilled );
-
+		let self = this;
+		let numDelCel = 0;
 		if( numsLine.length != 0 ) {
 			for( let i = 0; i < numsLine.length; i++ ) {
 				let numLine = numsLine[i];
+				setTimeout( function() { self.startSoundDelLine() }, i*700 )
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[numLine][j] == 0 ) continue;
 					if( this.cellsFilled[numLine][j] == 1 ) continue;
-					this.cellsFilled[numLine][j].removeSelf();
+					//this.cellsFilled[numLine][j].removeSelf();//animka
+					
+					let img = self.cellsFilled[numLine][j];
+					setTimeout( self.animDelCell, 70*numDelCel, img );
+					numDelCel++;
+					
 					this.cellsFilled[numLine][j] = 0;
 					this.field[numLine][j] = 0;
 				};
 			};
 		} 
 		
+		numDelCel = 0;
 		if( numsCol.length != 0 ) {
 			for( let i = 0; i < numsCol.length; i++ ) {
 				let numCol = numsCol[i];
+				setTimeout( function() { self.startSoundDelLine() }, i*700 )
 				for( let j = 0; j < 10; j++ ) {
 					if( this.cellsFilled[j][numCol] == 0 ) continue;
 					if( this.cellsFilled[j][numCol] == 1 ) continue;					
-					this.cellsFilled[j][numCol].removeSelf();
+					//this.cellsFilled[j][numCol].removeSelf();
+					Sounds.removeLine();
+					
+					let img = self.cellsFilled[j][numCol];
+					setTimeout( self.animDelCell, 70*numDelCel, img );
+					numDelCel++;
+					
 					this.cellsFilled[j][numCol] = 0;
 					this.field[j][numCol] = 0;
 				};
 			};
 		}
+	};
+	
+	GameField.prototype.animDelCell = function( img ) {
+		let newX = img.x + 10;
+		let newY = img.y + 10;
+		
+		let remImgOnC = function( img ) {
+			img.removeSelf();
+		}
+		gsap.to(img,{ duration: 0.3, x: newX, y: newY, alpha: 0, onComplete: remImgOnC, onCompleteParams: [img] });
 	};

@@ -1,6 +1,5 @@
 
 	let WindGame = function ( _level ) {
-		this.group = wg;
 		this.level = _level;
 		
 		this.panelsFigures = [];
@@ -8,9 +7,21 @@
 	
 	WindGame.prototype.show = function() {
 		let self = this;
+		this.group = Handler.newGroup(wg);
+		Sounds.openWind();
 		
-		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
+		this.background = null;
+		this.setBackgr( Main.numShowBackgr );
+		
+		//this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xA86441, 1, 1, 6, 0x9E3E0E );
 		//this.background.toBack();
+		//this.background = null;
+		//Handler.addImg( this.group, "./images/backgrounds/back"+ Main.numShowBackgr +".jpg", 360, 640, null, function(img){ 
+		//	self.background = img;
+		//	img.toBack();
+		//	img.anchor.set(0.5,0.5);
+		//	img.tint = 0xA55B30;			
+		//} );
 		
 		let field =  [ 
 						[0,0,0,0,0,0,0,0,0,0],
@@ -39,9 +50,12 @@
 					]
 					
 		if ( Handler.cooperative ) Handler.createStrForCooperative( 5 );
+		
+		//Handler.addImg( this.group, "./images/windGame/bg.png", 0, 278, null, function(img){ /*img.toBack();*/ } );
 			
-		this.gameField = new GameField( this.group, 20, 300, field );
+		this.gameField = new GameField( this.group, 2, 280, field );
 		this.gameField.show();
+		
 		
 		this.touchBlock = Handler.showRect( this.group, 0, 0, 720, 1280, 0x00000, 0.01 );
 		
@@ -73,6 +87,7 @@
 			
 			let tapButSoundEn = function( evt ) {
 				if( !self.butSoundEn ) return;
+				Sounds.Play();
 				if( !evt.target.visible ) {
 					evt.target.visible = true;
 					self.butSoundEn.visible = false;
@@ -84,6 +99,7 @@
 			
 			let tapButSoundDis = function( evt ) {
 				if( !self.butSoundDis ) return;
+				Sounds.Stop();
 				if( !evt.target.visible ) {
 					evt.target.visible = true;
 					self.butSoundDis.visible = false;
@@ -104,8 +120,16 @@
 ////////////////////////////////////////////////////////////			
 			
 			
-			let tapButCancelMove = function() { 
-				if( Handler.game.lastSeletPanelF ) Handler.game.delLastInsertFigure();
+			let tapButCancelMove = function() {
+				Sounds.click();				
+				if( Handler.game.lastSeletPanelF ) {
+					let res = PanelCoins.countCoins - Consts.COINT_REDUCT_CANCEL_M;
+					if( res < 0 ) {
+						Main.wbc = new WindBuyCoins( wg );
+					} else {
+						Handler.game.delLastInsertFigure();
+					}
+				}
 			};
 			
 			let onLoadButCancelMove = function(img) {
@@ -116,12 +140,14 @@
 			Handler.addImg( this.group, "./images/windGame/butCancelMove.png", 380, 170, tapButCancelMove, onLoadButCancelMove );
 			
 			let tapButMenu = function(){
-				
+				Sounds.click();
+				Main.WindSelectBackgr.show();
 			};
 			//this.butMenu
 			Handler.addImg( this.group, "./images/windGame/butMenu.png", 608, 40, tapButMenu );
 			
 			let tapButBonuses = function(){
+				Sounds.click();
 				self.panelBonus.visible = true;
 				self.panelBonus.group.toFront();
 			};
@@ -159,7 +185,9 @@
 			this.gameFieldPlayer2.show();
 		}
 		
-		this.panelCoins = PanelCoins.init( this.group, -240 );
+		PanelCoins.init( this.group, -240 );
+		PanelCoins.countCoins = 500;
+		
 		
 		Handler.game = new Game();
 		
@@ -167,11 +195,15 @@
 			Handler.bot = new Bot();
 			//Handler.bot.startGame();
 		}
-		
-		//if( this.butCancelMove ) this.butCancelMove.onEL( "pointerdown",  );
-		//this.gameFieldPlayer2.insertFigure( 1, 0, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 2, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 4, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 6, 0 );
-		//this.gameFieldPlayer2.insertFigure( 1, 8, 0 );
+	};
+	
+	WindGame.prototype.setBackgr = function( num ) {
+		let self = this;
+		if( this.background ) this.background.removeSelf();
+		Handler.addImg( this.group, "./images/backgrounds/back"+ num +".jpg", 360, 640, null, function(img){ 
+			self.background = img;
+			img.toBack();
+			img.anchor.set(0.5,0.5);
+			img.tint = 0xA55B30;			
+		} );
 	};

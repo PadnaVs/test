@@ -1,4 +1,5 @@
 ﻿    const WindBuyCoins = function( parent ) {
+		Sounds.openWind();
 		let self = this;
 		this.fparent = parent;
 
@@ -27,24 +28,24 @@
 		let _onBut4 = ()=>{ _onButBase(3) };
 		let _onBut5 = ()=>{ _onButBase(4) };
 		let _onButBase = function( num ) {
+			Sounds.click();
 			//disable buttons on 800 milliseconds
 			images.forEach( im=>{ Handler.disableButton(im,800); } );
 			//buy handler
 			alert('buy '+coins[num]+' for '+costs[num]+' oks');
 		};
 		
-        Handler.addImg( group, "./images/WindBuyCoins/buy550.png",   364, 928, _onBut1, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy1950.png",    6, 928, _onBut2, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy3950.png",  364, 558, _onBut3, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy6150.png",    6, 558, _onBut4, _onLoad );
-        Handler.addImg( group, "./images/WindBuyCoins/buy25250.png", 100,   0, _onBut5, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy550.png",   364, 928, _onBut1, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy1950.png",    6, 928, _onBut2, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy3950.png",  364, 558, _onBut3, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy6150.png",    6, 558, _onBut4, _onLoad );
+        Handler.addImg( group, "./images/windBuyCoins/buy25250.png", 100,   0, _onBut5, _onLoad );
 		
 		let _onButClose = function() {
 			images.forEach( im=>{ gsap.to( im, { duration: 0.2, scaleX: 0, scaleY: 0, ease: "none" }) } );
 			setTimeout( ()=>{ Handler.destroy( self.group ) }, 200 );
 		};
 		setTimeout( ()=>{ Handler.addImg( group, "./images/butClose.png", 604, 6, _onButClose, _onLoad ); }, 400 );
-        
     };
 	
     

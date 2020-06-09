@@ -36,6 +36,7 @@
 		Handler.addImg( this.group, "./images/windGame/panelBonuses/background.png", 0,0,null, function(img){ img.toBack(); } );
 		
 		let tapButClose = function() {
+			Sounds.click();
 			if( self.panelSelectFigure )self.panelSelectFigure.destroy();
 			Handler.game.selectBonus = null;			
 			self.visible = false; 
@@ -57,28 +58,39 @@
 	
 	PanelBonus.prototype.touchBonus = function( evt ) {
 		let self = this;
+		Sounds.click();
 		this.numBonus = evt.target.num;
-		
+		this.group.toFront();
 		Handler.game.selectBonus = this.numBonus;
 		
-		switch( this.numBonus ) {
-			//обрабатываются в game touchUp
-			//case 0:
-			//	Handler.game.delLineBon( Handler.pointerX, Handler.pointerY );
-			//break;
-			//	
-			//case 1: 
-			//	Handler.game.delColBon( Handler.pointerX, Handler.pointerY );
-			//break;
-			
-			case 2:
+		if( this.numBonus == 0 || this.numBonus == 1 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON1;
+			if( res < 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
+			}
+		}
+		
+		if( this.numBonus == 2 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON3;
+			if( res < 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
+			} else {
 				Handler.game.bonusRecreateFigures();
-			break;
-				
-			case 3:
+				PanelCoins.countCoins -= Consts.COINT_REDUCT_BON3;
+			}
+		}
+		
+		if( this.numBonus == 3 ) {
+			let res = PanelCoins.countCoins - Consts.COINT_REDUCT_BON4;
+			if( res < 0 ) {
+				Main.wbc = new WindBuyCoins( wg );
+				Handler.game.selectBonus = null;
+			} else {
 				self.panelSelectFigure = new PanelSelectFigure( self, -this.x, 280, 720, 980 );
 				self.panelSelectFigure.show();
-			break;
+			}   
 		}
 		Handler.game.setNActiveButCancelMove();
 	};

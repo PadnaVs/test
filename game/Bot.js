@@ -48,7 +48,7 @@
 		this.startedGame = true;
 		
 		for( let i = 0; i < 3; i++ ) {
-			this.figures[i] = this.getFieldFigure(i);
+			this.figures[i] = this.getFigure(i);
 		}
 		
 		let numStepInStr = 0;
@@ -70,7 +70,7 @@
 				for( let i = 0; i < 3; i++ ) {
 					if ( self.figures[i] != null ) continue;
 					let numNextF = i + numStepInStr;
-					self.figures[i] = self.getFieldFigure(numNextF);
+					self.figures[i] = self.getFigure(numNextF);
 				}
 			}
 			let numPosF = self.numInpF;
@@ -220,9 +220,6 @@
 			}
 			
 			figure.rating = maxL;
-			if( figure.rating == 0 ) {
-				console.log();
-			}
 		} else {
 			let countDelL = linesDel[0].length + linesDel[1].length;
 			let maxCountDelL = figure.maxCountDelLine[0].length + figure.maxCountDelLine[1].length;
@@ -232,9 +229,6 @@
 				figure.bestCoords[0] = si;
 				figure.bestCoords[1] = sj;
 				figure.rating = (figure.maxCountDelLine[0].length + figure.maxCountDelLine[1].length)*10;
-			}
-			if( figure.rating == 0 ) {
-				console.log();
 			}
 		}
 	};
@@ -249,7 +243,7 @@
 	};
 	
 	
-	Bot.prototype.getFieldFigure = function( numPos ) {
+	Bot.prototype.getFigure = function( numPos ) {
 		let ch = Handler.strPlayCooperative.substr( numPos, 1 );
 		numF = Handler.translationCharToNum( ch );
 		

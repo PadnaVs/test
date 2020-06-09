@@ -20,7 +20,11 @@
 		let self = this;
 		//this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/backgrFigures.png", 0,0,null, function(img){ img.toBack(); } );
+		let onloadBackgr = function( img ) {
+			img.interactive = true;
+			img.toBack();
+		};
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/backgrFigures.png", 0,0,null, onloadBackgr );
 		
 		let paramsText = {
 			fontWeight: 'bold',
@@ -46,9 +50,9 @@
 		};
 		
 		//this.butOK
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/butOk.png", 543, 808,function(){ self.touchOK(); } );
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/butOk.png", 543, 808,function(){ Sounds.click(); self.touchOK(); } );
 		//this.butCancel
-		Handler.addImg( this.group, "./images/windGame/panelBonuses/butCancel.png", 543, 895, function(){ self.destroy(); });
+		Handler.addImg( this.group, "./images/windGame/panelBonuses/butCancel.png", 543, 895, function(){ Sounds.click(); self.destroy(); });
 		
 	};
 	
@@ -70,16 +74,18 @@
 		this.selIndec = Handler.showRect( this.groupF, 0, 0, 165, 165, 0x00ff00, 0.5, 5 );
 		this.selIndec.visible = false;
 		
-		let figure = new Figure( this.groupF, 0, 0, num );
+		let newXf = Math.floor( 165/2 );
+		let figure = new Figure( this.groupF, newXf, newXf, num );
 		figure.show();
 		
-		let newXF = 165/2 - figure.group.width/2;
-		let newYF = 165/2 - figure.group.height/2;
-		figure.transition( newXF, newYF );
+		//let newXF = 165/2 - figure.group.width/2;
+		//let newYF = 165/2 - figure.group.height/2;
+		//figure.transition( newXF, newYF );
 		
 	};
 	
 	PanelSelectFigure.prototype.selectFigure = function( evt ) {
+		Sounds.click();
 		if ( evt.target.children[1].visible == true ) {
 			evt.target.children[1].visible = false;
 			//удаление выбранной фигуры
@@ -105,14 +111,15 @@
 				alert("вы не 3 выбрали фигуры");
 				return;
 			}
-			if ( Handler.game.panelsFigure[i].figure != null ) Handler.game.panelsFigure[i].removeFigure();
-			let xF = Handler.game.panelsFigure[i].group.width/2;
-			let yF = Handler.game.panelsFigure[i].group.height/2;
-			let grPanel = Handler.game.panelsFigure[i].group;
-			Handler.game.panelsFigure[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
-			Handler.game.panelsFigure[i].showFigure( false );
+			if ( Handler.game.panelsFigures[i].figure != null ) Handler.game.panelsFigures[i].removeFigure();
+			let xF = Handler.game.panelsFigures[i].group.width/2;
+			let yF = Handler.game.panelsFigures[i].group.height/2;
+			let grPanel = Handler.game.panelsFigures[i].group;
+			Handler.game.panelsFigures[i].figure = new Figure( grPanel, xF, yF, this.selectFigures[i] );
+			Handler.game.panelsFigures[i].showFigure( false );
 		}
-		this.destroy();
+		PanelCoins.countCoins -= Consts.COINT_REDUCT_BON4;
+ 		this.destroy();
 	};
 	
 	PanelSelectFigure.prototype.destroy = function() {
