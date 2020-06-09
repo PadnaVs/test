@@ -137,7 +137,6 @@
 		this.figure = null;
 		if(this.butAddF) {
 			this.butAddF.toFront();
-			this.butAddF.interactive = true;
 		}
 	};
 	
@@ -169,19 +168,33 @@
 		this.panelRotation.show();
 		this.panelRotation.group.toFront();
 		
-		Handler.game.checkActiveButRotF();
+		//Handler.game.checkActiveButRotF();
 	};
 	
 	PanelFigure.prototype.setActiveButPanelRot = function() {
-		if(this.butShowPanel)this.butShowPanel.interactive = true;
+		//if(this.butShowPanel)this.butShowPanel.interactive = true;
 		//this.blockRect.visible = false;
 		this.blockRect.toBack();
+		this.blockRect.interactive = false;
 	};
 	
 	PanelFigure.prototype.setNActiveButPanelRot = function() {
-		if(this.butShowPanel)this.butShowPanel.interactive = false;
+		//if(this.butShowPanel)this.butShowPanel.interactive = false;
 		//this.blockRect.visible = true;
 		this.blockRect.toFront();
+		this.blockRect.interactive = true;
+	};
+	
+	PanelFigure.prototype.setOnInteractiveAllBut = function() {
+		this.blockRect.interactive    = true;
+		this.butAddF.interactive      = true;
+		this.butShowPanel.interactive = true;
+	};
+	
+	PanelFigure.prototype.setDisInteractiveAllBut = function() {
+		this.blockRect.interactive    = false;
+		this.butAddF.interactive      = false;
+		this.butShowPanel.interactive = false;
 	};
 
 	

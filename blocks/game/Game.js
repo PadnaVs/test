@@ -33,8 +33,8 @@
 		
 		this.selectBonus = null;
 		
-		this.tTouch = 0;
-		this.onPRotF = false;
+		this.startms  = 0;
+		this.finishms = 0;
 		
 		let selFigure = function(posF) {
 			if( self.panelsFigures[posF].figure.group.scale.x != 1 ) {
@@ -46,35 +46,21 @@
 				
 				for( let j = 0; j < 3; j++ ) {
 					if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
-					self.panelsFigures[j].butAddF.interactive = false;
+					self.panelsFigures[j].setDisInteractiveAllBut();
 				}
 			}
 		};
 		
-		let tik = function( posF ) {
-			self.onPRotF = true;
-			self.tTouch += 16;
-			
-			if( self.tTouch >= self.touchDilForPRot ) {
-				Sounds.figureGetUp();
-				selFigure(posF);
-				self.tTouch = 0;
-				clearInterval(self.timerOpenPRot);
-			}
-		};
-		
-		
 		let touchDown = function( evt ) { 
 			if ( Handler.cooperative && !self.gameStarted ) return;
-			for( let i = 0; i < 3; i++ ) {
-				if ( self.panelsFigures[i].panelRotation != null ) return;
-			}
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
 			
 			Handler.pointerStartX = Handler.pointerX;
 			Handler.pointerStartY = Handler.pointerY;
+			
+			this.startms = Date.now();
 			
 			for( let i = 0; i < 3; i++ ) {
 				if( self.panelsFigures[i].figure == null ) continue;
@@ -91,8 +77,9 @@
 						self.selectPanel = self.panelsFigures[i];
 						//self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
-						
-						self.timerOpenPRot = setInterval( tik, 16, i )
+						//if( self.selectFigure.type == Consts.TYPE_BLOCK ) {
+						//selFigure(i); 
+						//}
 						break;
 					}
 				}
@@ -108,9 +95,6 @@
 			
 			if ( Handler.pointerX > 720 || Handler.pointerX < 0 ||  Handler.pointerY > 1280 ||  Handler.pointerY < 0 ) {
 				self.selectFigure.moveStartPos();
-				for( let j = 0; j < 3; j++ ) {
-					self.panelsFigures[j].butAddF.interactive = true;
-				}
 				if( self.selectFigure.type != Consts.TYPE_BLOCK ) {
 					self.selectPanel.setActiveButPanelRot();
 				};
@@ -120,10 +104,8 @@
 			}
 			
 			//console.log(Handler.pointerX);
-			self.onPRotF = false;
-			self.tTouch = 0;
-			clearInterval(self.timerOpenPRot);
 			selFigure( self.selectPanel.num );
+			this.startms = 0;
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
@@ -152,19 +134,23 @@
 				return;
 			};
 			
-			if( self.tTouch < self.touchDilForPRot && self.onPRotF ) {
-				if( self.selectPanel ) {
-					self.selectPanel.showPanelRotation();
-					self.selectPanel = null;
-					self.selectFigure = null;
-					self.tTouch = 0;
-					clearInterval(self.timerOpenPRot);
-				}
+			if ( self.selectFigure == null ) return;
+			
+			
+			this.finishms = Date.now();
+			
+			if( (this.finishms - this.startms) < 800 ) {
+				this.finishms = 0;
+				this.startms = 0;
+				self.selectPanel.showPanelRotation();
+				self.selectFigure = null;
+				self.selectPanel  = null;
 				return;
 			}
 			
-			if ( self.selectFigure == null ) return;
-
+			this.finishms = 0;
+			this.startms = 0;
+			
 			let wgameField = 686;
 			let hgameField = 686;
 			
@@ -258,13 +244,12 @@
 					}
 				} 
 			} 
-
-			for( let j = 0; j<3; j++  ) {
-				if( self.panelsFigures[j].figure != null ) {
-					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK  ) {
-						self.panelsFigures[j].setActiveButPanelRot();
-					}
-				}
+			
+			for( let i = 0; i<3; i++ ) {
+				self.panelsFigures[i].setOnInteractiveAllBut();
+				if( self.panelsFigures[i].figure != null && self.panelsFigures[i].figure != Consts.TYPE_BLOCK ) {
+					self.panelsFigures[i].setActiveButPanelRot();
+				}			
 			}
 			
 			if( self.selectFigure ) {

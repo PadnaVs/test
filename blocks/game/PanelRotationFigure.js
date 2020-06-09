@@ -37,13 +37,21 @@
 		Handler.addImg( this.group, "./images/windGame/panelFigure/butCancelRot.png", 460, 20, function() { Sounds.click(); self.creatStartFigure() } );
 		
 		this.startFigure = this.parent.figure;
-	}
+		
+		for( let i = 0; i < 3; i++ ) {
+			if( Handler.game.panelsFigures[i].figure ) Handler.game.panelsFigures[i].setNActiveButPanelRot();
+		}
+	};
 	
 	PanelRotationFigure.prototype.destroy = function() {
 		this.group.removeSelf();
 		this.parent.panelRotation = null;
 		Handler.game.checkActiveButRotF();
 		if( this.fRotated ) PanelCoins.countCoins -= Consts.COINT_REDUCT_ROT_F;
+		for( let i = 0; i < 3; i++ ) {
+			if( Handler.game.panelsFigures[i].figure != null && Handler.game.panelsFigures[i].figure != Consts.TYPE_BLOCK )
+			Handler.game.panelsFigures[i].setActiveButPanelRot();
+		}
 	};
 	
 	PanelRotationFigure.prototype.rotFigure = function() {
@@ -84,15 +92,20 @@
 			}
 		}
 		
+		let xf = Math.floor(this.parent.width/2);
+		let yf = Math.floor(this.parent.height/2);
+		
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.currentNum, numImgsCell );
+		this.parent.figure = new Figure( this.parent.group, xf, yf, this.currentNum, numImgsCell );
 		this.parent.showFigure( false );
 	};
 	
-	PanelRotationFigure.prototype.creatStartFigure = function() {
+	PanelRotationFigure.prototype.creatStartFigure = function() { 
 		this.fRotated = false;
 		this.parent.removeFigure();
-		this.parent.figure = new Figure( this.parent.group, this.parent.width/2, this.parent.height/2, this.startNum, this.startFigure.imgsData );
+		let xf = this.startFigure.x;
+		let yf = this.startFigure.y;
+		this.parent.figure = new Figure( this.parent.group, xf, yf, this.startNum, this.startFigure.imgsData );
 		this.parent.showFigure( false );
 		this.destroy();
 	};

@@ -35,12 +35,7 @@
 				//let newX = Math.floor( j*(Handler.cellW+4) );
 				
 				let newX = j*(Handler.cellW+4);
-				
 				let newY = i*(Handler.cellW+4);
-				
-				console.log("newX",newX);
-				console.log("newY",newY);
-				
 				Handler.showRect( this.group, newX, newY, Handler.cellW, Handler.cellW, 0x111111, 0, 1, 4, 0x3C1B0C );
 				//Handler.addImg( this.group, "./images/windGame/place68.png",newX, newY );
 			}
