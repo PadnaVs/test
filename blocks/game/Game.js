@@ -21,7 +21,7 @@
 		
 		this.lastScore = 0;//последние набронные очки
 		
-		this.touchDilForPRot = 400;
+		this.touchDilForPRot = 2000;
 		
 		if( Handler.cooperative ) {
 			//window.addEventListener( "load", function() {
@@ -260,7 +260,6 @@
 			} 
 
 			for( let j = 0; j<3; j++  ) {
-				self.panelsFigures[j].butAddF.interactive = true;
 				if( self.panelsFigures[j].figure != null ) {
 					if( self.panelsFigures[j].figure.type != Consts.TYPE_BLOCK  ) {
 						self.panelsFigures[j].setActiveButPanelRot();
