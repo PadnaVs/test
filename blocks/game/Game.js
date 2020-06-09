@@ -39,6 +39,7 @@
 		let selFigure = function(posF) {
 			if( self.panelsFigures[posF].figure.group.scale.x != 1 ) {
 				Sounds.figureGetUp();
+				self.onPRotF = false;
 				self.panelsFigures[posF].figure.scale( 1 );
 				let shUp = 140;
 				self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
