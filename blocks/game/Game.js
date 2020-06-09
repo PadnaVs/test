@@ -34,16 +34,17 @@
 		this.tTouch = 0;
 		this.onPRotF = false;
 		
-		let selF = function(posF) {
-			Sounds.figureGetUp();
-			self.panelsFigures[posF].figure.scale( 1 );
-			
-			let shUp = 140;
-			self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
-			
-			for( let j = 0; j < 3; j++ ) {
-				if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
-				self.panelsFigures[j].butAddF.interactive = false;
+		let selFigure = function(posF) {
+			if( self.panelsFigures[posF].figure.group.scale.x != 1 ) {
+				Sounds.figureGetUp();
+				self.panelsFigures[posF].figure.scale( 1 );
+				let shUp = 140;
+				self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
+				
+				for( let j = 0; j < 3; j++ ) {
+					if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
+					self.panelsFigures[j].butAddF.interactive = false;
+				}
 			}
 		};
 		
@@ -52,7 +53,8 @@
 			self.tTouch += 16;
 			
 			if( self.tTouch > 250 ) {
-				selF(posF);
+				Sounds.figureGetUp();
+				selFigure(posF);
 				self.tTouch = 0;
 				clearInterval(self.timerOpenPRot);
 			}
@@ -118,7 +120,7 @@
 			self.onPRotF = false;
 			self.tTouch = 0;
 			clearInterval(self.timerOpenPRot);
-			selF( self.selectPanel.num );
+			selFigure( self.selectPanel.num );
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
