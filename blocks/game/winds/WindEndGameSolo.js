@@ -8,7 +8,9 @@
 		let self = this;
 		Sounds.openWind();
 		this.group = Handler.newGroup(wg);
-		Handler.addImg( this.group, "./images/windEndGameSolo/background.png", 0,0,null, function(img){ img.toBack(); img.interactive = true; } );
+		
+		this.background = null;
+		this.setBackgr( Main.numShowBackgr );
 		
 		this.points = _points;
 		
@@ -30,4 +32,15 @@
 			Main.windStartGame.show();
 		};
 		Handler.addImg( this.group, "./images/windEndGameSolo/butContinue.png", 160, 780, tapContinue );
+	};
+	
+	WindEndGameSolo.prototype.setBackgr = function( num ) {
+		let self = this;
+		if( this.background ) this.background.removeSelf();
+		Handler.addImg( this.group, "./images/backgrounds/back"+ num +".jpg", 360, 640, null, function(img){ 
+			self.background = img;
+			img.toBack();
+			img.anchor.set(0.5,0.5);
+			img.tint = 0xA55B30;			
+		} );
 	};

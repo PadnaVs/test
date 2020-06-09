@@ -31,6 +31,34 @@
 		
 		this.selectBonus = null;
 		
+		this.tTouch = 0;
+		this.onPRotF = false;
+		
+		let selF = function(posF) {
+			Sounds.figureGetUp();
+			self.panelsFigures[posF].figure.scale( 1 );
+			
+			let shUp = 140;
+			self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
+			
+			for( let j = 0; j < 3; j++ ) {
+				if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
+				self.panelsFigures[j].butAddF.interactive = false;
+			}
+		};
+		
+		let tik = function( posF ) {
+			self.onPRotF = true;
+			self.tTouch += 16;
+			
+			if( self.tTouch > 250 ) {
+				selF(posF);
+				self.tTouch = 0;
+				clearInterval(self.timerOpenPRot);
+			}
+		};
+		
+		
 		let touchDown = function( evt ) { 
 			if ( Handler.cooperative && !self.gameStarted ) return;
 			for( let i = 0; i < 3; i++ ) {
@@ -53,22 +81,13 @@
 				
 				if ( Handler.pointerX >= posPX && Handler.pointerX <= posPX + wF ){
 					if ( Handler.pointerY >= posPY && Handler.pointerY <= posPY + hF ) {
-						Sounds.figureGetUp();
-						self.panelsFigures[i].figure.scale( 1 );
 						self.selectFigure = self.panelsFigures[i].figure;
 						self.selectFigure.group.toFront();
 						self.selectPanel = self.panelsFigures[i];
 						//self.selectPanel.setNActiveButPanelRot();
 						self.selectPanel.group.toFront();
 						
-						let shUp = 140;
-						self.selectFigure.group.y = Handler.pointerY - self.selectFigure.group.height - shUp - self.selectPanel.y;
-						
-						for( let j = 0; j < 3; j++ ) {
-							if( self.panelsFigures[j].figure  ) self.panelsFigures[j].setNActiveButPanelRot();
-							self.panelsFigures[j].butAddF.interactive = false;
-						}
-						
+						self.timerOpenPRot = setInterval( tik, 16, i )
 						break;
 					}
 				}
@@ -96,6 +115,10 @@
 			}
 			
 			//console.log(Handler.pointerX);
+			self.onPRotF = false;
+			self.tTouch = 0;
+			clearInterval(self.timerOpenPRot);
+			selF( self.selectPanel.num );
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
@@ -124,6 +147,17 @@
 				return;
 			};
 			
+			if( self.tTouch < 250 && self.onPRotF ) {
+				if( self.selectPanel ) {
+					self.selectPanel.showPanelRotation();
+					self.selectPanel = null;
+					self.selectFigure = null;
+					self.tTouch = 0;
+					clearInterval(self.timerOpenPRot);
+				}
+				return;
+			}
+			
 			if ( self.selectFigure == null ) return;
 
 			let wgameField = 686;
@@ -141,7 +175,7 @@
 				if ( posFY >= ygameField - maxShBeyondLimits && posFY <= ygameField + hgameField + maxShBeyondLimits ) {
 					let startJ = Math.abs( Math.ceil( ( xgameField+6 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
-					
+/////////////////////проверка на возможность вставить фигуру/////////////					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
 						Sounds.figureDown();
 						self.lastScore = 0;
@@ -151,40 +185,49 @@
 					
 						self.panelScore.score += self.selectFigure.points;
 						self.lastScore += self.selectFigure.points; 
-						
+//////////////////////////создание новых фигур////////////////////////////////
 						if ( self.panelsFigures[0].figure == null && self.panelsFigures[1].figure == null && self.panelsFigures[2].figure == null ) {
-							
-							
-							let countBigBox   = 3;
-							let countBigLineW = 3;
-							let countBigLineH = 3;
-							
 							let iF = 0;
 							let reCreate = false;
 							do {
+								reCreate = false;
+								let countBigBox   = 0;
+								let countBigLineW = 0;
+								let countBigLineH = 0;
+								let countBig2F    = 0;
 								for( let i = 0; i<3; i++ ) {
 									let newF = self.panelsFigures[i].generationFigure();
 									self.panelsFigures[i].figure = newF;
 									
-									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[2] ) {
-										countBigBox--;
+									
+									if( self.panelsFigures[i].figure.positionCell == Consts.POSITION_CEIL[2] ) {
+										if( !Main.createBig2Block ) {
+											countBigBox++;
+										}
 									}
-									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[9] ) {
-										countBigLineH--;
+									
+									if( self.panelsFigures[i].figure.positionCell == Consts.POSITION_CEIL[9] ) {
+										if( !Main.createBig2Lines ) {
+											countBigLineH++;
+										}
 									}
-									if( self.panelsFigures[i].figure.positionCell != Consts.POSITION_CEIL[9] ) {
-										countBigLineW--;
+									if( self.panelsFigures[i].figure.positionCell == Consts.POSITION_CEIL[10] ) {
+										if( !Main.createBig2Lines ) {
+											countBigLineW++;
+										}
 									}
 								}
 								
-								if( countBigBox > 1 || countBigLineW > 1 || countBigLineH > 1) reCreate = true;
+								countBig2F = countBigLineH+countBigLineW+countBigBox;
+								if( !Main.createBig2Figure && countBig2F > 1 )                  reCreate = true;
+								if( countBigBox > 1 || countBigLineW > 1 || countBigLineH > 1 ) reCreate = true;
 							} while( reCreate );
 							
 							for( let i = 0; i<3; i++ ) {
-								self.panelsFigures[i].showFigure();
+								self.panelsFigures[i].showFigure( false );
 							}
 						}
-						
+///////////////////////////удаление линии//////////////////////////////////////////////////
 						let numLinesDel = self.checkLinesDel( self.gameField.field );
 						
 						self.gameField.delLines( numLinesDel[0], numLinesDel[1] );

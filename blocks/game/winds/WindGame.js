@@ -10,14 +10,18 @@
 		this.group = Handler.newGroup(wg);
 		Sounds.openWind();
 		
+		this.background = null;
+		this.setBackgr( Main.numShowBackgr );
+		
 		//this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xA86441, 1, 1, 6, 0x9E3E0E );
 		//this.background.toBack();
-		
-		Handler.addImg( this.group, "./images/windGame/back.jpg", 360, 640, null, function(img){ 
-			img.toBack();
-			img.anchor.set(0.5,0.5);
-			img.tint = 0xA55B30;			
-		} );
+		//this.background = null;
+		//Handler.addImg( this.group, "./images/backgrounds/back"+ Main.numShowBackgr +".jpg", 360, 640, null, function(img){ 
+		//	self.background = img;
+		//	img.toBack();
+		//	img.anchor.set(0.5,0.5);
+		//	img.tint = 0xA55B30;			
+		//} );
 		
 		let field =  [ 
 						[0,0,0,0,0,0,0,0,0,0],
@@ -137,6 +141,7 @@
 			
 			let tapButMenu = function(){
 				Sounds.click();
+				Main.WindSelectBackgr.show();
 			};
 			//this.butMenu
 			Handler.addImg( this.group, "./images/windGame/butMenu.png", 608, 40, tapButMenu );
@@ -190,4 +195,15 @@
 			Handler.bot = new Bot();
 			//Handler.bot.startGame();
 		}
+	};
+	
+	WindGame.prototype.setBackgr = function( num ) {
+		let self = this;
+		if( this.background ) this.background.removeSelf();
+		Handler.addImg( this.group, "./images/backgrounds/back"+ num +".jpg", 360, 640, null, function(img){ 
+			self.background = img;
+			img.toBack();
+			img.anchor.set(0.5,0.5);
+			img.tint = 0xA55B30;			
+		} );
 	};

@@ -8,7 +8,10 @@
 		this.group = Handler.newGroup(wg);
 		let self = this;
 		
-		this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
+		this.background = null;
+		this.setBackgr( Main.numShowBackgr );
+		
+		//this.background = Handler.showRect( this.group, 0, 0, 720, 1280, 0xFFB38C, 1, 1, 6, 0x9E3E0E );
 		
 		let tapButClose = function() {
 			Sounds.click();
@@ -53,4 +56,15 @@
 		Handler.addImg( this.group, "./images/windContinueGame/butContinue.png", 140, 580, tapButContinue );
 		
 		Handler.addImg( this.group, "./images/windContinueGame/butCancel.png", 140, 800, tapButClose );
+	};
+	
+	WindContinueGame.prototype.setBackgr = function( num ) {
+		let self = this;
+		if( this.background ) this.background.removeSelf();
+		Handler.addImg( this.group, "./images/backgrounds/back"+ num +".jpg", 360, 640, null, function(img){ 
+			self.background = img;
+			img.toBack();
+			img.anchor.set(0.5,0.5);
+			img.tint = 0xA55B30;			
+		} );
 	};
