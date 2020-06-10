@@ -159,7 +159,7 @@
 					let startJ = Math.abs( Math.ceil( ( xgameField+6 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 /////////////////////проверка на возможность вставить фигуру/////////////					
-					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
+					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) && (self.finishms - self.startms) > 200 ) {
 						Sounds.figureDown();
 						self.figureInsert = true;
 						
