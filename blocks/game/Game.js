@@ -23,6 +23,8 @@
 		
 		this.touchDilForPRot = 2000;
 		
+		this.figureInsert = false;
+		
 		if( Handler.cooperative ) {
 			//window.addEventListener( "load", function() {
 			//	console.log("Завершение загрузки");
@@ -61,6 +63,7 @@
 			Handler.pointerStartY = Handler.pointerY;
 			
 			self.startms = Date.now();
+			self.figureInsert = false;
 			
 			for( let i = 0; i < 3; i++ ) {
 				if( self.panelsFigures[i].figure == null ) continue;
@@ -140,13 +143,6 @@
 			
 			self.selectPanel.showTimeTap( self.startms, self.finishms );
 			
-			if( (self.finishms - self.startms) < 600 ) {
-				self.selectPanel.showPanelRotation();
-				self.selectFigure = null;
-				self.selectPanel  = null;
-				return;
-			}
-			
 			let wgameField = 686;
 			let hgameField = 686;
 			
@@ -165,6 +161,8 @@
 /////////////////////проверка на возможность вставить фигуру/////////////					
 					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
 						Sounds.figureDown();
+						self.figureInsert = true;
+						
 						self.lastScore = 0;
 						self.gameField.insertFigure( self.selectFigure, startI, startJ );
 						self.lastSeletPanelF = self.selectPanel;
@@ -240,6 +238,13 @@
 					}
 				} 
 			} 
+			
+			if( (self.finishms - self.startms) < 400 && !self.figureInsert ) {
+				self.selectPanel.showPanelRotation();
+				self.selectFigure = null;
+				self.selectPanel  = null;
+				return;
+			}
 			
 			for( let i = 0; i<3; i++ ) {
 				self.panelsFigures[i].setOnInteractiveAllBut();
