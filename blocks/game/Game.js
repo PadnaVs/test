@@ -155,6 +155,7 @@
 			if ( self.selectFigure == null ) return;
 			
 			self.finishms = Date.now();
+			self.moveFigure = false;
 			
 			self.selectPanel.showTimeTap( self.startms, self.finishms );
 			
