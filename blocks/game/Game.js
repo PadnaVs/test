@@ -107,16 +107,19 @@
 			}
 			
 			//console.log(Handler.pointerX);
-			selFigure( self.selectPanel.num );
+			self.finishms = Date.now();
+			if( (self.finishms - self.startms) > 200 ) {
+				selFigure( self.selectPanel.num );
 			
-			let speed = 1;
-			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
-			let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
+				let speed = 1;
+				let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
+				let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
 			
-			self.selectFigure.transition( self.selectFigure.position.x + shX, self.selectFigure.position.y + shY );
+				self.selectFigure.transition( self.selectFigure.position.x + shX, self.selectFigure.position.y + shY );
 			
-			Handler.pointerStartX = Handler.pointerX;
-			Handler.pointerStartY = Handler.pointerY;
+				Handler.pointerStartX = Handler.pointerX;
+				Handler.pointerStartY = Handler.pointerY;
+			};
 		};
 		
 		let touchUp = function( evt ) { 
@@ -159,7 +162,7 @@
 					let startJ = Math.abs( Math.ceil( ( xgameField+6 -  posFX - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 					let startI = Math.abs( Math.ceil( ( ygameField+6 - posFY - Handler.cellW / 2 ) / (Handler.cellW+3) ) );
 /////////////////////проверка на возможность вставить фигуру/////////////					
-					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) && (self.finishms - self.startms) > 200 ) {
+					if ( self.checkInsertFigure( self.gameField.field, self.selectFigure, startI, startJ ) ) {
 						Sounds.figureDown();
 						self.figureInsert = true;
 						
@@ -243,7 +246,7 @@
 				self.selectPanel.showPanelRotation();
 				self.selectFigure = null;
 				self.selectPanel  = null;
-				return;
+				//return;
 			}
 			
 			for( let i = 0; i<3; i++ ) {
