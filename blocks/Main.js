@@ -1,6 +1,6 @@
 	
-	console.log( "version 0.6794" );
-	      alert( "version 0.6794" );
+	console.log( "version 0.6795" );
+	      alert( "version 0.6795" );
 	
 	
 	const visibleWidth0  = 360;
