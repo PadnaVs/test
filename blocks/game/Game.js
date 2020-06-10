@@ -115,7 +115,7 @@
 			//console.log(Handler.pointerX);
 			self.finishms = Date.now();
 			
-			let shMinForMove = 30;
+			let shMinForMove = 20;
 			
 			let shPX = Math.abs(self.pointerStartX - Handler.pointerX);
 			let shPY = Math.abs(self.pointerStartY - Handler.pointerY);
@@ -255,7 +255,7 @@
 				} 
 			} 
 			
-			if( (self.finishms - self.startms) < 400 && !self.figureInsert ) {
+			if( (self.finishms - self.startms) < 400 && !self.figureInsert && self.selectFigure.type != Consts.TYPE_BLOCK) {
 				self.selectPanel.showPanelRotation();
 				self.selectFigure.moveStartPos();
 				//self.selectFigure = null;
