@@ -38,6 +38,11 @@
 		this.startms  = 0;
 		this.finishms = 0;
 		
+		this.pointerStartX = -1;
+		this.pointerStartY = -1;
+		this.moveFigure = false;
+		this.pointerDown = false;
+		
 		let selFigure = function(posF) {
 			if( self.panelsFigures[posF].figure.group.scale.x != 1 ) {
 				Sounds.figureGetUp();
@@ -54,13 +59,14 @@
 		};
 		
 		let touchDown = function( evt ) { 
+			self.pointerDown = true;
 			if ( Handler.cooperative && !self.gameStarted ) return;
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
 			
-			Handler.pointerStartX = Handler.pointerX;
-			Handler.pointerStartY = Handler.pointerY;
+			self.pointerStartX = Handler.pointerX;
+			self.pointerStartY = Handler.pointerY;
 			
 			self.startms = Date.now();
 			self.figureInsert = false;
@@ -108,21 +114,28 @@
 			
 			//console.log(Handler.pointerX);
 			self.finishms = Date.now();
-			if( (self.finishms - self.startms) > 200 ) {
-				selFigure( self.selectPanel.num );
 			
+			let shMinForMove = 30;
+			
+			let shPX = Math.abs(self.pointerStartX - Handler.pointerX);
+			let shPY = Math.abs(self.pointerStartY - Handler.pointerY);
+	
+			if( (shPX > shMinForMove && self.pointerDown ) || (shPY > shMinForMove && self.pointerDown ) || (self.moveFigure && self.pointerDown )) {
+				selFigure( self.selectPanel.num );
+				self.moveFigure = true;
 				let speed = 1;
-				let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
-				let shY = (Handler.pointerY - Handler.pointerStartY)*speed;
+				let shX = (Handler.pointerX - self.pointerStartX)*speed;
+				let shY = (Handler.pointerY - self.pointerStartY)*speed;
 			
 				self.selectFigure.transition( self.selectFigure.position.x + shX, self.selectFigure.position.y + shY );
 			
-				Handler.pointerStartX = Handler.pointerX;
-				Handler.pointerStartY = Handler.pointerY;
-			};
+				self.pointerStartX = Handler.pointerX;
+				self.pointerStartY = Handler.pointerY;
+			}
 		};
 		
-		let touchUp = function( evt ) { 
+		let touchUp = function( evt ) {
+			self.pointerDown = false;			
 			if ( Handler.cooperative && !self.gameStarted ) return;
 			
 			if ( self.selectBonus != null && self.selectFigure == null ) {
@@ -140,7 +153,6 @@
 			};
 			
 			if ( self.selectFigure == null ) return;
-			
 			
 			self.finishms = Date.now();
 			
@@ -244,9 +256,10 @@
 			
 			if( (self.finishms - self.startms) < 400 && !self.figureInsert ) {
 				self.selectPanel.showPanelRotation();
-				self.selectFigure = null;
-				self.selectPanel  = null;
-				//return;
+				self.selectFigure.moveStartPos();
+				//self.selectFigure = null;
+				//self.selectPanel  = null;
+				return;
 			}
 			
 			for( let i = 0; i<3; i++ ) {
