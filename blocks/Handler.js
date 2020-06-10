@@ -511,7 +511,7 @@
         params.fontSize   = params.fontSize   || 22;
         params.lineJoin   = params.lineJoin   || 'round';
         params.fontWeight = params.fontWeight || 'bolder';
-        params.fill       = params.color      || '#000000';
+        params.fill       = params.color      || '#111111';
         params.parent     = params.parent     || pixiApp.stage;
         params.anchor	  = params.anchor	  || 0;
         params.fontSize   = params.fontSize * mobscale;
