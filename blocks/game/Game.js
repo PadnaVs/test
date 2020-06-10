@@ -60,7 +60,7 @@
 			Handler.pointerStartX = Handler.pointerX;
 			Handler.pointerStartY = Handler.pointerY;
 			
-			this.startms = Date.now();
+			self.startms = Date.now();
 			
 			for( let i = 0; i < 3; i++ ) {
 				if( self.panelsFigures[i].figure == null ) continue;
@@ -105,7 +105,7 @@
 			
 			//console.log(Handler.pointerX);
 			selFigure( self.selectPanel.num );
-			this.startms = 0;
+			self.startms = 0;
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
@@ -137,19 +137,21 @@
 			if ( self.selectFigure == null ) return;
 			
 			
-			this.finishms = Date.now();
+			self.finishms = Date.now();
 			
-			if( (this.finishms - this.startms) < 800 ) {
-				this.finishms = 0;
-				this.startms = 0;
+			self.selectPanel.showTimeTap( self.startms, self.finishms );
+			
+			if( (self.finishms - self.startms) < 2000 ) {
+				self.finishms = 0;
+				self.startms = 0;
 				self.selectPanel.showPanelRotation();
 				self.selectFigure = null;
 				self.selectPanel  = null;
 				return;
 			}
 			
-			this.finishms = 0;
-			this.startms = 0;
+			self.finishms = 0;
+			self.startms = 0;
 			
 			let wgameField = 686;
 			let hgameField = 686;

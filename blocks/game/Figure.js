@@ -49,11 +49,12 @@
 	
 	
 	Figure.prototype.scale = function( persent = 1 ) {
-		if( this.group.scale.x != 1 ) {
-			this.group.scale.set(1);
-		} else {
-			this.group.scale.set(persent);
-		}
+		this.group.scale.set(persent);
+		//if( this.group.scale.x != 1 ) {
+		//	this.group.scale.set(1);
+		//} else {
+		//	
+		//}
 	};
 	
 	Figure.prototype.onLoadCell = function( numF, imgsData) {

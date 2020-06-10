@@ -196,5 +196,30 @@
 		this.butAddF.interactive      = false;
 		this.butShowPanel.interactive = false;
 	};
+	
+	PanelFigure.prototype.showTimeTap = function( _startms = "NAN", _finishms = "NAN" ) {
+		
+		let paramsTextStMs = {
+			x: 0,
+			y: 160,
+			parent: this.group,
+			fontSize: 28,
+			text: _startms+"",
+			color:  0xFFFFFF
+		}
+		if(this.textStMs != null) this.textStMs.destroy();
+		this.textStMs = Handler.newText(paramsTextStMs)
+		
+		let paramsTextFinMs = {
+			x: 0,
+			y: 190,
+			parent: this.group,
+			fontSize: 28,
+			text: _finishms+"",
+			color:  0xFFFFFF
+		}
+		if(this.textFinMs != null) this.textFinMs.destroy();
+		this.textFinMs = Handler.newText(paramsTextFinMs)
+	};
 
 	
