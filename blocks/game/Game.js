@@ -105,7 +105,6 @@
 			
 			//console.log(Handler.pointerX);
 			selFigure( self.selectPanel.num );
-			self.startms = 0;
 			
 			let speed = 1;
 			let shX = (Handler.pointerX - Handler.pointerStartX)*speed;
@@ -141,17 +140,12 @@
 			
 			self.selectPanel.showTimeTap( self.startms, self.finishms );
 			
-			if( (self.finishms - self.startms) < 2000 ) {
-				self.finishms = 0;
-				self.startms = 0;
+			if( (self.finishms - self.startms) < 600 ) {
 				self.selectPanel.showPanelRotation();
 				self.selectFigure = null;
 				self.selectPanel  = null;
 				return;
 			}
-			
-			self.finishms = 0;
-			self.startms = 0;
 			
 			let wgameField = 686;
 			let hgameField = 686;

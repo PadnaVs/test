@@ -102,10 +102,12 @@
 	
 	PanelRotationFigure.prototype.creatStartFigure = function() { 
 		this.fRotated = false;
-		this.parent.removeFigure();
-		let xf = this.startFigure.x;
-		let yf = this.startFigure.y;
-		this.parent.figure = new Figure( this.parent.group, xf, yf, this.startNum, this.startFigure.imgsData );
-		this.parent.showFigure( false );
+		if( this.parent.figure ) {
+			this.parent.removeFigure();
+			let xf = this.startFigure.x;
+			let yf = this.startFigure.y;
+			this.parent.figure = new Figure( this.parent.group, xf, yf, this.startNum, this.startFigure.imgsData );
+			this.parent.showFigure( false );
+		};
 		this.destroy();
 	};
