@@ -115,7 +115,7 @@
 			//console.log(Handler.pointerX);
 			self.finishms = Date.now();
 			
-			let shMinForMove = 20;
+			let shMinForMove = 10;
 			
 			let shPX = Math.abs(self.pointerStartX - Handler.pointerX);
 			let shPY = Math.abs(self.pointerStartY - Handler.pointerY);
