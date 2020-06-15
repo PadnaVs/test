@@ -1,6 +1,6 @@
 	
-	console.log( "version 0.6797" );
-	      alert( "version 0.6797" );
+	console.log( "version 0.6798" );
+	      alert( "version 0.6798" );
 	
 	
 	const visibleWidth0  = 360;
@@ -39,8 +39,7 @@
 	drawPoint( 100, 100 );
 	
 	pixiApp.stage.addChild(graphics);*/
-	
-	
+		
 	const DataLoader = {};         
     window.DataLoader = DataLoader;
 	
