@@ -98,7 +98,7 @@
 		
 		let touchMove = function( evt ) {
 			if ( Handler.cooperative && !self.gameStarted ) return;
-			if ( self.selectFigure == null ) return;
+			if ( !self.selectFigure || !self.selectPanel ) return;
 			if( self.openPanelRotFigure ) return;
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
@@ -117,7 +117,7 @@
 			//console.log(Handler.pointerX);
 			self.finishms = Date.now();
 			
-			let shMinForMove = 10;
+			let shMinForMove = 15;
 			
 			let shPX = Math.abs(self.pointerStartX - Handler.pointerX);
 			let shPY = Math.abs(self.pointerStartY - Handler.pointerY);
