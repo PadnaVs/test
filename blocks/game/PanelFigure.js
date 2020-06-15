@@ -141,11 +141,16 @@
 	};
 	
 	PanelFigure.prototype.showPanelRotation = function() {
-		if( this.panelRotation != null ) {
-			return;
+		
+		for( let i = 0; i < 3; i++ ) {
+			//if( Handler.game.panelsFigures[i].openPanelRotF ) return;
 		}
+		//if( this.panelRotation != null ) {
+		//	return;
+		//}
 		
 		let self = this;
+		//this.openPanelRotF = true;
 		
 		let wP = 680;
 		let hP = 100;
@@ -186,15 +191,15 @@
 	};
 	
 	PanelFigure.prototype.setOnInteractiveAllBut = function() {
-		this.blockRect.interactive    = true;
-		this.butAddF.interactive      = true;
-		this.butShowPanel.interactive = true;
+		if( this.blockRect)   this.blockRect.interactive    = true;
+		if( this.butAddF)     this.butAddF.interactive      = true;
+		if( this.butShowPanel)this.butShowPanel.interactive = true;
 	};
 	
 	PanelFigure.prototype.setDisInteractiveAllBut = function() {
-		this.blockRect.interactive    = false;
-		this.butAddF.interactive      = false;
-		this.butShowPanel.interactive = false;
+		if( this.blockRect)   this.blockRect.interactive    = false;
+		if( this.butAddF)     this.butAddF.interactive      = false;
+		if( this.butShowPanel)this.butShowPanel.interactive = false;
 	};
 	
 	PanelFigure.prototype.showTimeTap = function( _startms = "NAN", _finishms = "NAN" ) {

@@ -61,6 +61,7 @@
 		let touchDown = function( evt ) { 
 			self.pointerDown = true;
 			if ( Handler.cooperative && !self.gameStarted ) return;
+			if( self.openPanelRotFigure ) return;
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
@@ -98,6 +99,7 @@
 		let touchMove = function( evt ) {
 			if ( Handler.cooperative && !self.gameStarted ) return;
 			if ( self.selectFigure == null ) return;
+			if( self.openPanelRotFigure ) return;
 			
 			Handler.pointerX = (evt.data.global.x/pixiAppScaleMobile)*2;
 			Handler.pointerY = (evt.data.global.y/pixiAppScaleMobile)*2;
@@ -137,6 +139,7 @@
 		let touchUp = function( evt ) {
 			self.pointerDown = false;			
 			if ( Handler.cooperative && !self.gameStarted ) return;
+			if( self.openPanelRotFigure ) return;
 			
 			if ( self.selectBonus != null && self.selectFigure == null ) {
 				switch( self.selectBonus ) {
@@ -255,9 +258,10 @@
 				} 
 			} 
 			
-			if( (self.finishms - self.startms) < 400 && !self.figureInsert && self.selectFigure.type != Consts.TYPE_BLOCK) {
+			if( !self.openPanelRotFigure && (self.finishms - self.startms) < 400 && !self.figureInsert && self.selectFigure.type != Consts.TYPE_BLOCK) {
 				self.selectPanel.showPanelRotation();
 				self.selectFigure.moveStartPos();
+				self.openPanelRotFigure = true;
 				//self.selectFigure = null;
 				//self.selectPanel  = null;
 				return;

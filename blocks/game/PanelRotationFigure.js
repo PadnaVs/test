@@ -45,6 +45,7 @@
 	
 	PanelRotationFigure.prototype.destroy = function() {
 		this.group.removeSelf();
+		Handler.game.openPanelRotFigure = false;
 		this.parent.panelRotation = null;
 		Handler.game.checkActiveButRotF();
 		if( this.fRotated ) PanelCoins.countCoins -= Consts.COINT_REDUCT_ROT_F;
