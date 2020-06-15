@@ -155,7 +155,7 @@
 				return;
 			};
 			
-			if ( self.selectFigure == null ) return;
+			if ( !self.selectFigure || !self.selectPanel ) return;
 			
 			self.finishms = Date.now();
 			self.moveFigure = false;
@@ -258,18 +258,23 @@
 				} 
 			} 
 			
-			if( !self.openPanelRotFigure && (self.finishms - self.startms) < 400 && !self.figureInsert && self.selectFigure.type != Consts.TYPE_BLOCK) {
-				self.selectPanel.showPanelRotation();
-				self.selectFigure.moveStartPos();
-				self.openPanelRotFigure = true;
-				//self.selectFigure = null;
-				//self.selectPanel  = null;
-				return;
-			}
+			if( !self.figureInsert ) {
+				let closePanel = !self.openPanelRotFigure;
+				let delayLess = (self.finishms - self.startms) < 400;
+				let typeFNotBlock = self.selectFigure.type != Consts.TYPE_BLOCK;
+				
+				if( closePanel && delayLess && typeFNotBlock ) {
+					self.selectPanel.showPanelRotation();
+					self.selectFigure.moveStartPos();
+					//self.selectFigure = null;
+					//self.selectPanel  = null;
+					return;
+				}
+			};
 			
 			for( let i = 0; i<3; i++ ) {
 				self.panelsFigures[i].setOnInteractiveAllBut();
-				if( self.panelsFigures[i].figure != null && self.panelsFigures[i].figure != Consts.TYPE_BLOCK ) {
+				if( self.panelsFigures[i].figure != null && self.panelsFigures[i].figure.type != Consts.TYPE_BLOCK ) {
 					self.panelsFigures[i].setActiveButPanelRot();
 				}			
 			}

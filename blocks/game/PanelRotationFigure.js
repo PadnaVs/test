@@ -27,6 +27,10 @@
 	
 	PanelRotationFigure.prototype.show = function() {
 		let self = this;
+		Handler.game.openPanelRotFigure = true;
+		Handler.game.selectPanel = null;
+		Handler.game.figure = null;
+		
 		this.background = Handler.showRect( this.group, 0, 0, this.width, this.height, 0xFF8300, 1, 5 );
 		
 		//this.butOk
@@ -39,7 +43,7 @@
 		this.startFigure = this.parent.figure;
 		
 		for( let i = 0; i < 3; i++ ) {
-			if( Handler.game.panelsFigures[i].figure ) Handler.game.panelsFigures[i].setNActiveButPanelRot();
+			if( Handler.game.panelsFigures[i].figure  ) Handler.game.panelsFigures[i].setNActiveButPanelRot();
 		}
 	};
 	
@@ -50,7 +54,7 @@
 		Handler.game.checkActiveButRotF();
 		if( this.fRotated ) PanelCoins.countCoins -= Consts.COINT_REDUCT_ROT_F;
 		for( let i = 0; i < 3; i++ ) {
-			if( Handler.game.panelsFigures[i].figure != null && Handler.game.panelsFigures[i].figure != Consts.TYPE_BLOCK )
+			if( Handler.game.panelsFigures[i].figure != null && Handler.game.panelsFigures[i].figure.type != Consts.TYPE_BLOCK )
 			Handler.game.panelsFigures[i].setActiveButPanelRot();
 		}
 	};
